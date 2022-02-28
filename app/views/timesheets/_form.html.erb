@@ -1,0 +1,11 @@
+<%= form_for(timesheet) do |form| %>
+  <%= form.label :start_date %>
+  <%= form.date_field :start_date, disabled: true %>
+
+  <%= form.label :end_date %>
+  <%= form.date_field :end_date, disabled: true %>
+
+  <% (timesheet.start_date..timesheet.end_date).each do |date| %>
+    <%= render partial: "weekday_form", date: date %>
+  <% end %>
+<% end %>

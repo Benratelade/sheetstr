@@ -4,7 +4,7 @@ describe "timesheets/new", type: :view do
   before do
     @current_user = double("the user", email: "ratelade.benjamin@gmail.com")
     allow(controller).to receive(:current_user).and_return(@current_user)
-    stub_template("timesheets/_form.html.erb" => "<form>The form</form>")
+    stub_template("timesheets/_form.html.erb" => "The timesheet form")
   end
 
   it "Displays the email of the current user" do
@@ -23,5 +23,6 @@ describe "timesheets/new", type: :view do
     render
 
     expect(view).to render_template(partial: "_form", locals: { timesheet: @timesheet })
+    expect(rendered).to have_content("The timesheet form")
   end
 end

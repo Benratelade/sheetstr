@@ -28,16 +28,16 @@ describe "A new user signs up to sheetstr", type: :feature do
       page_title = find("h2")
       expect(page_title.text).to eq("Welcome ratelade.benjamin@gmail.com")
 
-      timesheet_title = find("h3")
+      timesheet_title = find_all("h3").first
       expect(timesheet_title.text).to eq("New Timesheet")
 
-      start_date = find("input#start-date")
+      start_date = find_field("Start date", disabled: true)
       expect(start_date).to be_disabled
-      end_date = find("input#end-date", disabled: true)
-      expect(send_date).to be_disabled
+      end_date = find_field("End date", disabled: true)
+      expect(end_date).to be_disabled
 
-      expect(start_date.value).to eq("24 Jan 2022")
-      expect(end_date.value).to eq("30 Jan 2022")
+      expect(start_date.value).to eq("2022-01-24")
+      expect(end_date.value).to eq("2022-01-30")
     end
   end
 end

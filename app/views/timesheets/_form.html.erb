@@ -4,8 +4,9 @@
 
   <%= form.label :end_date %>
   <%= form.date_field :end_date, disabled: true %>
-
   <% (timesheet.start_date..timesheet.end_date).each do |date| %>
-    <%= render partial: "weekday_form", date: date %>
+    <%= render partial: "weekday_form", locals: { form: form, date: date } %>
   <% end %>
+
+  <%= form.submit "Submit" %>
 <% end %>

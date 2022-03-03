@@ -1,6 +1,6 @@
 <section class="day-section">
   <h3><%= date.strftime("%A") %></h3>
   <% form.fields_for :line_items do |line_item_fields| %>
-    <%= render partial: "line_item_form", locals: { fields: line_item_fields } %>
+    <%= render partial: "line_item_form", locals: { form: line_item_fields } %>
   <% end %>
 </section>

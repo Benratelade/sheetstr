@@ -22,6 +22,6 @@ describe "timesheets/new", type: :view do
   it "Displays a form for the new timesheet" do
     render
 
-    expect(view).to render_template(partial: "_form")
+    expect(view).to render_template(partial: "_form", locals: { timesheet: @timesheet })
   end
 end

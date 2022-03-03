@@ -23,8 +23,31 @@ describe "timesheets/_form", type: :view do
   end
 
   it "displays a timesheets/_weekday_form partial for each day in that period" do
+    form_builder = double(
+      "A form builder", 
+      label: "A label",
+      date_field: "A date field",
+      submit: "A submit tag", 
+    )
+    allow(view).to receive(:form_for) do |&block|
+      block.call(form_builder)
+    end
+
     render partial: "timesheets/form", locals: { timesheet: @timesheet }
 
     expect(view).to render_template(partial: "_weekday_form", count: 7)
+    expect(view).to render_template(partial: "_weekday_form", locals: { form: form_builder, form: form_builder, date: @timesheet.start_date } )
+    expect(view).to render_template(partial: "_weekday_form", locals: { form: form_builder, date: @timesheet.start_date + 1 })
+    expect(view).to render_template(partial: "_weekday_form", locals: { form: form_builder, date: @timesheet.start_date + 2 })
+    expect(view).to render_template(partial: "_weekday_form", locals: { form: form_builder, date: @timesheet.start_date + 3 })
+    expect(view).to render_template(partial: "_weekday_form", locals: { form: form_builder, date: @timesheet.start_date + 4 })
+    expect(view).to render_template(partial: "_weekday_form", locals: { form: form_builder, date: @timesheet.start_date + 5 })
+    expect(view).to render_template(partial: "_weekday_form", locals: { form: form_builder, date: @timesheet.start_date + 6 })
+  end
+
+  it "displays a submit button" do 
+    render partial: "timesheets/form", locals: { timesheet: @timesheet }
+
+    expect(rendered).to have_button("Submit")
   end
 end

@@ -39,5 +39,19 @@ describe "A new user signs up to sheetstr", type: :feature do
       expect(start_date.value).to eq("2022-01-24")
       expect(end_date.value).to eq("2022-01-30")
     end
+
+    When "They fill out the form" do
+      binding.pry
+      days_sections = page.find_all("[data-testid^=day-section-]")
+      days_sections.each do |day_section|
+        day_section.fill_in("Start time", with: "08:00")
+        day_section.fill_in("End time", with: "17:00")
+        day_section.fill_in("Hourly rate", with: "25")
+      end
+      click_button("Submit")
+    end
+
+    Then "They see a summary of each day's work" do
+    end
   end
 end

@@ -12,24 +12,24 @@ describe "timesheets/_line_item_form", type: :view do
   it "renders a Description field" do
     render partial: "timesheets/line_item_form", locals: { form: @form }
 
-    expect(rendered).to have_field("Description")
+    expect(rendered).to have_field("Description", type: "text")
   end
 
   it "renders a Start Time field" do
     render partial: "timesheets/line_item_form", locals: { form: @form }
 
-    expect(rendered).to have_field("Start Time")
+    expect(rendered).to have_field("Start time", type: "time")
   end
 
   it "renders an End Time field" do
     render partial: "timesheets/line_item_form", locals: { form: @form }
 
-    expect(rendered).to have_field("End Time")
+    expect(rendered).to have_field("End time", type: "time")
   end
 
   it "renders a field for the hourly rate" do
     render partial: "timesheets/line_item_form", locals: { form: @form }
 
-    expect(rendered).to have_field("Hourly Rate")
+    expect(rendered).to have_field("Hourly rate", type: "number")
   end
 end

@@ -62,11 +62,13 @@ group :test do
   # Easy installation and use of web drivers to run system tests with browsers
   gem "webdrivers"
 
-  # For more desriptive tests
+  # For more descriptive tests
   gem "rails-controller-testing"
   gem "rspec-example_steps"
 
   gem "timecop"
+
+  gem "rspec-activemodel-mocks"
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

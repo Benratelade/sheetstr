@@ -33,6 +33,20 @@ RSpec.describe TimesheetsController, type: :controller do
       expect(timesheet.line_items.count).to eq(7)
     end
 
+    it "sets the start_time on all associated line_items" do
+      Timecop.freeze(Date.parse("Feb 05 2022"))
+
+      get :new
+
+      expect(assigns(:timesheet).line_items[0].start_time).to eq("Mon, 31 Jan 2022")
+      expect(assigns(:timesheet).line_items[1].start_time).to eq("Tue, 01 Feb 2022")
+      expect(assigns(:timesheet).line_items[2].start_time).to eq("Wed, 02 Feb 2022")
+      expect(assigns(:timesheet).line_items[3].start_time).to eq("Thu, 03 Feb 2022")
+      expect(assigns(:timesheet).line_items[4].start_time).to eq("Fri, 04 Feb 2022")
+      expect(assigns(:timesheet).line_items[5].start_time).to eq("Sat, 05 Feb 2022")
+      expect(assigns(:timesheet).line_items[6].start_time).to eq("Sun, 06 Feb 2022")      
+    end
+
     it "renders the new Timesheet template" do
       get :new
       expect(response).to render_template(:new)

@@ -1,6 +1,6 @@
 <section class="day-section" data-testid="day-section-<%=date.strftime("%A")%>">
   <h3><%= date.strftime("%A") %></h3>
   <%= form.fields_for :line_items do |line_item_fields| %>
-    <%= render partial: "line_item_form", locals: { form: line_item_fields } %>
+    <%= render partial: "line_item_form", locals: { form: line_item_fields } if line_item_fields.object.start_time.wday == date.wday %>
   <% end %>
 </section>

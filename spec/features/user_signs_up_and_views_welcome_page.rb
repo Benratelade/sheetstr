@@ -41,10 +41,9 @@ describe "A new user signs up to sheetstr", type: :feature do
     end
 
     When "They fill out the form" do
-      binding.pry
       days_sections = page.find_all("[data-testid^=day-section-]")
       days_sections.each do |day_section|
-        day_section.fill_in("Start time", with: "08:00")
+        day_section.fill_in("Start time", with: "08:00am")
         day_section.fill_in("End time", with: "17:00")
         day_section.fill_in("Hourly rate", with: "25")
       end
@@ -52,6 +51,12 @@ describe "A new user signs up to sheetstr", type: :feature do
     end
 
     Then "They see a summary of each day's work" do
+      page_title = find("h2")
+      expect(page_title.text).to eq("Timesheet for Monday, January 24 2022 to Sunday, January 30 2022")
+
+      summary_section = find(testid("summary-section"))
+
+      line_items_breakdown = find(testid("line-items-breakdown"))
     end
   end
 end

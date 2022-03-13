@@ -1,4 +1,8 @@
 <h2>Timesheet for <%= @timesheet.start_date.strftime("%A, %B %d %Y") %> to <%= @timesheet.end_date.strftime("%A, %B %d %Y") %></h2>
-<span id="total-section">
-  <span id="value"><%= @timesheet.total_hours_worked %></span>
-</span>
+
+<section data-test_id="summary-section">
+  <span id="total-time-section">Total hours worked (decimal): 
+    <span id="decimal-value"><%= @timesheet.total_decimal_hours_worked %></span>
+    <span id="hourly-value">(<%= "#{@timesheet.hours_worked_breakdown[:hours]} hours #{@timesheet.hours_worked_breakdown[:minutes]} minutes" %>)</span>
+  </span>
+</section>

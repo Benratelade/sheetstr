@@ -11,14 +11,30 @@ describe "timesheets/show", type: :view do
       "A Timesheet", 
       start_date: Date.parse("24 Jan 2022"), 
       end_date: Date.parse("30 Jan 2022"),
-      total_hours_worked: "",
+      total_decimal_hours_worked: "",
+      hours_worked_breakdown: {},
     )
+
     render
 
     expect(rendered).to have_css("h2", text: "Timesheet for Monday, January 24 2022 to Sunday, January 30 2022")
   end
 
-  it "Displays the total number of hours worked for that timesheet" do
+  it "displays a summary section" do
+    @timesheet = double(
+      "A Timesheet", 
+      start_date: Date.parse("24 Jan 2022"), 
+      end_date: Date.parse("30 Jan 2022"),
+      total_decimal_hours_worked: "",
+      hours_worked_breakdown: {},
+    )
+
+    render
+
+    expect(rendered).to have_css("section[data-test_id=summary-section]")
+  end 
+
+  it "Displays the total number of decimal hours worked for that timesheet inside the summary section" do
     line_items = [
       double(
         "line item 1", 
@@ -41,14 +57,51 @@ describe "timesheets/show", type: :view do
       start_date: Date.parse("24 Jan 2022"), 
       end_date: Date.parse("30 Jan 2022"),
       line_items: line_items, 
-      total_hours_worked: "27",
+      total_decimal_hours_worked: "27",
+      hours_worked_breakdown: {}
     )
 
     render
 
     page = Capybara.string(rendered)
-    total = page.find("#total-section #value")
+    total = page.find("section[data-test_id=summary-section] #total-time-section #decimal-value")
     expect(total.text).to eq("27")
+  end
 
+  it "Displays the total number of hourly hours worked for that timesheet inside the summary section" do
+    line_items = [
+      double(
+        "line item 1", 
+        start_time: Time.zone.parse("Jan 31 2022 08:00am"),
+        end_time: Time.zone.parse("Jan 31 2022 17:02"),
+      ), 
+      double(
+        "line item 2", 
+        start_time: Time.zone.parse("Feb 01 2022 08:00am"),
+        end_time: Time.zone.parse("Feb 01 2022 16:15"),
+      ), 
+      double(
+        "line item 3", 
+        start_time: Time.zone.parse("Feb 02 2022 08:00am"),
+        end_time: Time.zone.parse("Feb 02 2022 17:30"),
+      )
+    ]
+
+    @timesheet = double(
+      start_date: Date.parse("24 Jan 2022"), 
+      end_date: Date.parse("30 Jan 2022"),
+      line_items: line_items, 
+      total_decimal_hours_worked: "",
+      hours_worked_breakdown: {
+        hours: 26, 
+        minutes: 47, 
+      }
+    )
+
+    render
+
+    page = Capybara.string(rendered)
+    total = page.find("section[data-test_id=summary-section] #total-time-section #hourly-value")
+    expect(total.text).to eq("(26 hours 47 minutes)")
   end
 end

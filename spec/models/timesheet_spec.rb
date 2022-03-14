@@ -1,12 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe Timesheet, type: :model do
-  describe "#total_hours_worked" do
+  describe "#total_decimal_hours" do
     it "returns 0 if there are no line items" do 
       timesheet = Timesheet.new()
       allow(timesheet).to receive(:line_items).and_return(nil)
 
-      expect(timesheet.total_hours_worked).to eq(0)
+      expect(timesheet.total_decimal_hours).to eq(0)
     end
 
     it "returns the sum of all hours worked in each line item" do 
@@ -28,7 +28,7 @@ RSpec.describe Timesheet, type: :model do
       timesheet = Timesheet.new()
       allow(timesheet).to receive(:line_items).and_return([line_item_1, line_item_2])
 
-      expect(timesheet.total_hours_worked).to eq(12.75)
+      expect(timesheet.total_decimal_hours).to eq(12.75)
     end
   end
 

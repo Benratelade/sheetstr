@@ -24,4 +24,8 @@ class Timesheet < ApplicationRecord
 
     breakdown
   end
+
+  def total_revenue
+    (line_items || []).sum(&:subtotal)
+  end
 end

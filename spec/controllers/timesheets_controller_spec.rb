@@ -59,6 +59,18 @@ RSpec.describe TimesheetsController, type: :controller do
       expect(assigns(:timesheet)).to be_a(Timesheet)
     end
 
+    it "correctly sets the start_date and end_date" do 
+      start_date = Date.parse("24 Jan 2022")
+      end_date = Date.parse("24 Jan 2022")
+      post :create, params: { timesheet: { 
+        start_date: Date.parse("24 Jan 2022"),
+        end_date: Date.parse("24 Jan 2022"),
+        }, 
+      }
+      expect(assigns(:timesheet).start_date).to eq(start_date)
+      expect(assigns(:timesheet).end_date).to eq(end_date)
+    end
+
     it "redirects to a #show action" do
       timesheet = mock_model(Timesheet)
       expect(Timesheet).to receive(:new).and_return(timesheet)

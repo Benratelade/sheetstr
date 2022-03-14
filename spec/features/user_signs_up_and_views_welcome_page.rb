@@ -31,10 +31,10 @@ describe "A new user signs up to sheetstr", type: :feature do
       timesheet_title = find_all("h3").first
       expect(timesheet_title.text).to eq("New Timesheet")
 
-      start_date = find_field("Start date", disabled: true)
-      expect(start_date).to be_disabled
-      end_date = find_field("End date", disabled: true)
-      expect(end_date).to be_disabled
+      start_date = find_field("Start date", readonly: true)
+      expect(start_date).to be_readonly
+      end_date = find_field("End date", readonly: true)
+      expect(end_date).to be_readonly
 
       expect(start_date.value).to eq("2022-01-24")
       expect(end_date.value).to eq("2022-01-30")
@@ -54,9 +54,18 @@ describe "A new user signs up to sheetstr", type: :feature do
       page_title = find("h2")
       expect(page_title.text).to eq("Timesheet for Monday, January 24 2022 to Sunday, January 30 2022")
 
-      summary_section = find(testid("summary-section"))
+      summary_section = find("section[data-test_id=summary-section]")
+      hours_summary = summary_section.find("#total-time-section")
+      decimal_value = hours_summary.find("#decimal-value")
+      hourly_value = hours_summary.find("#hourly-value")
 
-      line_items_breakdown = find(testid("line-items-breakdown"))
+      expect(decimal_value.text).to eq("63.0")
+      expect(hourly_value.text).to eq("(63 hours 0 minutes)")
+
+      revenue_summary = summary_section.find("#total-revenue-section")
+      dollar_value = revenue_summary.find("#total-revenue")
+
+      expect(dollar_value.text).to eq("$ 1575.0")
     end
   end
 end

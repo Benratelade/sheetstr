@@ -17,7 +17,9 @@ class TimesheetsController < ActionController::Base
     end
   end
 
-  def show; end
+  def show
+    @timesheet = Timesheet.find(params[:id])
+  end
 
   private
   

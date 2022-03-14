@@ -18,8 +18,8 @@ describe "timesheets/_form", type: :view do
   it "displays the start and end dates in disabled fields" do
     render partial: "timesheets/form", locals: { timesheet: @timesheet }
 
-    expect(rendered).to have_field("timesheet_start_date", disabled: true, with: "2022-01-31")
-    expect(rendered).to have_field("timesheet_end_date", disabled: true, with: "2022-02-06")
+    expect(rendered).to have_field("timesheet_start_date", readonly: true, with: "2022-01-31")
+    expect(rendered).to have_field("timesheet_end_date", readonly: true, with: "2022-02-06")
   end
 
   it "displays a timesheets/_weekday_form partial for each day in that period" do

@@ -81,4 +81,20 @@ RSpec.describe TimesheetLineItem, type: :model do
       })
     end
   end
+
+  describe "#subtotal" do 
+    it "returns 0 if the hourly rate is nil" do
+      line_item = TimesheetLineItem.new(hourly_rate: nil)
+      allow(line_item).to receive(:total_decimal_hours).and_return(10)
+
+      expect(line_item.subtotal).to eq(0)
+    end
+    
+    it "returns the product of hourly rate timed by the number of decimal hours" do
+      line_item = TimesheetLineItem.new(hourly_rate: 25)
+      allow(line_item).to receive(:total_decimal_hours).and_return(16.7)
+
+      expect(line_item.subtotal).to eq(417.5)
+    end
+  end
 end

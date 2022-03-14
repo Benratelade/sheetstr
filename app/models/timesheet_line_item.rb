@@ -25,4 +25,8 @@ class TimesheetLineItem < ApplicationRecord
 
     breakdown
   end
+
+  def subtotal
+    total_decimal_hours * (hourly_rate || 0)
+  end
 end

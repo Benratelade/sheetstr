@@ -2,29 +2,32 @@
 
 require "rails_helper"
 
-describe "A new user signs up to sheetstr and creates their first timesheet", type: :feature do
+describe "An existing user logs in to sheetstr and creates a timesheet", type: :feature do
   before do
     Timecop.freeze(Date.parse("Jan 30 2022"))
   end
 
-  scenario "A new user comes to Sheetstr for the first time, create an account and see the welcome page" do
-    When "They visit the sign up page" do
-      visit "users/sign_up"
+  scenario "An existing user comes to Sheetstr, logs in and sees a list of timesheets" do
+    Given "Ben already has an account at Sheetstr" do
+      @ben = create(:user, email: "ratelade.benjamin@gmail.com", password: "password")
     end
 
-    And "they fill up the sign up form" do
+    When "They visit the sign in page" do
+      visit "users/sign_in"
+    end
+
+    And "they sign in" do
       fill_in("Email", with: "ratelade.benjamin@gmail.com")
       fill_in("Password", with: "password")
-      fill_in("Password confirmation", with: "password")
-      click_on("Sign up")
+      click_on("Log in")
     end
 
-    Then "A user is created" do
-      user = User.find_by(email: "ratelade.benjamin@gmail.com")
-      expect(user).to be_present
-    end
+    # Then "A page where they can create a new timesheet is displayed" do
+    #   page_title = find("h2")
+    #   expect(page_title.text).to eq("Welcome ratelade.benjamin@gmail.com")
+    # end
 
-    And "They are taken to a new Timesheet page with their email showing, for this week" do
+    Then "They are taken to a new Timesheet page with their email showing, for this week" do
       page_title = find("h2")
       expect(page_title.text).to eq("Welcome ratelade.benjamin@gmail.com")
 

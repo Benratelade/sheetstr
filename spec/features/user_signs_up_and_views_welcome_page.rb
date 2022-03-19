@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-describe "A new user signs up to sheetstr", type: :feature do
+describe "A new user signs up to sheetstr and creates their first timesheet", type: :feature do
   before do
     Timecop.freeze(Date.parse("Jan 30 2022"))
   end
@@ -66,6 +66,7 @@ describe "A new user signs up to sheetstr", type: :feature do
       dollar_value = revenue_summary.find("#total-revenue")
 
       expect(dollar_value.text).to eq("$ 1575.0")
+      binding.pry
     end
   end
 end

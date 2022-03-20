@@ -1,2 +1,12 @@
 Style/StringLiterals: 
   EnforcedStyle: double_quotes
+
+Metrics/BlockLength:
+  Exclude: 
+    - spec/**/*.rb
+
+Naming/VariableNumber:
+  EnforcedStyle: snake_case
+
+Style/TrailingCommaInHashLiteral:
+  EnforcedStyleForMultiline: consistent_comma

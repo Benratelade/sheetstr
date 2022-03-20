@@ -22,11 +22,6 @@ describe "An existing user logs in to sheetstr and creates a timesheet", type: :
       click_on("Log in")
     end
 
-    # Then "A page where they can create a new timesheet is displayed" do
-    #   page_title = find("h2")
-    #   expect(page_title.text).to eq("Welcome ratelade.benjamin@gmail.com")
-    # end
-
     Then "They are taken to a new Timesheet page with their email showing, for this week" do
       page_title = find("h2")
       expect(page_title.text).to eq("Welcome ratelade.benjamin@gmail.com")

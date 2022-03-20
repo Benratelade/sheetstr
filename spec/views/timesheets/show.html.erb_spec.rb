@@ -1,4 +1,6 @@
-require 'rails_helper'
+# frozen_string_literal: true
+
+require "rails_helper"
 
 describe "timesheets/show", type: :view do
   before do
@@ -8,12 +10,12 @@ describe "timesheets/show", type: :view do
 
   it "Displays the email of the current user" do
     @timesheet = double(
-      "A Timesheet", 
-      start_date: Date.parse("24 Jan 2022"), 
+      "A Timesheet",
+      start_date: Date.parse("24 Jan 2022"),
       end_date: Date.parse("30 Jan 2022"),
       total_decimal_hours: "",
       hours_breakdown: {},
-      total_revenue: double("some revenue"), 
+      total_revenue: double("some revenue")
     )
 
     render
@@ -23,45 +25,45 @@ describe "timesheets/show", type: :view do
 
   it "displays a summary section" do
     @timesheet = double(
-      "A Timesheet", 
-      start_date: Date.parse("24 Jan 2022"), 
+      "A Timesheet",
+      start_date: Date.parse("24 Jan 2022"),
       end_date: Date.parse("30 Jan 2022"),
       total_decimal_hours: "",
       hours_breakdown: {},
-      total_revenue: double("some revenue"), 
+      total_revenue: double("some revenue")
     )
 
     render
 
     expect(rendered).to have_css("section[data-test_id=summary-section]")
-  end 
+  end
 
   it "Displays the total number of decimal hours worked for that timesheet inside the summary section" do
     line_items = [
       double(
-        "line item 1", 
+        "line item 1",
         start_time: Time.zone.parse("Jan 31 2022 08:00am"),
-        end_time: Time.zone.parse("Jan 31 2022 17:00"),
-      ), 
+        end_time: Time.zone.parse("Jan 31 2022 17:00")
+      ),
       double(
-        "line item 2", 
+        "line item 2",
         start_time: Time.zone.parse("Feb 01 2022 08:00am"),
-        end_time: Time.zone.parse("Feb 01 2022 17:00"),
-      ), 
+        end_time: Time.zone.parse("Feb 01 2022 17:00")
+      ),
       double(
-        "line item 3", 
+        "line item 3",
         start_time: Time.zone.parse("Feb 02 2022 08:00am"),
-        end_time: Time.zone.parse("Feb 02 2022 17:00"),
+        end_time: Time.zone.parse("Feb 02 2022 17:00")
       )
     ]
 
     @timesheet = double(
-      start_date: Date.parse("24 Jan 2022"), 
+      start_date: Date.parse("24 Jan 2022"),
       end_date: Date.parse("30 Jan 2022"),
-      line_items: line_items, 
+      line_items: line_items,
       total_decimal_hours: "27",
       hours_breakdown: {},
-      total_revenue: double("some revenue"), 
+      total_revenue: double("some revenue")
     )
 
     render
@@ -74,32 +76,32 @@ describe "timesheets/show", type: :view do
   it "Displays the total number of hourly hours worked for that timesheet inside the summary section" do
     line_items = [
       double(
-        "line item 1", 
+        "line item 1",
         start_time: Time.zone.parse("Jan 31 2022 08:00am"),
-        end_time: Time.zone.parse("Jan 31 2022 17:02"),
-      ), 
+        end_time: Time.zone.parse("Jan 31 2022 17:02")
+      ),
       double(
-        "line item 2", 
+        "line item 2",
         start_time: Time.zone.parse("Feb 01 2022 08:00am"),
-        end_time: Time.zone.parse("Feb 01 2022 16:15"),
-      ), 
+        end_time: Time.zone.parse("Feb 01 2022 16:15")
+      ),
       double(
-        "line item 3", 
+        "line item 3",
         start_time: Time.zone.parse("Feb 02 2022 08:00am"),
-        end_time: Time.zone.parse("Feb 02 2022 17:30"),
+        end_time: Time.zone.parse("Feb 02 2022 17:30")
       )
     ]
 
     @timesheet = double(
-      start_date: Date.parse("24 Jan 2022"), 
+      start_date: Date.parse("24 Jan 2022"),
       end_date: Date.parse("30 Jan 2022"),
-      line_items: line_items, 
+      line_items: line_items,
       total_decimal_hours: "",
       hours_breakdown: {
-        hours: 26, 
-        minutes: 47, 
+        hours: 26,
+        minutes: 47,
       },
-      total_revenue: double("some revenue"), 
+      total_revenue: double("some revenue")
     )
 
     render
@@ -109,35 +111,35 @@ describe "timesheets/show", type: :view do
     expect(total.text).to eq("(26 hours 47 minutes)")
   end
 
-  it "Displays the total revenue for this period" do 
+  it "Displays the total revenue for this period" do
     line_items = [
       double(
-        "line item 1", 
+        "line item 1",
         start_time: Time.zone.parse("Jan 31 2022 08:00am"),
-        end_time: Time.zone.parse("Jan 31 2022 17:02"),
-      ), 
+        end_time: Time.zone.parse("Jan 31 2022 17:02")
+      ),
       double(
-        "line item 2", 
+        "line item 2",
         start_time: Time.zone.parse("Feb 01 2022 08:00am"),
-        end_time: Time.zone.parse("Feb 01 2022 16:15"),
-      ), 
+        end_time: Time.zone.parse("Feb 01 2022 16:15")
+      ),
       double(
-        "line item 3", 
+        "line item 3",
         start_time: Time.zone.parse("Feb 02 2022 08:00am"),
-        end_time: Time.zone.parse("Feb 02 2022 17:30"),
+        end_time: Time.zone.parse("Feb 02 2022 17:30")
       )
     ]
 
     @timesheet = double(
-      start_date: Date.parse("24 Jan 2022"), 
+      start_date: Date.parse("24 Jan 2022"),
       end_date: Date.parse("30 Jan 2022"),
-      line_items: line_items, 
+      line_items: line_items,
       total_decimal_hours: "",
       hours_breakdown: {
-        hours: 0, 
-        minutes: 0, 
+        hours: 0,
+        minutes: 0,
       },
-      total_revenue: 1512, 
+      total_revenue: 1512
     )
 
     render

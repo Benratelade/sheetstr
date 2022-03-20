@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "rails_helper"
 
 RSpec.describe TimesheetsController, type: :controller do
@@ -6,8 +8,8 @@ RSpec.describe TimesheetsController, type: :controller do
       Timecop.freeze(Date.parse("Feb 05 2022"))
 
       expect(Timesheet).to receive(:new).with(
-        start_date: Date.parse("Jan 31 2022"), 
-        end_date: Date.parse("Feb 06 2022"),
+        start_date: Date.parse("Jan 31 2022"),
+        end_date: Date.parse("Feb 06 2022")
       ).and_call_original
       get :new
     end
@@ -16,14 +18,14 @@ RSpec.describe TimesheetsController, type: :controller do
       Timecop.freeze(Date.parse("Feb 05 2022"))
       timesheet = double(
         "A timesheet",
-        line_items: [], 
-        start_date: Date.parse("Jan 31 2022"), 
-        end_date: Date.parse("Feb 06 2022"), 
+        line_items: [],
+        start_date: Date.parse("Jan 31 2022"),
+        end_date: Date.parse("Feb 06 2022")
       )
-      
+
       expect(Timesheet).to receive(:new).with(
-        start_date: Date.parse("Jan 31 2022"), 
-        end_date: Date.parse("Feb 06 2022"),
+        start_date: Date.parse("Jan 31 2022"),
+        end_date: Date.parse("Feb 06 2022")
       ).and_return(timesheet)
 
       expect(TimesheetLineItem).to receive(:new).exactly(7).times
@@ -44,7 +46,7 @@ RSpec.describe TimesheetsController, type: :controller do
       expect(assigns(:timesheet).line_items[3].start_time).to eq("Thu, 03 Feb 2022")
       expect(assigns(:timesheet).line_items[4].start_time).to eq("Fri, 04 Feb 2022")
       expect(assigns(:timesheet).line_items[5].start_time).to eq("Sat, 05 Feb 2022")
-      expect(assigns(:timesheet).line_items[6].start_time).to eq("Sun, 06 Feb 2022")      
+      expect(assigns(:timesheet).line_items[6].start_time).to eq("Sun, 06 Feb 2022")
     end
 
     it "renders the new Timesheet template" do
@@ -55,18 +57,17 @@ RSpec.describe TimesheetsController, type: :controller do
 
   describe "#create" do
     it "assigns a @timesheet record" do
-      post :create, params: { timesheet: { start_date: Date.parse("24 Jan 2022")} }
+      post :create, params: { timesheet: { start_date: Date.parse("24 Jan 2022") } }
       expect(assigns(:timesheet)).to be_a(Timesheet)
     end
 
-    it "correctly sets the start_date and end_date" do 
+    it "correctly sets the start_date and end_date" do
       start_date = Date.parse("24 Jan 2022")
       end_date = Date.parse("24 Jan 2022")
-      post :create, params: { timesheet: { 
+      post :create, params: { timesheet: {
         start_date: Date.parse("24 Jan 2022"),
         end_date: Date.parse("24 Jan 2022"),
-        }, 
-      }
+      } }
       expect(assigns(:timesheet).start_date).to eq(start_date)
       expect(assigns(:timesheet).end_date).to eq(end_date)
     end
@@ -75,8 +76,8 @@ RSpec.describe TimesheetsController, type: :controller do
       timesheet = mock_model(Timesheet)
       expect(Timesheet).to receive(:new).and_return(timesheet)
       expect(timesheet).to receive(:save!).and_return(timesheet)
-      
-      post :create, params: { timesheet: { start_date: Date.parse("24 Jan 2022")} }
+
+      post :create, params: { timesheet: { start_date: Date.parse("24 Jan 2022") } }
 
       expect(response).to redirect_to(timesheet_url(timesheet))
     end
@@ -86,44 +87,44 @@ RSpec.describe TimesheetsController, type: :controller do
 
       params = {
         timesheet: {
-          start_date: Date.parse("Jan 31 2022"), 
+          start_date: Date.parse("Jan 31 2022"),
           end_date: Date.parse("Feb 06 2022"),
           line_items_attributes: {
-            '0' => {
+            "0" => {
               start_time: Time.zone.parse("Jan 31 2022 08:00am"),
               end_time: Time.zone.parse("Jan 31 2022 17:00pm"),
-              hourly_rate: 21, 
-            }, 
-            '1' => {
+              hourly_rate: 21,
+            },
+            "1" => {
               start_time: Time.zone.parse("Feb 01 2022 08:00am"),
               end_time: Time.zone.parse("Feb 01 2022 17:00pm"),
-              hourly_rate: 21, 
-            }, 
-            '2' => {
+              hourly_rate: 21,
+            },
+            "2" => {
               start_time: Time.zone.parse("Feb 02 2022 08:00am"),
               end_time: Time.zone.parse("Feb 02 2022 17:00pm"),
-              hourly_rate: 21, 
-            }, 
-            '3' => {
+              hourly_rate: 21,
+            },
+            "3" => {
               start_time: Time.zone.parse("Feb 03 2022 08:00am"),
               end_time: Time.zone.parse("Feb 03 2022 17:00pm"),
-              hourly_rate: 21, 
-            }, 
-            '4' => {
+              hourly_rate: 21,
+            },
+            "4" => {
               start_time: Time.zone.parse("Feb 04 2022 08:00am"),
               end_time: Time.zone.parse("Feb 04 2022 17:00pm"),
-              hourly_rate: 21, 
-            }, 
-            '5' => {
+              hourly_rate: 21,
+            },
+            "5" => {
               start_time: nil,
               end_time: nil,
-              hourly_rate: 21, 
-            }, 
-            '6' => {
+              hourly_rate: 21,
+            },
+            "6" => {
               start_time: nil,
               end_time: nil,
-              hourly_rate: 21, 
-            }, 
+              hourly_rate: 21,
+            },
           },
         },
       }

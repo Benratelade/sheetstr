@@ -1,4 +1,6 @@
-require 'rails_helper'
+# frozen_string_literal: true
+
+require "rails_helper"
 
 describe "timesheets/new", type: :view do
   before do
@@ -13,7 +15,7 @@ describe "timesheets/new", type: :view do
     expect(rendered).to have_css("h2", text: "Welcome ratelade.benjamin@gmail.com")
   end
 
-  it "Displays a title for the new Timesheet" do 
+  it "Displays a title for the new Timesheet" do
     render
 
     expect(rendered).to have_css("h3", text: "New Timesheet")

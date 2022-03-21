@@ -1,20 +1,23 @@
+# frozen_string_literal: true
+
 class TimesheetLineItem < ApplicationRecord
   belongs_to :timesheet
 
   def total_decimal_hours
-    return 0 if (start_time.blank? || end_time.blank?)
+    return 0 if start_time.blank? || end_time.blank?
 
     seconds = end_time - start_time
-    seconds / 3600 
+    seconds / 3600
   end
 
   def hours_breakdown
     breakdown = {
       hours: 0,
-      minutes: 0 
+      minutes: 0,
     }
 
-    return breakdown if (start_time.blank? || end_time.blank?)
+    return breakdown if start_time.blank? || end_time.blank?
+
     seconds = end_time - start_time
     minutes = seconds / 60
     hours = minutes / 60

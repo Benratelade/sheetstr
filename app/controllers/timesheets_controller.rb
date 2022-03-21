@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class TimesheetsController < ActionController::Base
   def new
     @timesheet = Timesheet.new(
@@ -12,9 +14,7 @@ class TimesheetsController < ActionController::Base
 
   def create
     @timesheet = Timesheet.new(timesheet_params)
-    if @timesheet.save!
-      redirect_to @timesheet
-    end
+    redirect_to @timesheet if @timesheet.save!
   end
 
   def show
@@ -22,12 +22,12 @@ class TimesheetsController < ActionController::Base
   end
 
   private
-  
+
   def timesheet_params
     params.require(:timesheet).permit(
-      :start_date, 
-      :end_date, 
-      line_items_attributes: [:description, :start_time, :end_time, :hourly_rate] 
+      :start_date,
+      :end_date,
+      line_items_attributes: %i[description start_time end_time hourly_rate],
     )
   end
 end

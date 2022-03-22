@@ -7,7 +7,7 @@ class TimesheetLineItem < ApplicationRecord
     return 0 if start_time.blank? || end_time.blank?
 
     seconds = end_time - start_time
-    seconds / 3600
+    seconds / 3600.to_d
   end
 
   def hours_breakdown

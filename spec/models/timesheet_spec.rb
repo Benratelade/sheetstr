@@ -17,19 +17,20 @@ RSpec.describe Timesheet, type: :model do
         id: "the id",
         start_time: double("a start time"),
         end_time: double("an end time"),
-        total_decimal_hours: 9
+        total_decimal_hours: 9.to_d
       )
       line_item_2 = double(
         "line_item_2",
         id: "the id",
         start_time: double("a start time"),
         end_time: double("an end time"),
-        total_decimal_hours: 3.75
+        total_decimal_hours: 3.75.to_d
       )
       timesheet = Timesheet.new
       allow(timesheet).to receive(:line_items).and_return([line_item_1, line_item_2])
 
       expect(timesheet.total_decimal_hours).to eq(12.75)
+      expect(timesheet.total_decimal_hours).to be_a(BigDecimal)
     end
   end
 
@@ -88,16 +89,17 @@ RSpec.describe Timesheet, type: :model do
       line_item_1 = double(
         "line_item_1",
         id: "the id",
-        subtotal: 321
+        subtotal: 321.to_d
       )
       line_item_2 = double(
         "line_item_2",
         id: "the id",
-        subtotal: 223
+        subtotal: 223.to_d
       )
       allow(timesheet).to receive(:line_items).and_return([line_item_1, line_item_2])
 
       expect(timesheet.total_revenue).to eq(544)
+      expect(timesheet.total_revenue).to be_a(BigDecimal)
     end
   end
 end

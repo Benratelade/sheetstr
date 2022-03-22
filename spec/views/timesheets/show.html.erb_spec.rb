@@ -61,7 +61,7 @@ describe "timesheets/show", type: :view do
       start_date: Date.parse("24 Jan 2022"),
       end_date: Date.parse("30 Jan 2022"),
       line_items: line_items,
-      total_decimal_hours: "27",
+      total_decimal_hours: 27.3333333333,
       hours_breakdown: {},
       total_revenue: double("some revenue")
     )
@@ -70,7 +70,7 @@ describe "timesheets/show", type: :view do
 
     page = Capybara.string(rendered)
     total = page.find("section[data-test_id=summary-section] #total-time-section #decimal-value")
-    expect(total.text).to eq("27")
+    expect(total.text).to eq("27.33")
   end
 
   it "Displays the total number of hourly hours worked for that timesheet inside the summary section" do
@@ -146,6 +146,34 @@ describe "timesheets/show", type: :view do
 
     page = Capybara.string(rendered)
     total = page.find("section[data-test_id=summary-section] #total-revenue-section #total-revenue")
-    expect(total.text).to eq("$ 1512")
+    expect(total.text).to eq("$ 1512.00")
+  end
+
+  it "Displays the total revenue with 2 digits after the decimal place" do
+    line_items = [
+      double(
+        "line item 1",
+        start_time: Time.zone.parse("Jan 31 2022 08:00am"),
+        end_time: Time.zone.parse("Jan 31 2022 17:47")
+      ),
+    ]
+
+    @timesheet = double(
+      start_date: Date.parse("24 Jan 2022"),
+      end_date: Date.parse("30 Jan 2022"),
+      line_items: line_items,
+      total_decimal_hours: "",
+      hours_breakdown: {
+        hours: 0,
+        minutes: 0,
+      },
+      total_revenue: BigDecimal("1512.3333333333")
+    )
+
+    render
+
+    page = Capybara.string(rendered)
+    total = page.find("section[data-test_id=summary-section] #total-revenue-section #total-revenue")
+    expect(total.text).to eq("$ 1512.33")
   end
 end

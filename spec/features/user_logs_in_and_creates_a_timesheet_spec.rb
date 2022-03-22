@@ -57,13 +57,13 @@ describe "An existing user logs in to sheetstr and creates a timesheet", type: :
       decimal_value = hours_summary.find("#decimal-value")
       hourly_value = hours_summary.find("#hourly-value")
 
-      expect(decimal_value.text).to eq("63.0")
+      expect(decimal_value.text).to eq("63.00")
       expect(hourly_value.text).to eq("(63 hours 0 minutes)")
 
       revenue_summary = summary_section.find("#total-revenue-section")
       dollar_value = revenue_summary.find("#total-revenue")
 
-      expect(dollar_value.text).to eq("$ 1575.0")
+      expect(dollar_value.text).to eq("$ 1575.00")
     end
   end
 end

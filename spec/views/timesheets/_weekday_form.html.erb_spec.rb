@@ -25,12 +25,16 @@ describe "timesheets/_weekday_form", type: :view do
   end
 
   it "renders the form fields for a Timesheet Line Item" do
-    line_items = [double("a line item"), double("another line item")]
+    line_items = [
+      double("a line item", start_time: double("a start time", wday: 1)), 
+      double("another line item", start_time: double("a start time", wday: 1)), 
+    ]
     form = double("a form builder")
     fields_for_builder = double("a fields_for form builder")
 
     allow(form).to receive(:fields_for).with(:line_items) do |_method_name, &block|
       line_items.each do |_line_item|
+        fields_for_builder = double("a fields_for form builder", object: _line_item)
         block.call fields_for_builder
       end
     end

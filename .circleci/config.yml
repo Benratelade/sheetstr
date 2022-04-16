@@ -30,7 +30,7 @@ jobs:
       BUNDLE_RETRY: '3'
       PGHOST: 127.0.0.1
       PGPASSWORD: ''
-      PGUSER: postgres
+      PGUSER: sheetstr_test
       RAILS_ENV: test
     parallelism: 3
     steps:

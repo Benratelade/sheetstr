@@ -1,8 +1,7 @@
 version: '2.1'
 orbs:
   ruby: circleci/ruby@1.7.1
-jobs:
-  rubocop:
+rubocop:
       executor: default
       steps:
         - attach_workspace:
@@ -11,6 +10,7 @@ jobs:
         - run:
             name: Rubocop
             command: bundle exec rubocop
+jobs:
   build:
     docker:
       - image: cimg/ruby:3.1.0 # use a tailored CircleCI docker image.

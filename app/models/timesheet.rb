@@ -10,7 +10,7 @@ class Timesheet < ApplicationRecord
     (line_items || []).sum(&:total_decimal_hours)
   end
 
-  def hours_breakdown
+  def hours_breakdown # rubocop:todo Metrics/MethodLength, Metrics/AbcSize
     breakdown = {
       hours: 0,
       minutes: 0,

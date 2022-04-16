@@ -16,7 +16,7 @@ describe "pages/home", type: :view do
 
     log_in_button = page.find("a[data-test='log-in-button']")
     sign_up_button = page.find("a[data-test='sign-up-button']")
-    
+
     expect(log_in_button["href"]).to eq("/users/sign_in")
     expect(sign_up_button["href"]).to eq("/users/sign_up")
   end

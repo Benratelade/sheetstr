@@ -9,7 +9,7 @@ RSpec.describe TimesheetsController, type: :controller do
 
       expect(Timesheet).to receive(:new).with(
         start_date: Date.parse("Jan 31 2022"),
-        end_date: Date.parse("Feb 06 2022")
+        end_date: Date.parse("Feb 06 2022"),
       ).and_call_original
       get :new
     end
@@ -20,12 +20,12 @@ RSpec.describe TimesheetsController, type: :controller do
         "A timesheet",
         line_items: [],
         start_date: Date.parse("Jan 31 2022"),
-        end_date: Date.parse("Feb 06 2022")
+        end_date: Date.parse("Feb 06 2022"),
       )
 
       expect(Timesheet).to receive(:new).with(
         start_date: Date.parse("Jan 31 2022"),
-        end_date: Date.parse("Feb 06 2022")
+        end_date: Date.parse("Feb 06 2022"),
       ).and_return(timesheet)
 
       expect(TimesheetLineItem).to receive(:new).exactly(7).times

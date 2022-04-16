@@ -6,7 +6,7 @@ describe "timesheets/_form", type: :view do
   before do
     @timesheet = Timesheet.new(
       start_date: Date.parse("Jan 31 2022"),
-      end_date: Date.parse("Feb 06 2022")
+      end_date: Date.parse("Feb 06 2022"),
     )
     stub_template("timesheets/_weekday_form.html.erb" => "<section>A Weekeday section</section>")
   end
@@ -29,7 +29,7 @@ describe "timesheets/_form", type: :view do
       "A form builder",
       label: "A label",
       date_field: "A date field",
-      submit: "A submit tag"
+      submit: "A submit tag",
     )
     allow(view).to receive(:form_for) do |&block|
       block.call(form_builder)
@@ -43,49 +43,49 @@ describe "timesheets/_form", type: :view do
       locals: {
         form: form_builder,
         date: @timesheet.start_date,
-      }
+      },
     )
     expect(view).to render_template(
       partial: "_weekday_form",
       locals: {
         form: form_builder,
         date: @timesheet.start_date + 1,
-      }
+      },
     )
     expect(view).to render_template(
       partial: "_weekday_form",
       locals: {
         form: form_builder,
         date: @timesheet.start_date + 2,
-      }
+      },
     )
     expect(view).to render_template(
       partial: "_weekday_form",
       locals: {
         form: form_builder,
         date: @timesheet.start_date + 3,
-      }
+      },
     )
     expect(view).to render_template(
       partial: "_weekday_form",
       locals: {
         form: form_builder,
         date: @timesheet.start_date + 4,
-      }
+      },
     )
     expect(view).to render_template(
       partial: "_weekday_form",
       locals: {
         form: form_builder,
         date: @timesheet.start_date + 5,
-      }
+      },
     )
     expect(view).to render_template(
       partial: "_weekday_form",
       locals: {
         form: form_builder,
         date: @timesheet.start_date + 6,
-      }
+      },
     )
   end
 

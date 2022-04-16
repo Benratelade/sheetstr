@@ -13,7 +13,7 @@ describe "timesheets/show", type: :view do
       end_date: Date.parse("30 Jan 2022"),
       total_decimal_hours: "",
       hours_breakdown: {},
-      total_revenue: double("some revenue")
+      total_revenue: double("some revenue"),
     )
   end
 
@@ -34,17 +34,17 @@ describe "timesheets/show", type: :view do
       double(
         "line item 1",
         start_time: Time.zone.parse("Jan 31 2022 08:00am"),
-        end_time: Time.zone.parse("Jan 31 2022 17:00")
+        end_time: Time.zone.parse("Jan 31 2022 17:00"),
       ),
       double(
         "line item 2",
         start_time: Time.zone.parse("Feb 01 2022 08:00am"),
-        end_time: Time.zone.parse("Feb 01 2022 17:00")
+        end_time: Time.zone.parse("Feb 01 2022 17:00"),
       ),
       double(
         "line item 3",
         start_time: Time.zone.parse("Feb 02 2022 08:00am"),
-        end_time: Time.zone.parse("Feb 02 2022 17:00")
+        end_time: Time.zone.parse("Feb 02 2022 17:00"),
       )
     ]
 
@@ -63,17 +63,17 @@ describe "timesheets/show", type: :view do
       double(
         "line item 1",
         start_time: Time.zone.parse("Jan 31 2022 08:00am"),
-        end_time: Time.zone.parse("Jan 31 2022 17:02")
+        end_time: Time.zone.parse("Jan 31 2022 17:02"),
       ),
       double(
         "line item 2",
         start_time: Time.zone.parse("Feb 01 2022 08:00am"),
-        end_time: Time.zone.parse("Feb 01 2022 16:15")
+        end_time: Time.zone.parse("Feb 01 2022 16:15"),
       ),
       double(
         "line item 3",
         start_time: Time.zone.parse("Feb 02 2022 08:00am"),
-        end_time: Time.zone.parse("Feb 02 2022 17:30")
+        end_time: Time.zone.parse("Feb 02 2022 17:30"),
       )
     ]
 
@@ -97,17 +97,17 @@ describe "timesheets/show", type: :view do
       double(
         "line item 1",
         start_time: Time.zone.parse("Jan 31 2022 08:00am"),
-        end_time: Time.zone.parse("Jan 31 2022 17:02")
+        end_time: Time.zone.parse("Jan 31 2022 17:02"),
       ),
       double(
         "line item 2",
         start_time: Time.zone.parse("Feb 01 2022 08:00am"),
-        end_time: Time.zone.parse("Feb 01 2022 16:15")
+        end_time: Time.zone.parse("Feb 01 2022 16:15"),
       ),
       double(
         "line item 3",
         start_time: Time.zone.parse("Feb 02 2022 08:00am"),
-        end_time: Time.zone.parse("Feb 02 2022 17:30")
+        end_time: Time.zone.parse("Feb 02 2022 17:30"),
       )
     ]
 
@@ -132,8 +132,8 @@ describe "timesheets/show", type: :view do
       double(
         "line item 1",
         start_time: Time.zone.parse("Jan 31 2022 08:00am"),
-        end_time: Time.zone.parse("Jan 31 2022 17:47")
-      ),
+        end_time: Time.zone.parse("Jan 31 2022 17:47"),
+      )
     ]
 
     allow(@timesheet).to receive(:line_items).and_return(line_items)

@@ -4,13 +4,16 @@ orbs:
 jobs:
   build:
     docker:
-      - image: cimg/ruby:3.1.0 # use a tailored CircleCI docker image.
+      - image: cimg/ruby:3.1.0-node # use a tailored CircleCI docker image.
     steps:
       - checkout
       - ruby/install-deps
+      - node/install-packages:
+          cache-key: yarn.lock
+          pkg-manager: yarn
   checking:
     docker:
-      - image: cimg/ruby:3.1.0 # use a tailored CircleCI docker image.
+      - image: cimg/ruby:3.1.0-node # use a tailored CircleCI docker image.
     steps:
       - checkout
       - ruby/install-deps
@@ -19,7 +22,7 @@ jobs:
           label: Inspecting with Rubocop
   test:
     docker:
-      - image: cimg/ruby:3.1.0 # use a tailored CircleCI docker image.
+      - image: cimg/ruby:3.1.0-node # use a tailored CircleCI docker image.
       - environment:
           POSTGRES_DB: sheetstr_test
           POSTGRES_PASSWORD: ''
@@ -36,6 +39,9 @@ jobs:
     steps:
       - checkout
       - ruby/install-deps
+      - node/install-packages:
+          cache-key: yarn.lock
+          pkg-manager: yarn
       - run:
           command: 'dockerize -wait tcp://localhost:5432 -timeout 1m'
           name: Wait for DB

@@ -21,16 +21,16 @@ jobs:
     docker:
       - image: cimg/ruby:3.1.0 # use a tailored CircleCI docker image.
       - environment:
-          POSTGRES_DB: postgres
+          POSTGRES_DB: sheetstr_test
           POSTGRES_PASSWORD: ''
-          POSTGRES_USER: sheetstr_test
+          POSTGRES_USER: postgres
         image: cimg/postgres:14.2
     environment:
       BUNDLE_JOBS: '3'
       BUNDLE_RETRY: '3'
       PGHOST: 127.0.0.1
       PGPASSWORD: ''
-      PGUSER: sheetstr_test
+      PGUSER: postgres
       RAILS_ENV: test
     parallelism: 3
     steps:

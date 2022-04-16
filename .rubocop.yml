@@ -26,3 +26,17 @@ Style/TrailingCommaInArguments:
 
 Style/Documentation:
   Enabled: false
+
+Metrics/MethodLength:
+  Enabled: false
+
+Layout/LineLength:
+  Exclude: 
+    - bin/bundle
+
+# Below are arbitrary limits, mostly here to put up with Rails defaults
+Metrics/PerceivedComplexity:
+  Max: 16
+
+Metrics/CyclomaticComplexity:
+  Max: 16 

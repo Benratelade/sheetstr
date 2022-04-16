@@ -10,7 +10,7 @@ class TimesheetLineItem < ApplicationRecord
     seconds / 3600.to_d
   end
 
-  def hours_breakdown # rubocop:todo Metrics/MethodLength
+  def hours_breakdown
     breakdown = {
       hours: 0,
       minutes: 0,

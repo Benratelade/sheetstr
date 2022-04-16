@@ -9,3 +9,6 @@
     <p id="total-revenue">$ <%= number_with_precision(@timesheet.total_revenue, precision: 2) %></p>
   </div>
 </section>
+<section class="page-actions">
+  <%= link_to("View my timesheets", timesheets_path) %>
+</section>

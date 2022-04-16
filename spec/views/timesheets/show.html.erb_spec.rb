@@ -6,9 +6,7 @@ describe "timesheets/show", type: :view do
   before do
     @current_user = double("the user", email: "ratelade.benjamin@gmail.com")
     allow(controller).to receive(:current_user).and_return(@current_user)
-  end
 
-  it "Displays the email of the current user" do
     @timesheet = double(
       "A Timesheet",
       start_date: Date.parse("24 Jan 2022"),
@@ -17,22 +15,15 @@ describe "timesheets/show", type: :view do
       hours_breakdown: {},
       total_revenue: double("some revenue")
     )
+  end
 
+  it "Displays the email of the current user" do
     render
 
     expect(rendered).to have_css("h2", text: "Timesheet for Monday, January 24 2022 to Sunday, January 30 2022")
   end
 
   it "displays a summary section" do
-    @timesheet = double(
-      "A Timesheet",
-      start_date: Date.parse("24 Jan 2022"),
-      end_date: Date.parse("30 Jan 2022"),
-      total_decimal_hours: "",
-      hours_breakdown: {},
-      total_revenue: double("some revenue")
-    )
-
     render
 
     expect(rendered).to have_css("section[data-test_id=summary-section]")
@@ -57,14 +48,8 @@ describe "timesheets/show", type: :view do
       )
     ]
 
-    @timesheet = double(
-      start_date: Date.parse("24 Jan 2022"),
-      end_date: Date.parse("30 Jan 2022"),
-      line_items: line_items,
-      total_decimal_hours: 27.3333333333,
-      hours_breakdown: {},
-      total_revenue: double("some revenue")
-    )
+    allow(@timesheet).to receive(:line_items).and_return(line_items)
+    allow(@timesheet).to receive(:total_decimal_hours).and_return(27.3333333)
 
     render
 
@@ -92,16 +77,12 @@ describe "timesheets/show", type: :view do
       )
     ]
 
-    @timesheet = double(
-      start_date: Date.parse("24 Jan 2022"),
-      end_date: Date.parse("30 Jan 2022"),
-      line_items: line_items,
-      total_decimal_hours: "",
-      hours_breakdown: {
+    allow(@timesheet).to receive(:line_items).and_return(line_items)
+    allow(@timesheet).to receive(:hours_breakdown).and_return(
+      {
         hours: 26,
         minutes: 47,
       },
-      total_revenue: double("some revenue")
     )
 
     render
@@ -130,17 +111,14 @@ describe "timesheets/show", type: :view do
       )
     ]
 
-    @timesheet = double(
-      start_date: Date.parse("24 Jan 2022"),
-      end_date: Date.parse("30 Jan 2022"),
-      line_items: line_items,
-      total_decimal_hours: "",
-      hours_breakdown: {
+    allow(@timesheet).to receive(:line_items).and_return(line_items)
+    allow(@timesheet).to receive(:hours_breakdown).and_return(
+      {
         hours: 0,
         minutes: 0,
       },
-      total_revenue: 1512
     )
+    allow(@timesheet).to receive(:total_revenue).and_return(1512)
 
     render
 
@@ -158,22 +136,34 @@ describe "timesheets/show", type: :view do
       ),
     ]
 
-    @timesheet = double(
-      start_date: Date.parse("24 Jan 2022"),
-      end_date: Date.parse("30 Jan 2022"),
-      line_items: line_items,
-      total_decimal_hours: "",
-      hours_breakdown: {
+    allow(@timesheet).to receive(:line_items).and_return(line_items)
+    allow(@timesheet).to receive(:hours_breakdown).and_return(
+      {
         hours: 0,
         minutes: 0,
       },
-      total_revenue: BigDecimal("1512.3333333333")
     )
+    allow(@timesheet).to receive(:total_revenue).and_return(BigDecimal("1512.3333333333"))
 
     render
 
     page = Capybara.string(rendered)
     total = page.find("section[data-test_id=summary-section] #total-revenue-section #total-revenue")
     expect(total.text).to eq("$ 1512.33")
+  end
+
+  it "Displays a section for actions" do
+    render
+
+    page = Capybara.string(rendered)
+    expect(page).to have_css("section.page-actions")
+  end
+
+  it "Displays a link to go to the list of all timesheets" do
+    render
+
+    page = Capybara.string(rendered)
+    view_timesheets_button = page.find_link("View my timesheets")
+    expect(view_timesheets_button["href"]).to eq("/timesheets")
   end
 end

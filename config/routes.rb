@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   devise_for :users, :timesheets
 
+  root to: "pages#home"
   resources :timesheets, only: %i[new create show]
 
   get "timesheet", to: "timesheets#new", as: :user_root

@@ -65,5 +65,10 @@ describe "An existing user logs in to sheetstr and creates a timesheet", type: :
 
       expect(dollar_value.text).to eq("$ 1575.00")
     end
+
+    And "There is a button to take them back to their Timesheets" do
+      view_timesheets_button = page.find_link("View my timesheets")
+      expect(view_timesheets_button["href"]).to end_with("/timesheets")
+    end
   end
 end

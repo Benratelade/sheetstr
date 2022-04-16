@@ -1,7 +1,9 @@
 AllCops:
     NewCops: enable
     Exclude:
-    - db
+    - db/**/*
+    - config/**/*
+    - script/**/*
     - node_modules/**/*
     - vendor/**/*
     - tmp/**/*

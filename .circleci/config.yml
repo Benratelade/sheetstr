@@ -6,7 +6,7 @@ orbs:
 jobs:
   build:
     docker:
-      - image: cimg/ruby:3.1.0--browsers # use a tailored CircleCI docker image.
+      - image: cimg/ruby:3.1.0-browsers # use a tailored CircleCI docker image.
     steps:
       - checkout
       - ruby/install-deps
@@ -15,7 +15,7 @@ jobs:
           pkg-manager: yarn
   checking:
     docker:
-      - image: cimg/ruby:3.1.0--browsers # use a tailored CircleCI docker image.
+      - image: cimg/ruby:3.1.0-browsers # use a tailored CircleCI docker image.
     steps:
       - checkout
       - ruby/install-deps
@@ -24,7 +24,7 @@ jobs:
           label: Inspecting with Rubocop
   test:
     docker:
-      - image: cimg/ruby:3.1.0--browsers # use a tailored CircleCI docker image.
+      - image: cimg/ruby:3.1.0-browsers # use a tailored CircleCI docker image.
       - environment:
           POSTGRES_DB: sheetstr_test
           POSTGRES_PASSWORD: ''

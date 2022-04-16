@@ -67,11 +67,11 @@ group :test do
 
   # For more descriptive tests
   gem "rails-controller-testing"
+  gem "rspec-activemodel-mocks"
   gem "rspec-example_steps"
+  gem "rspec_junit_formatter"
 
   gem "timecop"
-
-  gem "rspec-activemodel-mocks"
 
   gem "factory_bot_rails"
 end

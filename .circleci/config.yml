@@ -10,7 +10,7 @@ jobs:
       - checkout
       - ruby/install-deps
       - node/install-packages:
-          cache-path: yarn.lock
+          cache-path: ~/project/node_modules/yarn.lock
           pkg-manager: yarn
   checking:
     docker:
@@ -41,7 +41,7 @@ jobs:
       - checkout
       - ruby/install-deps
       - node/install-packages:
-          cache-path: yarn.lock
+          cache-path: ~/project/node_modules/yarn.lock
           pkg-manager: yarn
       - run:
           command: 'dockerize -wait tcp://localhost:5432 -timeout 1m'

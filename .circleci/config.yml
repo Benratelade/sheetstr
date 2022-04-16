@@ -41,7 +41,7 @@ jobs:
       - checkout
       - ruby/install-deps
       - node/install-packages:
-          cache-key: yarn.lock
+          cache-path: yarn.lock
           pkg-manager: yarn
       - run:
           command: 'dockerize -wait tcp://localhost:5432 -timeout 1m'

@@ -90,22 +90,22 @@ RSpec.describe TimesheetsController, type: :controller do
 
     it "redirects to a #show action" do
       timesheet = double(
-        "A timesheet", 
+        "A timesheet",
         id: "the_timesheet_id",
         model_name: double(
           "model name",
           name: "Timesheet",
-          singular: "timesheet", 
+          singular: "timesheet",
           singular_route_key: "timesheet",
-        ), 
+        ),
         to_param: "the_timesheet_id",
-        persisted?: true, 
+        persisted?: true,
       )
       allow(timesheet).to receive(:to_model).and_return(timesheet)
       allow(@current_user).to receive(:timesheets).and_return([timesheet])
       expect(Timesheet).to receive(:new).and_return(timesheet)
       expect(timesheet).to receive(:save!).and_return(true)
-      
+
       post :create, params: { timesheet: { start_date: Date.parse("24 Jan 2022") } }
 
       expect(response).to redirect_to("/timesheets/the_timesheet_id")

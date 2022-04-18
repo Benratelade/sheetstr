@@ -56,6 +56,22 @@ RSpec.describe TimesheetsController, type: :controller do
   end
 
   describe "#create" do
+    before do
+      @current_user = User.create!(email: "bob@sheetstr.com", password: "password")
+      allow(controller).to receive(:current_user).and_return(@current_user)
+    end
+
+    it "adds the new timesheet to the current user's timesheets" do
+      post :create, params: { timesheet: { start_date: Date.parse("24 Jan 2022") } }
+      expect(@current_user.timesheets.count).to eq(1)
+    end
+
+    it "saves the new timesheet record to the database" do
+      expect do
+        post :create, params: { timesheet: { start_date: Date.parse("24 Jan 2022") } }
+      end.to change { Timesheet.count }.by(1)
+    end
+
     it "assigns a @timesheet record" do
       post :create, params: { timesheet: { start_date: Date.parse("24 Jan 2022") } }
       expect(assigns(:timesheet)).to be_a(Timesheet)
@@ -73,13 +89,26 @@ RSpec.describe TimesheetsController, type: :controller do
     end
 
     it "redirects to a #show action" do
-      timesheet = mock_model(Timesheet)
+      timesheet = double(
+        "A timesheet", 
+        id: "the_timesheet_id",
+        model_name: double(
+          "model name",
+          name: "Timesheet",
+          singular: "timesheet", 
+          singular_route_key: "timesheet",
+        ), 
+        to_param: "the_timesheet_id",
+        persisted?: true, 
+      )
+      allow(timesheet).to receive(:to_model).and_return(timesheet)
+      allow(@current_user).to receive(:timesheets).and_return([timesheet])
       expect(Timesheet).to receive(:new).and_return(timesheet)
-      expect(timesheet).to receive(:save!).and_return(timesheet)
-
+      expect(timesheet).to receive(:save!).and_return(true)
+      
       post :create, params: { timesheet: { start_date: Date.parse("24 Jan 2022") } }
 
-      expect(response).to redirect_to(timesheet_url(timesheet))
+      expect(response).to redirect_to("/timesheets/the_timesheet_id")
     end
 
     it "saves the associated timesheet line items if there are any" do
@@ -134,6 +163,17 @@ RSpec.describe TimesheetsController, type: :controller do
       expect(assigns(:timesheet).start_date).to eq(Date.parse("Jan 31 2022"))
       expect(assigns(:timesheet).end_date).to eq(Date.parse("Feb 06 2022"))
       expect(assigns(:timesheet).line_items.length).to eq(5)
+    end
+  end
+
+  describe "#index" do
+    it "assigns all of the current user's timesheets to @timesheets" do
+      timesheet_1 = double("Timesheet 1")
+      timesheet_2 = double("Timesheet 2")
+      current_user = double("user", timesheets: [timesheet_1, timesheet_2])
+      allow(controller).to receive(:current_user).and_return(current_user)
+      get :index
+      expect(assigns(:timesheets)).to eq([timesheet_1, timesheet_2])
     end
   end
 end

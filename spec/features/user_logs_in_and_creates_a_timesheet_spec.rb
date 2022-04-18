@@ -7,7 +7,7 @@ describe "An existing user logs in to sheetstr and creates a timesheet", type: :
     Timecop.freeze(Date.parse("Jan 30 2022"))
   end
 
-  scenario "An existing user comes to Sheetstr, logs in and sees a list of timesheets" do
+  scenario "An existing user comes to Sheetstr, logs in and sees a form to create a Timesheet" do
     Given "Ben already has an account at Sheetstr" do
       @ben = create(:user, email: "ratelade.benjamin@gmail.com", password: "password")
     end
@@ -66,9 +66,12 @@ describe "An existing user logs in to sheetstr and creates a timesheet", type: :
       expect(dollar_value.text).to eq("$ 1575.00")
     end
 
-    And "There is a button to take them back to their Timesheets" do
-      view_timesheets_button = page.find_link("View my timesheets")
-      expect(view_timesheets_button["href"]).to end_with("/timesheets")
+    When "They click on the button to go back to their Timesheets" do
+      page.click_link("View my timesheets")
+    end
+
+    Then "They are taken to a list of all their Timesheets" do
+      expect(page.current_url).to end_with("/timesheets")
     end
   end
 end

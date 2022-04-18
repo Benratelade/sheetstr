@@ -1,6 +1,10 @@
 # frozen_string_literal: true
 
 class TimesheetsController < ActionController::Base
+  def index
+    @timesheets = current_user.timesheets
+  end
+
   def new
     @timesheet = Timesheet.new(
       start_date: Time.zone.today.beginning_of_week,
@@ -14,6 +18,7 @@ class TimesheetsController < ActionController::Base
 
   def create
     @timesheet = Timesheet.new(timesheet_params)
+    current_user.timesheets << @timesheet
     redirect_to @timesheet if @timesheet.save!
   end
 

@@ -73,5 +73,29 @@ describe "An existing user logs in to sheetstr and creates a timesheet", type: :
     Then "They are taken to a list of all their Timesheets" do
       expect(page.current_url).to end_with("/timesheets")
     end
+
+    And "a list of all their timesheets is shown" do
+      expect(page_header).to eq("Timesheets for ratelade.benjamin@gmail.com")
+      timesheets_table = page.find("#timesheets-table")
+      table_headers = timesheets_table.find_all("thead th").map(&:text)
+
+      expect(table_headers).to eq(
+        [
+          "Start Date",
+          "End Date",
+          "Total Decimal Hours",
+          "Total Revenue"
+        ],
+      )
+      rows_data = timesheets_table.find_all("tbody tr td").map(&:text)
+      expect(rows_data).to eq(
+        [
+          "Monday, 24 Jan 2022",
+          "Sunday, 30 Jan 2022",
+          "63.0 hours",
+          "$1575.0"
+        ],
+      )
+    end
   end
 end

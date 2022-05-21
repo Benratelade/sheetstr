@@ -1,0 +1,21 @@
+<h2 id="page-header">Timesheets for <%= current_user.email %></h2>
+<table id="timesheets-table">
+  <thead>
+    <tr>
+      <th>Start Date</th>
+      <th>End Date</th>
+      <th>Total Decimal Hours</th>
+      <th>Total Revenue</th>
+    </tr>
+  </thead>
+  <tbody>
+  <% @timesheets.each do |timesheet| %>
+    <tr>
+      <td><%= Utils::DateTimeFormatter.format_date(timesheet.start_date) %></td>
+      <td><%= Utils::DateTimeFormatter.format_date(timesheet.end_date) %></td>
+      <td><%= timesheet.total_decimal_hours %> hours</td>
+      <td>$<%= timesheet.total_revenue %></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>

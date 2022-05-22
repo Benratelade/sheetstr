@@ -222,6 +222,10 @@ GEM
     reverse_markdown (2.1.1)
       nokogiri
     rexml (3.2.5)
+    rspec (3.11.0)
+      rspec-core (~> 3.11.0)
+      rspec-expectations (~> 3.11.0)
+      rspec-mocks (~> 3.11.0)
     rspec-activemodel-mocks (1.1.0)
       activemodel (>= 3.0)
       activesupport (>= 3.0)
@@ -245,6 +249,8 @@ GEM
       rspec-mocks (~> 3.10)
       rspec-support (~> 3.10)
     rspec-support (3.11.0)
+    rspec-wait (0.0.9)
+      rspec (>= 3, < 4)
     rspec_junit_formatter (0.5.1)
       rspec-core (>= 2, < 4, != 2.12.0)
     rubocop (1.27.0)
@@ -367,6 +373,7 @@ DEPENDENCIES
   rspec-activemodel-mocks
   rspec-example_steps
   rspec-rails (~> 5.0.0)
+  rspec-wait
   rspec_junit_formatter
   rubocop
   rubocop-rails

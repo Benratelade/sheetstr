@@ -55,8 +55,8 @@ group :development do
   gem "rubocop", require: false
   gem "rubocop-rails", require: false
   gem "rubocop-rake", require: false
-  gem "spring"
   gem "solargraph", require: false
+  gem "spring"
 end
 
 group :test do
@@ -75,6 +75,8 @@ group :test do
   gem "timecop"
 
   gem "factory_bot_rails"
+
+  gem "rspec-wait"
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

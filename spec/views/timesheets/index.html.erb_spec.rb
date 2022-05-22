@@ -23,11 +23,11 @@ describe "timesheets/index", type: :view do
     headers = Capybara.string(rendered).find_all("table thead th").map(&:text)
     expect(headers).to eq(
       [
-        "Start Date", 
-        "End Date", 
-        "Total Decimal Hours", 
-        "Total Revenue",
-      ]
+        "Start Date",
+        "End Date",
+        "Total Decimal Hours",
+        "Total Revenue"
+      ],
     )
   end
 
@@ -55,11 +55,11 @@ describe "timesheets/index", type: :view do
     end
     expect(timesheets_data).to eq(
       [
-        "Formatted start date", 
+        "Formatted start date",
         "Formatted end date",
-        "30.3 hours", 
-        "$727.2",
-      ]
-      )
+        "30.3 hours",
+        "$727.2"
+      ],
+    )
   end
 end

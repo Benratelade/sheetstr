@@ -71,11 +71,12 @@ describe "An existing user logs in to sheetstr and creates a timesheet", type: :
     end
 
     Then "They are taken to a list of all their Timesheets" do
-      expect(page.current_url).to end_with("/timesheets")
+      wait_for { page.current_url }.to end_with("/timesheets")
     end
 
     And "a list of all their timesheets is shown" do
-      expect(page_header).to eq("Timesheets for ratelade.benjamin@gmail.com")
+      binding.pry
+      wait_for { focus_on(Support::PageFragments::Headers).page_header }.to eq("Timesheets for ratelade.benjamin@gmail.com")
       timesheets_table = page.find("#timesheets-table")
       table_headers = timesheets_table.find_all("thead th").map(&:text)
 

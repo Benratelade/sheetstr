@@ -3,7 +3,7 @@
 require "rails_helper"
 
 RSpec.describe Utils::DateTimeFormatter do
-  describe "#format_date" do 
+  describe "#format_date" do
     it "returns an empty string when given an empty date" do
       expect(Utils::DateTimeFormatter.format_date(nil)).to eq("")
     end

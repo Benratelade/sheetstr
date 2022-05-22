@@ -14,7 +14,7 @@ describe "An existing user creates a timesheet from the index page", type: :feat
     end
 
     Then "she sees an empty list of timesheets" do
-      table = focus_on(Support::PageFragments::Table).table("#timesheets-table")
+      focus_on(Support::PageFragments::Table).table("#timesheets-table")
     end
 
     When "she clicks on a link to create a new timesheet" do

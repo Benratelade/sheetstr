@@ -75,8 +75,9 @@ describe "An existing user logs in to sheetstr and creates a timesheet", type: :
     end
 
     And "a list of all their timesheets is shown" do
-      binding.pry
-      wait_for { focus_on(Support::PageFragments::Headers).page_header }.to eq("Timesheets for ratelade.benjamin@gmail.com")
+      wait_for do
+        focus_on(Support::PageFragments::Headers).page_header
+      end.to eq("Timesheets for ratelade.benjamin@gmail.com")
       timesheets_table = page.find("#timesheets-table")
       table_headers = timesheets_table.find_all("thead th").map(&:text)
 

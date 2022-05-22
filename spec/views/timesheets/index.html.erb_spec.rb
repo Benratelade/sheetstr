@@ -50,9 +50,7 @@ describe "timesheets/index", type: :view do
     page = Capybara.string(rendered)
     timesheet_rows = page.find_all("tbody tr")
     expect(timesheet_rows.count).to eq(1)
-    timesheets_data = timesheet_rows.first.find_all("td").map do |td|
-      td.text
-    end
+    timesheets_data = timesheet_rows.first.find_all("td").map(&:text)
     expect(timesheets_data).to eq(
       [
         "Formatted start date",

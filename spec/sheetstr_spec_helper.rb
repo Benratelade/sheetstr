@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "rspec/example_steps"
+
 Dir[Rails.root.join("spec", "support", "**", "*.rb")].each { |f| require f }
 
 RSpec.configure do |config|

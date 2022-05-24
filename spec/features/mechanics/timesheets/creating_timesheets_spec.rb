@@ -14,19 +14,54 @@ describe "An existing user creates a timesheet from the index page", type: :feat
     end
 
     Then "she sees an empty list of timesheets" do
-      focus_on(Support::PageFragments::Table).table("#timesheets-table")
+      table = focus_on(Support::PageFragments::Table).table("table#timesheets-table")
+      wait_for { table.data }.to eq([])
     end
 
     When "she clicks on a link to create a new timesheet" do
-      pending
+      click_on("Create timesheet")
     end
 
     Then "she sees a form for a new timesheet" do
-      pending
+      wait_for { focus_on(Support::PageFragments::Form).form("form").labels }.to eq(
+        [
+          "Start date",
+          "End date",
+          "Description",
+          "Start time",
+          "End time",
+          "Hourly rate",
+          "Description",
+          "Start time",
+          "End time",
+          "Hourly rate",
+          "Description",
+          "Start time",
+          "End time",
+          "Hourly rate",
+          "Description",
+          "Start time",
+          "End time",
+          "Hourly rate",
+          "Description",
+          "Start time",
+          "End time",
+          "Hourly rate",
+          "Description",
+          "Start time",
+          "End time",
+          "Hourly rate",
+          "Description",
+          "Start time",
+          "End time",
+          "Hourly rate"
+        ],
+      )
     end
 
     And "the start and end dates are prefilled for this calendar week" do
-      pending
+      wait_for { focus_on(Support::PageFragments::Form).form("form").value_for("Start date") }.to eq("2022-01-24")
+      wait_for { focus_on(Support::PageFragments::Form).form("form").value_for("End date") }.to eq("2022-01-30")
     end
 
     When "she fills out the form and submits it" do

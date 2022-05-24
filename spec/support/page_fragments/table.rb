@@ -3,8 +3,8 @@
 module Support
   module PageFragments
     module Table
-      def table(_selector)
-        page.find("table#timesheets-table")
+      def table(selector)
+        Support::Components::Table.new(page.find(selector))
       end
     end
   end

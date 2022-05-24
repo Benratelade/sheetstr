@@ -60,4 +60,12 @@ describe "timesheets/index", type: :view do
       ],
     )
   end
+
+  it "renders a link to create new timesheets" do
+    render
+
+    page = Capybara.string(rendered)
+    create_link = page.find_link("Create timesheet")
+    expect(create_link["href"]).to eq("http://test.host/timesheets/new")
+  end
 end

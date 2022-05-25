@@ -65,19 +65,33 @@ describe "An existing user creates a timesheet from the index page", type: :feat
     end
 
     When "she fills out the form and submits it" do
-      pending
+      days_sections = page.find_all("[data-testid^=day-section-]")
+      days_sections.each do |day_section|
+        day_section.fill_in("Start time", with: "08:00am")
+        day_section.fill_in("End time", with: "17:00")
+        day_section.fill_in("Hourly rate", with: "25")
+      end
+      click_button("Submit")
     end
 
     Then "a summary of the new timesheet is displayed" do
-      pending
+      page_title = find("h2")
+      expect(page_title.text).to eq("Timesheet for Monday, January 24 2022 to Sunday, January 30 2022")
     end
 
     When "she goes to the list of her timesheets" do
-      pending
+      click_on("View my timesheets")
     end
 
     Then "the new timesheet is displayed" do
-      pending
+      wait_for { focus_on(Support::PageFragments::Table).table("table#timesheets-table").data }.to eq(
+        [
+          "Start Date" => "Monday, 24 Jan 2022",
+          "End Date" => "Sunday, 30 Jan 2022",
+          "Total Decimal Hours" => "63.0 hours",
+          "Total Revenue" => "$1575.0"
+        ],
+      )
     end
   end
 end

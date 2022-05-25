@@ -12,9 +12,15 @@ module Support
       end
 
       def data
-        @node.find_all("tbody tr").map do |tr|
-          tr.find_al("td").map(&:text)
+        data = []
+        @node.find_all("tbody tr").each do |tr|
+          row_data = {}
+          tr.find_all("td").each_with_index do |td, index|
+            row_data[headers[index]] = td.text
+          end
+          data << row_data
         end
+        data
       end
     end
   end

@@ -22,6 +22,12 @@ module Support
         end
         data
       end
+
+      def rows
+        @node.find_all("tbody tr").map do |tr|
+          Row.new(tr)
+        end
+      end
     end
   end
 end

@@ -3,7 +3,8 @@
 module Support
   module PageFragments
     module Table
-      def table(selector)
+      def table(selector: nil)
+        selector ||= "table"
         Support::Components::Table.new(page.find(selector))
       end
     end

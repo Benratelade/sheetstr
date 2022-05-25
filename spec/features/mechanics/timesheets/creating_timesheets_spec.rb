@@ -7,6 +7,7 @@ describe "An existing user creates a timesheet from the index page", type: :feat
     @otolose = create(:user)
     Timecop.freeze(Date.parse("Jan 30 2022"))
   end
+  
   scenario "Otolose creates a timesheet and sees it in her list of timesheets" do
     When "Otolose is logged in and visits the list of her timesheets" do
       login_as(@otolose)

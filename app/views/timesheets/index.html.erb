@@ -6,6 +6,7 @@
       <th>End Date</th>
       <th>Total Decimal Hours</th>
       <th>Total Revenue</th>
+      <th>Actions</th>
     </tr>
   </thead>
   <tbody>
@@ -15,6 +16,7 @@
       <td><%= Utils::DateTimeFormatter.format_date(timesheet.end_date) %></td>
       <td><%= timesheet.total_decimal_hours %> hours</td>
       <td>$<%= timesheet.total_revenue %></td>
+      <td><%= link_to("View", timesheet_url(timesheet.id)) %> Edit</td>
     </tr>
   <% end %>
   </tbody>

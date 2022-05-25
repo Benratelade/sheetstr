@@ -26,37 +26,8 @@ describe "timesheets/index", type: :view do
         "Start Date",
         "End Date",
         "Total Decimal Hours",
-        "Total Revenue"
-      ],
-    )
-  end
-
-  it "renders a row for each timesheet" do
-    start_date = double("A start date")
-    end_date = double("An end date")
-    expect(Utils::DateTimeFormatter).to receive(:format_date).with(start_date).and_return("Formatted start date")
-    expect(Utils::DateTimeFormatter).to receive(:format_date).with(end_date).and_return("Formatted end date")
-    @timesheets = [
-      double(
-        "a timesheet",
-        start_date: start_date,
-        end_date: end_date,
-        total_decimal_hours: 30.3,
-        total_revenue: 727.2,
-      )
-    ]
-    render
-
-    page = Capybara.string(rendered)
-    timesheet_rows = page.find_all("tbody tr")
-    expect(timesheet_rows.count).to eq(1)
-    timesheets_data = timesheet_rows.first.find_all("td").map(&:text)
-    expect(timesheets_data).to eq(
-      [
-        "Formatted start date",
-        "Formatted end date",
-        "30.3 hours",
-        "$727.2"
+        "Total Revenue",
+        "Actions"
       ],
     )
   end
@@ -67,5 +38,64 @@ describe "timesheets/index", type: :view do
     page = Capybara.string(rendered)
     create_link = page.find_link("Create timesheet")
     expect(create_link["href"]).to eq("http://test.host/timesheets/new")
+  end
+
+  context "when there ARE timesheets" do
+    before do
+      @start_date = double("A start date")
+      @end_date = double("An end date")
+      allow(Utils::DateTimeFormatter).to receive(:format_date).and_return("Formatted start date")
+      allow(Utils::DateTimeFormatter).to receive(:format_date).and_return("Formatted end date")
+      @timesheets = [
+        double(
+          "a timesheet",
+          id: "timesheet-id",
+          start_date: @start_date,
+          end_date: @end_date,
+          total_decimal_hours: 30.3,
+          total_revenue: 727.2,
+        )
+      ]
+    end
+
+    it "renders a row for each timesheet" do
+      
+      allow(Utils::DateTimeFormatter).to receive(:format_date).with(@start_date).and_return("Formatted start date")
+      allow(Utils::DateTimeFormatter).to receive(:format_date).with(@end_date).and_return("Formatted end date")
+
+      render
+
+      page = Capybara.string(rendered)
+      timesheet_rows = page.find_all("tbody tr")
+      expect(timesheet_rows.count).to eq(1)
+      timesheets_data = timesheet_rows.first.find_all("td").map(&:text)
+      expect(timesheets_data).to eq(
+        [
+          "Formatted start date",
+          "Formatted end date",
+          "30.3 hours",
+          "$727.2",
+          "View Edit"
+        ],
+      )
+    end
+
+    it "renders a link to VIEW a timesheet in the last column" do
+      render
+
+      page = Capybara.string(rendered)
+      show_link = page.find_all("tbody tr").first.find("td:last-child").find_link("View")
+      expect(show_link["href"]).to eq("http://test.host/timesheets/timesheet-id")
+    end
+
+    it "renders a link to EDIT a timesheet in the last column" do
+      pending
+
+      render
+
+      page = Capybara.string(rendered)
+      edit_link = page.find_all("tbody tr").first.find("td:last-child").find_link("Edit")
+      expect(show_link["href"]).to eq("http://test.host/timesheets/timesheet-id/edit")
+    end
   end
 end

@@ -27,7 +27,7 @@ describe "timesheets/index", type: :view do
         "End Date",
         "Total Decimal Hours",
         "Total Revenue",
-        "Actions"
+        "Actions",
       ],
     )
   end
@@ -54,12 +54,11 @@ describe "timesheets/index", type: :view do
           end_date: @end_date,
           total_decimal_hours: 30.3,
           total_revenue: 727.2,
-        )
+        ),
       ]
     end
 
     it "renders a row for each timesheet" do
-      
       allow(Utils::DateTimeFormatter).to receive(:format_date).with(@start_date).and_return("Formatted start date")
       allow(Utils::DateTimeFormatter).to receive(:format_date).with(@end_date).and_return("Formatted end date")
 
@@ -75,7 +74,7 @@ describe "timesheets/index", type: :view do
           "Formatted end date",
           "30.3 hours",
           "$727.2",
-          "View Edit"
+          "View Edit",
         ],
       )
     end
@@ -95,7 +94,7 @@ describe "timesheets/index", type: :view do
 
       page = Capybara.string(rendered)
       edit_link = page.find_all("tbody tr").first.find("td:last-child").find_link("Edit")
-      expect(show_link["href"]).to eq("http://test.host/timesheets/timesheet-id/edit")
+      expect(edit_link["href"]).to eq("http://test.host/timesheets/timesheet-id/edit")
     end
   end
 end

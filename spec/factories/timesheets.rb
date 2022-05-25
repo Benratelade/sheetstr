@@ -2,6 +2,6 @@
 
 FactoryBot.define do
   factory :timesheet do
-    user { create(:user) } 
+    user { create(:user) }
   end
 end

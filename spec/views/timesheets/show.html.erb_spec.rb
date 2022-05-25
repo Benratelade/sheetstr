@@ -45,7 +45,7 @@ describe "timesheets/show", type: :view do
         "line item 3",
         start_time: Time.zone.parse("Feb 02 2022 08:00am"),
         end_time: Time.zone.parse("Feb 02 2022 17:00"),
-      )
+      ),
     ]
 
     allow(@timesheet).to receive(:line_items).and_return(line_items)
@@ -74,7 +74,7 @@ describe "timesheets/show", type: :view do
         "line item 3",
         start_time: Time.zone.parse("Feb 02 2022 08:00am"),
         end_time: Time.zone.parse("Feb 02 2022 17:30"),
-      )
+      ),
     ]
 
     allow(@timesheet).to receive(:line_items).and_return(line_items)
@@ -108,7 +108,7 @@ describe "timesheets/show", type: :view do
         "line item 3",
         start_time: Time.zone.parse("Feb 02 2022 08:00am"),
         end_time: Time.zone.parse("Feb 02 2022 17:30"),
-      )
+      ),
     ]
 
     allow(@timesheet).to receive(:line_items).and_return(line_items)
@@ -133,7 +133,7 @@ describe "timesheets/show", type: :view do
         "line item 1",
         start_time: Time.zone.parse("Jan 31 2022 08:00am"),
         end_time: Time.zone.parse("Jan 31 2022 17:47"),
-      )
+      ),
     ]
 
     allow(@timesheet).to receive(:line_items).and_return(line_items)

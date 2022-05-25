@@ -13,7 +13,7 @@ describe "Someone visits the homepage, and sees the options to log in or sign up
       expect(actions).to eq(
         [
           "Log in",
-          "Sign up"
+          "Sign up",
         ],
       )
     end

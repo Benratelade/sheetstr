@@ -7,7 +7,7 @@ describe "An existing user creates a timesheet from the index page", type: :feat
     @otolose = create(:user)
     Timecop.freeze(Date.parse("Jan 30 2022"))
   end
-  
+
   scenario "Otolose creates a timesheet and sees it in her list of timesheets" do
     When "Otolose is logged in and visits the list of her timesheets" do
       login_as(@otolose)
@@ -55,7 +55,7 @@ describe "An existing user creates a timesheet from the index page", type: :feat
           "Description",
           "Start time",
           "End time",
-          "Hourly rate"
+          "Hourly rate",
         ],
       )
     end
@@ -90,7 +90,7 @@ describe "An existing user creates a timesheet from the index page", type: :feat
           "Start Date" => "Monday, 24 Jan 2022",
           "End Date" => "Sunday, 30 Jan 2022",
           "Total Decimal Hours" => "63.0 hours",
-          "Total Revenue" => "$1575.0"
+          "Total Revenue" => "$1575.0",
         ],
       )
     end

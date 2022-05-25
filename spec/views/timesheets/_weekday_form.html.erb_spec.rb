@@ -27,7 +27,7 @@ describe "timesheets/_weekday_form", type: :view do
   it "renders the form fields for a Timesheet Line Item" do
     line_items = [
       double("a line item", start_time: double("a start time", wday: 1)),
-      double("another line item", start_time: double("a start time", wday: 1))
+      double("another line item", start_time: double("a start time", wday: 1)),
     ]
     form = double("a form builder")
     fields_for_builder = double("a fields_for form builder")

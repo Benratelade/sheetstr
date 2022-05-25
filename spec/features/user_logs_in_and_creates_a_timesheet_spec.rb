@@ -86,7 +86,7 @@ describe "An existing user logs in to sheetstr and creates a timesheet", type: :
           "Start Date",
           "End Date",
           "Total Decimal Hours",
-          "Total Revenue"
+          "Total Revenue",
         ],
       )
       rows_data = timesheets_table.find_all("tbody tr td").map(&:text)
@@ -95,7 +95,7 @@ describe "An existing user logs in to sheetstr and creates a timesheet", type: :
           "Monday, 24 Jan 2022",
           "Sunday, 30 Jan 2022",
           "63.0 hours",
-          "$1575.0"
+          "$1575.0",
         ],
       )
     end

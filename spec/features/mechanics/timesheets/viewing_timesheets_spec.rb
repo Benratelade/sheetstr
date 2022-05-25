@@ -6,13 +6,13 @@ describe "An existing user views a timesheet from the index page", type: :featur
   before do
     @otolose = create(:user)
     create(
-      :timesheet, 
-      user: @otolose, 
-      start_date: Date.parse("Jan 24 2022"), 
-      end_date: Date.parse("Jan 30 2022"), 
+      :timesheet,
+      user: @otolose,
+      start_date: Date.parse("Jan 24 2022"),
+      end_date: Date.parse("Jan 30 2022"),
     )
   end
-  
+
   scenario "Otolose looks at an existing timesheet" do
     When "Otolose is logged in and visits the list of her timesheets" do
       login_as(@otolose)

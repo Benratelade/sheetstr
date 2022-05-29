@@ -102,4 +102,51 @@ RSpec.describe Timesheet, type: :model do
       expect(timesheet.total_revenue).to be_a(BigDecimal)
     end
   end
+
+  describe "validations" do
+    before do
+      @user = create(:user)
+    end
+
+    it "must have a start date and an end date" do
+      timesheet = Timesheet.new(user: @user)
+      
+      expect(timesheet).to be_invalid
+      expect(timesheet.errors.full_messages).to eq(
+        [
+          "Start date is required", 
+          "End date is required", 
+        ]
+      )
+    end
+
+    it "must have a start date on a monday" do
+      timesheet = Timesheet.new(
+        user: @user, 
+        start_date: Date.parse("Jan 18 2022"), 
+        end_date: Date.parse("Jan 24 2022"),
+      )
+      
+      expect(timesheet).to be_invalid
+      expect(timesheet.errors.full_messages).to eq(
+        [
+          "Timesheets must start on a Monday", 
+        ]
+      )
+    end
+
+    it "must have an end date exactly 6 days after the start date" do
+      timesheet = Timesheet.new(
+        user: @user,
+        start_date: Date.parse("Jan 17 2022"), 
+        end_date: Date.parse("Jan 18 2022"),
+      )
+      expect(timesheet).to be_invalid
+      expect(timesheet.errors.full_messages).to eq(
+        [
+          "Timesheets must be 7 days long", 
+        ]
+      )
+    end
+  end
 end

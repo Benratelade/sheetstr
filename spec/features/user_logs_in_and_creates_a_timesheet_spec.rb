@@ -48,7 +48,7 @@ describe "An existing user logs in to sheetstr and creates a timesheet", type: :
       click_button("Submit")
     end
 
-    Then "They see a summary of each day's work" do
+    Then "They see a summary of the week's work" do
       page_title = find("h2")
       expect(page_title.text).to eq("Timesheet for Monday, January 24 2022 to Sunday, January 30 2022")
 

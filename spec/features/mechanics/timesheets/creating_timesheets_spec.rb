@@ -14,16 +14,15 @@ describe "An existing user creates a timesheet from the index page", type: :feat
       visit(timesheets_path)
     end
 
-    Then "she sees an empty list of timesheets" do
-      table = focus_on(Support::PageFragments::Table).table("table#timesheets-table")
-      wait_for { table.data }.to eq([])
+    Then "an empty list of timesheets is displayed" do
+      wait_for { focus_on(Support::PageFragments::Table).table.data }.to eq([])
     end
 
     When "she clicks on a link to create a new timesheet" do
       click_on("Create timesheet")
     end
 
-    Then "she sees a form for a new timesheet" do
+    Then "a form for a new timesheet is displayed" do
       wait_for { focus_on(Support::PageFragments::Form).form("form").labels }.to eq(
         [
           "Start date",
@@ -61,8 +60,26 @@ describe "An existing user creates a timesheet from the index page", type: :feat
     end
 
     And "the start and end dates are prefilled for this calendar week" do
-      wait_for { focus_on(Support::PageFragments::Form).form("form").value_for("Start date") }.to eq("2022-01-24")
-      wait_for { focus_on(Support::PageFragments::Form).form("form").value_for("End date") }.to eq("2022-01-30")
+      wait_for { focus_on(Support::PageFragments::Form).form.value_for("Start date") }.to eq("2022-01-24")
+      wait_for { focus_on(Support::PageFragments::Form).form.value_for("End date") }.to eq("2022-01-30")
+    end
+
+    When "she edits the start date to a date that is not a Monday" do
+      fill_in("Start date", with: "23-01-2022")
+    end
+
+    And "she edits the end date to anything other than 6 days from the start date and submits" do
+      fill_in("Start date", with: "25-01-2022")
+      focus_on(Support::PageFragments::Form).form.submit
+    end
+
+    Then "a validation error is displayed for both errors" do
+      wait_for { focus_on(Support::PageFragments::Flash).error_messages }.to eq(
+        [
+          "Timesheets must start on a Monday",
+          "Timesheets must be 7 days long",
+        ],
+      )
     end
 
     When "she fills out the form and submits it" do
@@ -85,13 +102,13 @@ describe "An existing user creates a timesheet from the index page", type: :feat
     end
 
     Then "the new timesheet is displayed" do
-      wait_for { focus_on(Support::PageFragments::Table).table("table#timesheets-table").data }.to eq(
+      wait_for { focus_on(Support::PageFragments::Table).table.data }.to eq(
         [
           "Start Date" => "Monday, 24 Jan 2022",
           "End Date" => "Sunday, 30 Jan 2022",
           "Total Decimal Hours" => "63.0 hours",
           "Total Revenue" => "$1575.0",
-          "Actions" => "View Edit", 
+          "Actions" => "View Edit",
         ],
       )
     end

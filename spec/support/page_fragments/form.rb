@@ -3,7 +3,8 @@
 module Support
   module PageFragments
     module Form
-      def form(selector)
+      def form(selector = nil)
+        selector ||= "form"
         Support::Components::Form.new(page.find(selector))
       end
     end

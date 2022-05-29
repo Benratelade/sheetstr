@@ -1,5 +1,5 @@
 # frozen_string_literal: true
 
-class PagesController < ActionController::Base
+class PagesController < ApplicationController
   def home; end
 end

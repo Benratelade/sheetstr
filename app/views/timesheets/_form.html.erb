@@ -1,9 +1,9 @@
 <%= form_for(timesheet) do |form| %>
   <%= form.label :start_date %>
-  <%= form.date_field :start_date, readonly: true %>
+  <%= form.date_field :start_date %>
 
   <%= form.label :end_date %>
-  <%= form.date_field :end_date, readonly: true %>
+  <%= form.date_field :end_date %>
   <% (timesheet.start_date..timesheet.end_date).each do |date| %>
     <%= render partial: "weekday_form", locals: { form: form, date: date } %>
   <% end %>

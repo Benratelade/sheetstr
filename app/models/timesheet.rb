@@ -6,6 +6,9 @@ class Timesheet < ApplicationRecord
   accepts_nested_attributes_for :line_items, reject_if: proc { |attributes|
     attributes["start_time"].blank? || attributes["end_time"].blank?
   }
+  validates :start_date, presence: { message: "is required" }
+  validates :end_date, presence: { message: "is required" }
+  validate :must_start_on_a_monday, :must_be_7_days_long
 
   def total_decimal_hours
     (line_items || []).sum(&:total_decimal_hours)
@@ -32,5 +35,19 @@ class Timesheet < ApplicationRecord
 
   def total_revenue
     (line_items || []).sum(&:subtotal)
+  end
+
+  private
+
+  def must_start_on_a_monday
+    if start_date
+      errors.add(:base, "Timesheets must start on a Monday") unless start_date.monday?
+    end
+  end
+  
+  def must_be_7_days_long
+    if start_date && end_date
+      errors.add(:base, "Timesheets must be 7 days long") unless (end_date - start_date == 6)
+    end
   end
 end

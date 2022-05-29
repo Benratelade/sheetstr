@@ -25,6 +25,10 @@ module Support
 
         values
       end
+
+      def submit
+        @node.click_button("Submit")
+      end
     end
   end
 end

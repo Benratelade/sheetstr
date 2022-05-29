@@ -59,17 +59,44 @@ RSpec.describe TimesheetsController, type: :controller do
     before do
       @current_user = User.create!(email: "bob@sheetstr.com", password: "password")
       allow(controller).to receive(:current_user).and_return(@current_user)
+      @timesheet = double(
+        "A timesheet",
+        to_model: double(
+          "to_model",
+          model_name: double(
+            "model_name",
+            name: Timesheet,
+            singular_route_key: "timesheet",
+          ),
+          persisted?: true,
+        ),
+      )
+      allow(@timesheet).to receive(:save).and_return(true)
     end
 
     it "adds the new timesheet to the current user's timesheets" do
-      post :create, params: { timesheet: { start_date: Date.parse("24 Jan 2022") } }
-      expect(@current_user.timesheets.count).to eq(1)
+      timesheet_params = {
+        timesheet: {
+          start_date: double("start date"),
+          end_date: double("end date"),
+        },
+      }
+      allow(controller).to receive(:timesheet_params).and_return(timesheet_params)
+      expect(timesheet_params).to receive(:merge).with(user: @current_user)
+
+      post :create, params: timesheet_params
     end
 
     it "saves the new timesheet record to the database" do
-      expect do
-        post :create, params: { timesheet: { start_date: Date.parse("24 Jan 2022") } }
-      end.to change { Timesheet.count }.by(1)
+      expect(Timesheet).to receive(:new).and_return(@timesheet)
+      expect(@timesheet).to receive(:save)
+
+      post :create, params: {
+        timesheet: {
+          start_date: double("Start date"),
+          end_date: double("End date"),
+        },
+      }
     end
 
     it "assigns a @timesheet record" do
@@ -104,9 +131,14 @@ RSpec.describe TimesheetsController, type: :controller do
       allow(timesheet).to receive(:to_model).and_return(timesheet)
       allow(@current_user).to receive(:timesheets).and_return([timesheet])
       expect(Timesheet).to receive(:new).and_return(timesheet)
-      expect(timesheet).to receive(:save!).and_return(true)
+      expect(timesheet).to receive(:save).and_return(true)
 
-      post :create, params: { timesheet: { start_date: Date.parse("24 Jan 2022") } }
+      post :create, params: {
+        timesheet: {
+          start_date: Date.parse("24 Jan 2022"),
+          end_date: Date.parse("31 Jan 2022"),
+        },
+      }
 
       expect(response).to redirect_to("/timesheets/the_timesheet_id")
     end
@@ -163,6 +195,42 @@ RSpec.describe TimesheetsController, type: :controller do
       expect(assigns(:timesheet).start_date).to eq(Date.parse("Jan 31 2022"))
       expect(assigns(:timesheet).end_date).to eq(Date.parse("Feb 06 2022"))
       expect(assigns(:timesheet).line_items.length).to eq(5)
+    end
+
+    context "when the timesheet is invalid" do
+      before do
+        @timesheet = double(
+          "A timesheet",
+          persisted?: false,
+          errors: double("errors", full_messages: ["Some error messages"]),
+        )
+        allow(Timesheet).to receive(:new).and_return(@timesheet)
+        allow(@timesheet).to receive(:save).and_return(false)
+      end
+
+      it "adds error message to the flash" do
+        post :create, params: {
+          timesheet: {
+            start_date: Date.parse("23 Jan 2022"),
+            end_date: Date.parse("31 Jan 2022"),
+          },
+        }
+
+        expect(
+          flash[:danger],
+        ).to eq("Some error messages")
+      end
+
+      it "renders the new view" do
+        post :create, params: {
+          timesheet: {
+            start_date: Date.parse("23 Jan 2022"),
+            end_date: Date.parse("31 Jan 2022"),
+          },
+        }
+
+        expect(response).to render_template(:new)
+      end
     end
   end
 

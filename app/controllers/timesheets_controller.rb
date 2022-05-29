@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class TimesheetsController < ActionController::Base
+class TimesheetsController < ApplicationController
   def index
     @timesheets = current_user.timesheets
   end
@@ -17,9 +17,13 @@ class TimesheetsController < ActionController::Base
   end
 
   def create
-    @timesheet = Timesheet.new(timesheet_params)
-    current_user.timesheets << @timesheet
-    redirect_to @timesheet if @timesheet.save!
+    @timesheet = Timesheet.new(timesheet_params.merge(user: current_user))
+    if @timesheet.save
+      redirect_to @timesheet 
+    else
+      flash.now[:danger] = @timesheet.errors.full_messages.join(". ")
+      render :new
+    end
   end
 
   def show

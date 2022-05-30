@@ -27,7 +27,7 @@ module Support
       end
 
       def submit
-        @node.click_button("Submit")
+        @node.click_button("commit")
       end
     end
   end

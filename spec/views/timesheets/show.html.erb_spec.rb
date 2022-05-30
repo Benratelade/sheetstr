@@ -9,6 +9,7 @@ describe "timesheets/show", type: :view do
 
     @timesheet = double(
       "A Timesheet",
+      id: "timesheet-id",
       start_date: Date.parse("24 Jan 2022"),
       end_date: Date.parse("30 Jan 2022"),
       total_decimal_hours: "",
@@ -20,7 +21,7 @@ describe "timesheets/show", type: :view do
   it "Displays the email of the current user" do
     render
 
-    expect(rendered).to have_css("h2", text: "Timesheet for Monday, January 24 2022 to Sunday, January 30 2022")
+    expect(rendered).to have_css("h2#page-header", text: "Timesheet for Monday, January 24 2022 to Sunday, January 30 2022")
   end
 
   it "displays a summary section" do
@@ -165,5 +166,13 @@ describe "timesheets/show", type: :view do
     page = Capybara.string(rendered)
     view_timesheets_button = page.find_link("View my timesheets")
     expect(view_timesheets_button["href"]).to eq("/timesheets")
+  end
+
+  it "Displays a button to add more items" do
+    render
+
+    page = Capybara.string(rendered)
+    add_item_button = page.find_link("Add item")
+    expect(add_item_button["href"]).to eq("/timesheets/timesheet-id/line_items/new")
   end
 end

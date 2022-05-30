@@ -27,34 +27,6 @@ describe "An existing user creates a timesheet from the index page", type: :feat
         [
           "Start date",
           "End date",
-          "Description",
-          "Start time",
-          "End time",
-          "Hourly rate",
-          "Description",
-          "Start time",
-          "End time",
-          "Hourly rate",
-          "Description",
-          "Start time",
-          "End time",
-          "Hourly rate",
-          "Description",
-          "Start time",
-          "End time",
-          "Hourly rate",
-          "Description",
-          "Start time",
-          "End time",
-          "Hourly rate",
-          "Description",
-          "Start time",
-          "End time",
-          "Hourly rate",
-          "Description",
-          "Start time",
-          "End time",
-          "Hourly rate",
         ],
       )
     end
@@ -69,7 +41,7 @@ describe "An existing user creates a timesheet from the index page", type: :feat
     end
 
     And "she edits the end date to anything other than 6 days from the start date and submits" do
-      fill_in("Start date", with: "25-01-2022")
+      fill_in("End date", with: "25-01-2022")
       focus_on(Support::PageFragments::Form).form.submit
     end
 
@@ -82,19 +54,16 @@ describe "An existing user creates a timesheet from the index page", type: :feat
       )
     end
 
-    When "she fills out the form and submits it" do
-      days_sections = page.find_all("[data-testid^=day-section-]")
-      days_sections.each do |day_section|
-        day_section.fill_in("Start time", with: "08:00am")
-        day_section.fill_in("End time", with: "17:00")
-        day_section.fill_in("Hourly rate", with: "25")
-      end
-      click_button("Submit")
+    When "she corrects the dates to match a week starting on Monday" do
+      fill_in("Start date", with: "24-01-2022")
+      fill_in("End date", with: "30-01-2022")
+      focus_on(Support::PageFragments::Form).form.submit
     end
 
-    Then "a summary of the new timesheet is displayed" do
-      page_title = find("h2")
-      expect(page_title.text).to eq("Timesheet for Monday, January 24 2022 to Sunday, January 30 2022")
+    Then "the show page for the timesheet is shown" do
+      wait_for do
+        focus_on(Support::PageFragments::Headers).page_header
+      end.to eq("Timesheet for Monday, January 24 2022 to Sunday, January 30 2022")
     end
 
     When "she goes to the list of her timesheets" do
@@ -106,8 +75,8 @@ describe "An existing user creates a timesheet from the index page", type: :feat
         [
           "Start Date" => "Monday, 24 Jan 2022",
           "End Date" => "Sunday, 30 Jan 2022",
-          "Total Decimal Hours" => "63.0 hours",
-          "Total Revenue" => "$1575.0",
+          "Total Decimal Hours" => "0 hours",
+          "Total Revenue" => "$0",
           "Actions" => "View Edit",
         ],
       )

@@ -1,0 +1,12 @@
+<%= form_with(model: [timesheet, line_item]) do |form| %>
+  <%= form.label :weekday %>
+  <%= form.text_field :weekday %>
+  <%= form.label :description %>
+  <%= form.text_field :description %>
+  <%= form.label :start_time, "Start time" %>
+  <%= form.time_field :start_time %>
+  <%= form.label :end_time, "End time" %>
+  <%= form.time_field :end_time %>
+  <%= form.label :hourly_rate, "Hourly rate" %>
+  <%= form.number_field :hourly_rate %>
+<% end %>

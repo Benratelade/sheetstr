@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_04_18_022551) do
+ActiveRecord::Schema[7.0].define(version: 2022_05_31_105314) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -43,7 +43,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_04_18_022551) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
-  create_table "timesheet_line_items", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+  create_table "line_items", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "description"
     t.datetime "start_time"
     t.datetime "end_time"
@@ -51,7 +51,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_04_18_022551) do
     t.uuid "timesheet_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["timesheet_id"], name: "index_timesheet_line_items_on_timesheet_id"
+    t.index ["timesheet_id"], name: "index_line_items_on_timesheet_id"
   end
 
   create_table "timesheets", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|

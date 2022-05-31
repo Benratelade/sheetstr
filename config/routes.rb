@@ -3,7 +3,9 @@ Rails.application.routes.draw do
 
   root to: "pages#home"
   resources :timesheets, only: %i[index new create show] do
-    resources :line_items, only: %i[new]
+    scope module: "timesheets" do
+      resources :line_items, only: %i[new create]
+    end
   end
 
   get "timesheet", to: "timesheets#new", as: :user_root

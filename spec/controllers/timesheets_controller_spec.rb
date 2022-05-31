@@ -28,7 +28,7 @@ RSpec.describe TimesheetsController, type: :controller do
         end_date: Date.parse("Feb 06 2022"),
       ).and_return(timesheet)
 
-      expect(TimesheetLineItem).to receive(:new).exactly(7).times
+      expect(LineItem).to receive(:new).exactly(7).times
 
       get :new
 

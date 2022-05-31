@@ -12,7 +12,7 @@ class TimesheetsController < ApplicationController
     )
 
     (@timesheet.start_date..@timesheet.end_date).each do |date|
-      @timesheet.line_items << TimesheetLineItem.new(start_time: date.beginning_of_day)
+      @timesheet.line_items << LineItem.new(start_time: date.beginning_of_day)
     end
   end
 

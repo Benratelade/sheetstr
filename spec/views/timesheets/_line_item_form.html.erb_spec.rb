@@ -5,7 +5,7 @@ require "rails_helper"
 describe "timesheets/_line_item_form", type: :view do
   before do
     @date = Date.parse("Jan 31 2022")
-    line_item = TimesheetLineItem.new
+    line_item = LineItem.new
     fields_for(line_item) do |form|
       @form = form
     end

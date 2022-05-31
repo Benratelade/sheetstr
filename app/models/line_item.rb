@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class TimesheetLineItem < ApplicationRecord
+class LineItem < ApplicationRecord
   belongs_to :timesheet
 
   def total_decimal_hours

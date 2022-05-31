@@ -66,6 +66,16 @@ describe "An existing user creates a timesheet from the index page", type: :feat
       end.to eq("Timesheet for Monday, January 24 2022 to Sunday, January 30 2022")
     end
 
+    When "she clicks to add an item" do
+      click_on("Add item")
+    end
+
+    Then "a form for a new item is displayed" do
+      wait_for { focus_on(Support::PageFragments::Form).form.labels }.to eq(
+        ["Weekday", "Description", "Start time", "End time", "Hourly rate"]
+      )
+    end
+
     When "she goes to the list of her timesheets" do
       click_on("View my timesheets")
     end

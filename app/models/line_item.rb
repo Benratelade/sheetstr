@@ -2,6 +2,15 @@
 
 class LineItem < ApplicationRecord
   belongs_to :timesheet
+  enum weekday: {
+    monday: "monday",
+    tuesday: "tuesday",
+    wednesday: "wednesday",
+    thursday: "thursday",
+    friday: "friday",
+    saturday: "saturday",
+    sunday:  "sunday",
+  }
 
   def total_decimal_hours
     return 0 if start_time.blank? || end_time.blank?

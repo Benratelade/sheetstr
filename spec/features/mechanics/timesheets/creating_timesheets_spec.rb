@@ -64,6 +64,7 @@ describe "An existing user creates a timesheet from the index page", type: :feat
       wait_for do
         focus_on(Support::PageFragments::Headers).page_header
       end.to eq("Timesheet for Monday, January 24 2022 to Sunday, January 30 2022")
+      @timesheet = Timesheet.first
     end
 
     When "she clicks to add an item" do
@@ -76,6 +77,36 @@ describe "An existing user creates a timesheet from the index page", type: :feat
       )
     end
 
+    When "she fills out the form and submits it" do
+      select("tuesday", from: "Weekday")
+      fill_in("Description", with: "On-site shooting")
+      fill_in("Start time", with: "08:30a.m.")
+      fill_in("End time", with: "12:30p.m.")
+      fill_in("Hourly rate", with: "27")
+      focus_on(Support::PageFragments::Form).form.submit
+    end
+
+    Then "the timesheet summary page is shown" do
+      wait_for { current_path }.to eq("/timesheets/#{@timesheet.id}")
+    end
+
+    And "the details are updated to include the newly added line item" do
+      wait_for do
+        summary_section = find("section[data-test_id=summary-section]")
+        hours_summary = summary_section.find("#total-time-section")
+        decimal_value = hours_summary.find("#decimal-value")
+        hourly_value = hours_summary.find("#hourly-value")
+
+        expect(decimal_value.text).to eq("4.00")
+        expect(hourly_value.text).to eq("(4 hours 0 minutes)")
+
+        revenue_summary = summary_section.find("#total-revenue-section")
+        dollar_value = revenue_summary.find("#total-revenue")
+
+        expect(dollar_value.text).to eq("$ 108.00")
+      end
+    end
+
     When "she goes to the list of her timesheets" do
       click_on("View my timesheets")
     end
@@ -85,8 +116,8 @@ describe "An existing user creates a timesheet from the index page", type: :feat
         [
           "Start Date" => "Monday, 24 Jan 2022",
           "End Date" => "Sunday, 30 Jan 2022",
-          "Total Decimal Hours" => "0 hours",
-          "Total Revenue" => "$0",
+          "Total Decimal Hours" => "4.0 hours",
+          "Total Revenue" => "$108.0",
           "Actions" => "View Edit",
         ],
       )

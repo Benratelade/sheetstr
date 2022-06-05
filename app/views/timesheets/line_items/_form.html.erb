@@ -1,6 +1,6 @@
 <%= form_with(model: [timesheet, line_item]) do |form| %>
   <%= form.label :weekday %>
-  <%= form.text_field :weekday %>
+  <%= form.select :weekday, options_for_select(LineItem.weekdays) %>
   <%= form.label :description %>
   <%= form.text_field :description %>
   <%= form.label :start_time, "Start time" %>
@@ -9,4 +9,6 @@
   <%= form.time_field :end_time %>
   <%= form.label :hourly_rate, "Hourly rate" %>
   <%= form.number_field :hourly_rate %>
+
+  <%= form.submit "Save"%>
 <% end %>

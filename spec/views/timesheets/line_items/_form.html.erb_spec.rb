@@ -6,7 +6,7 @@ describe "timesheets/line_items/_form", type: :view do
   before do
     @timesheet = double(
       "A timesheet",
-      id: "timesheet-id", 
+      id: "timesheet-id",
       to_model: double(
         "to_model",
         model_name: double(
@@ -14,22 +14,22 @@ describe "timesheets/line_items/_form", type: :view do
           name: Timesheet,
           route_key: "timesheets",
           param_key: "timesheet",
-          singular_route_key: "timesheet", 
+          singular_route_key: "timesheet",
           i18n_key: "id",
         ),
         persisted?: true,
         to_param: "timesheet-id",
       ),
     )
-    
+
     @line_item = double(
       "A line_item",
       id: nil,
-      timesheet_id: "timesheet-id", 
+      timesheet_id: "timesheet-id",
       description: nil,
       start_time: nil,
       end_time: nil,
-      hourly_rate: nil, 
+      hourly_rate: nil,
       to_model: double(
         "to_model",
         model_name: double(
@@ -55,7 +55,24 @@ describe "timesheets/line_items/_form", type: :view do
   it "renders a Weekday field" do
     render partial: "timesheets/line_items/form", locals: { timesheet: @timesheet, line_item: @line_item }
 
-    expect(rendered).to have_field("Weekday", type: "text")
+    page = Capybara.string(rendered)
+    weekday_select = page.find_field("Weekday", type: "select")
+    select_options = {}
+    weekday_select.all("option").each do |option|
+      select_options[option.text] = option.value
+    end
+
+    expect(select_options).to eq(
+      {
+        "monday" => "monday",
+        "tuesday" => "tuesday",
+        "wednesday" => "wednesday",
+        "thursday" => "thursday",
+        "friday" => "friday",
+        "saturday" => "saturday",
+        "sunday" => "sunday",
+      },
+    )
   end
 
   it "renders a Description field" do
@@ -80,5 +97,11 @@ describe "timesheets/line_items/_form", type: :view do
     render partial: "timesheets/line_items/form", locals: { timesheet: @timesheet, line_item: @line_item }
 
     expect(rendered).to have_field("Hourly rate", type: "number")
+  end
+
+  it "renders a submit button" do
+    render partial: "timesheets/line_items/form", locals: { timesheet: @timesheet, line_item: @line_item }
+
+    expect(rendered).to have_button("Save")
   end
 end

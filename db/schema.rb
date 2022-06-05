@@ -10,10 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_05_31_105314) do
+ActiveRecord::Schema[7.0].define(version: 2022_06_04_065449) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
+
+  # Custom types defined in this database.
+  # Note that some types may not work with other database engines. Be careful if changing database.
+  create_enum "weekdays", ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"]
 
   create_table "active_storage_attachments", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "name", null: false
@@ -51,6 +55,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_05_31_105314) do
     t.uuid "timesheet_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.enum "weekday", enum_type: "weekdays"
     t.index ["timesheet_id"], name: "index_line_items_on_timesheet_id"
   end
 

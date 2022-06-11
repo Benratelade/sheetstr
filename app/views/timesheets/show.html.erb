@@ -16,13 +16,13 @@
 <section id="daily-breakdown">
   <% @timesheet.grouped_line_items.each do |weekday, line_items| %>
     <div class="weekday-summary">
-      <div class="weekday"><%= weekday %></div>
+      <h3 class="weekday"><%= weekday %></h3>
       <% line_items.each do |line_item| %>
         <div class="line-item">
-          <div class="description"><%= line_item.description %></div>
-          <div class="total-decimal-hours"><%= line_item.total_decimal_hours %></div>
-          <div class="hourly-rate"><%= line_item.hourly_rate %></div>
-          <div class="subtotal"><%= line_item.subtotal %></div>
+          <div class="field-description">Description:  <span class="description"><%= line_item.description %></span></div>
+          <div>Duration: <span class="total-decimal-hours"><%= line_item.total_decimal_hours %></span></div>
+          <div>Hourly Rate:  <span class="hourly-rate"><%= line_item.hourly_rate %></span></div>
+          <div>Subtotal: <span class="subtotal"><%= line_item.subtotal %></span></div>
         </div>
       <% end %>
     </div>

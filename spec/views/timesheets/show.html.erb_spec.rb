@@ -15,13 +15,17 @@ describe "timesheets/show", type: :view do
       total_decimal_hours: "",
       hours_breakdown: {},
       total_revenue: double("some revenue"),
+      grouped_line_items: [],
     )
   end
 
   it "Displays the email of the current user" do
     render
 
-    expect(rendered).to have_css("h2#page-header", text: "Timesheet for Monday, January 24 2022 to Sunday, January 30 2022")
+    expect(rendered).to have_css(
+      "h2#page-header",
+      text: "Timesheet for Monday, January 24 2022 to Sunday, January 30 2022",
+    )
   end
 
   it "displays a summary section" do
@@ -31,25 +35,6 @@ describe "timesheets/show", type: :view do
   end
 
   it "Displays the total number of decimal hours worked for that timesheet inside the summary section" do
-    line_items = [
-      double(
-        "line item 1",
-        start_time: Time.zone.parse("Jan 31 2022 08:00am"),
-        end_time: Time.zone.parse("Jan 31 2022 17:00"),
-      ),
-      double(
-        "line item 2",
-        start_time: Time.zone.parse("Feb 01 2022 08:00am"),
-        end_time: Time.zone.parse("Feb 01 2022 17:00"),
-      ),
-      double(
-        "line item 3",
-        start_time: Time.zone.parse("Feb 02 2022 08:00am"),
-        end_time: Time.zone.parse("Feb 02 2022 17:00"),
-      ),
-    ]
-
-    allow(@timesheet).to receive(:line_items).and_return(line_items)
     allow(@timesheet).to receive(:total_decimal_hours).and_return(27.3333333)
 
     render
@@ -60,25 +45,6 @@ describe "timesheets/show", type: :view do
   end
 
   it "Displays the total number of hourly hours worked for that timesheet inside the summary section" do
-    line_items = [
-      double(
-        "line item 1",
-        start_time: Time.zone.parse("Jan 31 2022 08:00am"),
-        end_time: Time.zone.parse("Jan 31 2022 17:02"),
-      ),
-      double(
-        "line item 2",
-        start_time: Time.zone.parse("Feb 01 2022 08:00am"),
-        end_time: Time.zone.parse("Feb 01 2022 16:15"),
-      ),
-      double(
-        "line item 3",
-        start_time: Time.zone.parse("Feb 02 2022 08:00am"),
-        end_time: Time.zone.parse("Feb 02 2022 17:30"),
-      ),
-    ]
-
-    allow(@timesheet).to receive(:line_items).and_return(line_items)
     allow(@timesheet).to receive(:hours_breakdown).and_return(
       {
         hours: 26,
@@ -94,25 +60,6 @@ describe "timesheets/show", type: :view do
   end
 
   it "Displays the total revenue for this period" do
-    line_items = [
-      double(
-        "line item 1",
-        start_time: Time.zone.parse("Jan 31 2022 08:00am"),
-        end_time: Time.zone.parse("Jan 31 2022 17:02"),
-      ),
-      double(
-        "line item 2",
-        start_time: Time.zone.parse("Feb 01 2022 08:00am"),
-        end_time: Time.zone.parse("Feb 01 2022 16:15"),
-      ),
-      double(
-        "line item 3",
-        start_time: Time.zone.parse("Feb 02 2022 08:00am"),
-        end_time: Time.zone.parse("Feb 02 2022 17:30"),
-      ),
-    ]
-
-    allow(@timesheet).to receive(:line_items).and_return(line_items)
     allow(@timesheet).to receive(:hours_breakdown).and_return(
       {
         hours: 0,
@@ -129,15 +76,6 @@ describe "timesheets/show", type: :view do
   end
 
   it "Displays the total revenue with 2 digits after the decimal place" do
-    line_items = [
-      double(
-        "line item 1",
-        start_time: Time.zone.parse("Jan 31 2022 08:00am"),
-        end_time: Time.zone.parse("Jan 31 2022 17:47"),
-      ),
-    ]
-
-    allow(@timesheet).to receive(:line_items).and_return(line_items)
     allow(@timesheet).to receive(:hours_breakdown).and_return(
       {
         hours: 0,
@@ -174,5 +112,66 @@ describe "timesheets/show", type: :view do
     page = Capybara.string(rendered)
     add_item_button = page.find_link("Add item")
     expect(add_item_button["href"]).to eq("/timesheets/timesheet-id/line_items/new")
+  end
+
+  it "Displays a daily breakdown section" do
+    render
+
+    expect(rendered).to have_css("#daily-breakdown")
+  end
+
+  context "When the timesheet has some grouped line items" do
+    before do
+      allow(@timesheet).to receive(:grouped_line_items).and_return(
+        [
+          double(
+            "line item group 1",
+            description: "description 1",
+            hourly_rate: 24,
+            duration: "duration 1",
+            subtotal: "subtotal 1",
+            weekday: "monday",
+          ),
+          double(
+            "line item group 2",
+            description: "description 2",
+            hourly_rate: 30,
+            duration: "duration 2",
+            subtotal: "subtotal 2",
+            weekday: "wednesday",
+          ),
+        ],
+      )
+    end
+
+    it "Displays a weekday-summary that contains a weekday item for each weekday" do
+      render
+
+      page = Capybara.string(rendered)
+      daily_breakdown = page.find("#daily-breakdown")
+
+      weekday_summaries = daily_breakdown.find_all(".weekday-summary")
+      expect(weekday_summaries.count).to eq(2)
+
+      weekday_names = weekday_summaries.map { |summary| summary.find(".weekday").text }
+      expect(weekday_names).to eq(%w[monday wednesday])
+    end
+
+    it "Displays a summary of worked hours for each line item" do
+      render
+
+      page = Capybara.string(rendered)
+      weekday_summaries = page.find_all(".weekday-summary")
+
+      expect(weekday_summaries[0].find(".description").text).to eq("description 1")
+      expect(weekday_summaries[0].find(".hourly-rate").text).to eq("24")
+      expect(weekday_summaries[0].find(".duration").text).to eq("duration 1")
+      expect(weekday_summaries[0].find(".subtotal").text).to eq("subtotal 1")
+
+      expect(weekday_summaries[1].find(".description").text).to eq("description 2")
+      expect(weekday_summaries[1].find(".hourly-rate").text).to eq("30")
+      expect(weekday_summaries[1].find(".duration").text).to eq("duration 2")
+      expect(weekday_summaries[1].find(".subtotal").text).to eq("subtotal 2")
+    end
   end
 end

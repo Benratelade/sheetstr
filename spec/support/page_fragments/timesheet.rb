@@ -12,15 +12,15 @@ module Support
 
           weekday_summary.find_all(".line-item").each do |line_item|
             line_item_data = {
-              "description" => line_item.find(".description"),
-              "duration" => line_item.find(".duration"),
-              "hourly rate" => line_item.find(".hourly-rate"),
-              "subtotal" => line_item.find(".subtotal"),
-
+              "description" => line_item.find(".description").text,
+              "total decimal hours" => line_item.find(".total-decimal-hours").text,
+              "hourly rate" => line_item.find(".hourly-rate").text,
+              "subtotal" => line_item.find(".subtotal").text,
             }
             breakdown_data[weekday] << line_item_data
           end
         end
+        breakdown_data
       end
     end
   end

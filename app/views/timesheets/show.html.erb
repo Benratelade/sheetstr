@@ -14,13 +14,17 @@
   <%= link_to("View my timesheets", timesheets_path) %>
 </section>
 <section id="daily-breakdown">
-  <% @timesheet.grouped_line_items.each do |grouped_line_item| %>
+  <% @timesheet.grouped_line_items.each do |weekday, line_items| %>
     <div class="weekday-summary">
-      <div class="weekday"><%= grouped_line_item.weekday %></div>
-      <div class="description"><%= grouped_line_item.description %></div>
-      <div class="duration"><%= grouped_line_item.duration %></div>
-      <div class="hourly-rate"><%= grouped_line_item.hourly_rate %></div>
-      <div class="subtotal"><%= grouped_line_item.subtotal %></div>
+      <div class="weekday"><%= weekday %></div>
+      <% line_items.each do |line_item| %>
+        <div class="line-item">
+          <div class="description"><%= line_item.description %></div>
+          <div class="total-decimal-hours"><%= line_item.total_decimal_hours %></div>
+          <div class="hourly-rate"><%= line_item.hourly_rate %></div>
+          <div class="subtotal"><%= line_item.subtotal %></div>
+        </div>
+      <% end %>
     </div>
   <% end %>
 </section>

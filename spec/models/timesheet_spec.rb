@@ -103,6 +103,54 @@ RSpec.describe Timesheet, type: :model do
     end
   end
 
+  describe "#grouped_line_items" do
+    before do
+      @timesheet = Timesheet.new
+    end
+
+    it "returns information about line_items for each weekday" do
+      line_item_1 = double(
+        "line_item_1",
+        weekday: "tuesday",
+      )
+
+      line_item_2 = double(
+        "line_item_2",
+        weekday: "monday",
+      )
+
+      allow(@timesheet).to receive(:line_items).and_return([line_item_1, line_item_2])
+
+      expect(@timesheet.grouped_line_items).to eq(
+        {
+          "monday" => [line_item_2],
+          "tuesday" => [line_item_1],
+        },
+      )
+    end
+
+    it "groups line items by weekday" do
+      line_item_1 = double(
+        "line_item_1",
+        weekday: "tuesday",
+      )
+
+      line_item_2 = double(
+        "line_item_2",
+        weekday: "tuesday",
+      )
+
+      allow(@timesheet).to receive(:line_items).and_return([line_item_1, line_item_2])
+
+      expect(@timesheet.grouped_line_items).to eq(
+        {
+          "tuesday" => [line_item_1, line_item_2],
+        },
+      )
+
+    end
+  end
+
   describe "validations" do
     before do
       @user = create(:user)
@@ -110,42 +158,42 @@ RSpec.describe Timesheet, type: :model do
 
     it "must have a start date and an end date" do
       timesheet = Timesheet.new(user: @user)
-      
+
       expect(timesheet).to be_invalid
       expect(timesheet.errors.full_messages).to eq(
         [
-          "Start date is required", 
-          "End date is required", 
-        ]
+          "Start date is required",
+          "End date is required",
+        ],
       )
     end
 
     it "must have a start date on a monday" do
       timesheet = Timesheet.new(
-        user: @user, 
-        start_date: Date.parse("Jan 18 2022"), 
+        user: @user,
+        start_date: Date.parse("Jan 18 2022"),
         end_date: Date.parse("Jan 24 2022"),
       )
-      
+
       expect(timesheet).to be_invalid
       expect(timesheet.errors.full_messages).to eq(
         [
-          "Timesheets must start on a Monday", 
-        ]
+          "Timesheets must start on a Monday",
+        ],
       )
     end
 
     it "must have an end date exactly 6 days after the start date" do
       timesheet = Timesheet.new(
         user: @user,
-        start_date: Date.parse("Jan 17 2022"), 
+        start_date: Date.parse("Jan 17 2022"),
         end_date: Date.parse("Jan 18 2022"),
       )
       expect(timesheet).to be_invalid
       expect(timesheet.errors.full_messages).to eq(
         [
-          "Timesheets must be 7 days long", 
-        ]
+          "Timesheets must be 7 days long",
+        ],
       )
     end
   end

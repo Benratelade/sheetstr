@@ -37,6 +37,16 @@ class Timesheet < ApplicationRecord
     (line_items || []).sum(&:subtotal)
   end
 
+  def grouped_line_items
+    weekdays = {}
+    line_items.each do |line_item|
+      weekdays[line_item.weekday] ||= []
+      weekdays[line_item.weekday] << line_item
+    end
+
+    weekdays
+  end
+
   private
 
   def must_start_on_a_monday

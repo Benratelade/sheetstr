@@ -14,32 +14,32 @@ describe "An existing user views a timesheet from the index page", type: :featur
 
     create(
       :line_item,
-      timesheet: @timesheet, 
-      weekday: "monday", 
+      timesheet: @timesheet,
+      weekday: "monday",
       description: "office hours",
       hourly_rate: 24,
       start_time: Time.iso8601("2022-01-24T08:00:00+10:00"),
-      end_time: Time.iso8601("2022-01-24T17:30:00+10:00"), 
+      end_time: Time.iso8601("2022-01-24T17:30:00+10:00"),
     )
 
     create(
       :line_item,
-      timesheet: @timesheet, 
-      weekday: "tuesday", 
+      timesheet: @timesheet,
+      weekday: "tuesday",
       description: "shooting",
       hourly_rate: 30,
       start_time: Time.iso8601("2022-01-25T08:00:00+10:00"),
-      end_time: Time.iso8601("2022-01-25T14:30:00+10:00"), 
+      end_time: Time.iso8601("2022-01-25T14:30:00+10:00"),
     )
 
     create(
       :line_item,
-      timesheet: @timesheet, 
-      weekday: "thursday", 
+      timesheet: @timesheet,
+      weekday: "thursday",
       description: "office hours",
       hourly_rate: 24,
       start_time: Time.iso8601("2022-01-27T08:00:00+10:00"),
-      end_time: Time.iso8601("2022-01-27T14:30:00+10:00"), 
+      end_time: Time.iso8601("2022-01-27T14:30:00+10:00"),
     )
   end
 
@@ -77,9 +77,30 @@ describe "An existing user views a timesheet from the index page", type: :featur
         focus_on(Support::PageFragments::Timesheet).daily_breakdown
       end.to eq(
         {
-          "monday" => "bill" ,
-          "tuesday" => "bill" ,
-          "thursday" => "bill" ,
+          "monday" => [
+            {
+              "description" => "office hours",
+              "hourly rate" => "24.0",
+              "subtotal" => "228.0",
+              "total decimal hours" => "9.5",
+            },
+          ],
+          "tuesday" => [
+            {
+              "description" => "office hours",
+              "hourly rate" => "24.0",
+              "subtotal" => "156.0",
+              "total decimal hours" => "6.5",
+            },
+          ],
+          "thursday" => [
+            {
+              "description" => "shooting",
+              "hourly rate" => "30.0",
+              "subtotal" => "195.0",
+              "total decimal hours" => "6.5",
+            },
+          ],
         },
       )
     end

@@ -123,24 +123,28 @@ describe "timesheets/show", type: :view do
   context "When the timesheet has some grouped line items" do
     before do
       allow(@timesheet).to receive(:grouped_line_items).and_return(
-        [
-          double(
-            "line item group 1",
-            description: "description 1",
-            hourly_rate: 24,
-            duration: "duration 1",
-            subtotal: "subtotal 1",
-            weekday: "monday",
-          ),
-          double(
-            "line item group 2",
-            description: "description 2",
-            hourly_rate: 30,
-            duration: "duration 2",
-            subtotal: "subtotal 2",
-            weekday: "wednesday",
-          ),
-        ],
+        {
+          "monday" => [
+            double(
+              "line item 1",
+              description: "description 1",
+              hourly_rate: 24,
+              total_decimal_hours: "total decimal hours 1",
+              subtotal: "subtotal 1",
+              weekday: "monday",
+            ),
+          ],
+          "wednesday" => [
+            double(
+              "line item 2",
+              description: "description 2",
+              hourly_rate: 30,
+              total_decimal_hours: "total decimal hours 2",
+              subtotal: "subtotal 2",
+              weekday: "wednesday",
+            ),
+          ],
+        },
       )
     end
 
@@ -163,15 +167,17 @@ describe "timesheets/show", type: :view do
       page = Capybara.string(rendered)
       weekday_summaries = page.find_all(".weekday-summary")
 
-      expect(weekday_summaries[0].find(".description").text).to eq("description 1")
-      expect(weekday_summaries[0].find(".hourly-rate").text).to eq("24")
-      expect(weekday_summaries[0].find(".duration").text).to eq("duration 1")
-      expect(weekday_summaries[0].find(".subtotal").text).to eq("subtotal 1")
+      monday_line_items = weekday_summaries[0].find_all(".line-item")
+      expect(monday_line_items[0].find(".description").text).to eq("description 1")
+      expect(monday_line_items[0].find(".hourly-rate").text).to eq("24")
+      expect(monday_line_items[0].find(".total-decimal-hours").text).to eq("total decimal hours 1")
+      expect(monday_line_items[0].find(".subtotal").text).to eq("subtotal 1")
 
-      expect(weekday_summaries[1].find(".description").text).to eq("description 2")
-      expect(weekday_summaries[1].find(".hourly-rate").text).to eq("30")
-      expect(weekday_summaries[1].find(".duration").text).to eq("duration 2")
-      expect(weekday_summaries[1].find(".subtotal").text).to eq("subtotal 2")
+      wednesday_line_items = weekday_summaries[1].find_all(".line-item")
+      expect(wednesday_line_items[0].find(".description").text).to eq("description 2")
+      expect(wednesday_line_items[0].find(".hourly-rate").text).to eq("30")
+      expect(wednesday_line_items[0].find(".total-decimal-hours").text).to eq("total decimal hours 2")
+      expect(wednesday_line_items[0].find(".subtotal").text).to eq("subtotal 2")
     end
   end
 end

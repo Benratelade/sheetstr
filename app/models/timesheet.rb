@@ -50,14 +50,10 @@ class Timesheet < ApplicationRecord
   private
 
   def must_start_on_a_monday
-    if start_date
-      errors.add(:base, "Timesheets must start on a Monday") unless start_date.monday?
-    end
+    errors.add(:base, "Timesheets must start on a Monday") if start_date && !start_date.monday?
   end
-  
+
   def must_be_7_days_long
-    if start_date && end_date
-      errors.add(:base, "Timesheets must be 7 days long") unless (end_date - start_date == 6)
-    end
+    errors.add(:base, "Timesheets must be 7 days long") if start_date && end_date && end_date - start_date != 6
   end
 end

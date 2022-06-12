@@ -46,7 +46,7 @@ describe "An existing user creates a timesheet from the index page", type: :feat
     end
 
     Then "a validation error is displayed for both errors" do
-      wait_for { focus_on(Support::PageFragments::Flash).error_messages }.to eq(
+      wait_for { focus_on(Support::PageFragments::Flash).messages }.to eq(
         [
           "Timesheets must start on a Monday",
           "Timesheets must be 7 days long",
@@ -73,7 +73,7 @@ describe "An existing user creates a timesheet from the index page", type: :feat
 
     Then "a form for a new item is displayed" do
       wait_for { focus_on(Support::PageFragments::Form).form.labels }.to eq(
-        ["Weekday", "Description", "Start time", "End time", "Hourly rate"]
+        ["Weekday", "Description", "Start time", "End time", "Hourly rate"],
       )
     end
 

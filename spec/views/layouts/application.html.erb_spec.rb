@@ -5,7 +5,7 @@ require "rails_helper"
 describe "layouts/application", type: :view do
   it "renders all alert flash messages in a bootstrap alert" do
     allow(controller).to receive(:flash).and_return(
-      danger: "Some alert messages", 
+      danger: "Some alert messages",
     )
 
     render

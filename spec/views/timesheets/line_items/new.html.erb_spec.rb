@@ -3,10 +3,10 @@
 require "rails_helper"
 
 describe "timesheets/line_items/new", type: :view do
-  before do 
+  before do
     @timesheet = double(
       "A timesheet",
-      id: "timesheet-id", 
+      id: "timesheet-id",
       to_model: double(
         "to_model",
         model_name: double(
@@ -14,7 +14,7 @@ describe "timesheets/line_items/new", type: :view do
           name: Timesheet,
           route_key: "timesheets",
           param_key: "timesheet",
-          singular_route_key: "timesheet", 
+          singular_route_key: "timesheet",
           i18n_key: "id",
         ),
         persisted?: true,

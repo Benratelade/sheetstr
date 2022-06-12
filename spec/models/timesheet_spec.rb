@@ -147,7 +147,6 @@ RSpec.describe Timesheet, type: :model do
           "tuesday" => [line_item_1, line_item_2],
         },
       )
-
     end
   end
 

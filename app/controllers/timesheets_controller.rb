@@ -19,7 +19,7 @@ class TimesheetsController < ApplicationController
   def create
     @timesheet = Timesheet.new(timesheet_params.merge(user: current_user))
     if @timesheet.save
-      redirect_to @timesheet 
+      redirect_to @timesheet
     else
       flash.now[:danger] = @timesheet.errors.full_messages.join(". ")
       render :new

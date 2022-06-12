@@ -7,7 +7,7 @@ module Support
         page.find(".flash")
       end
 
-      def error_messages
+      def messages
         flash.text.split(".").map(&:strip)
       end
     end

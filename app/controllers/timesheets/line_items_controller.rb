@@ -19,10 +19,10 @@ module Timesheets
     end
 
     private
-    
+
     def line_item_params
       params.require(:line_item).permit(
-        :timesheet_id, 
+        :timesheet_id,
         :weekday,
         :description,
         :start_time,

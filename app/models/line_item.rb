@@ -9,7 +9,7 @@ class LineItem < ApplicationRecord
     thursday: "thursday",
     friday: "friday",
     saturday: "saturday",
-    sunday:  "sunday",
+    sunday: "sunday",
   }
 
   def total_decimal_hours

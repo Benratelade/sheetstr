@@ -21,7 +21,6 @@ module Support
           data << row_data
         end
         data
-
       end
 
       def rows

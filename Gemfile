@@ -13,7 +13,7 @@ gem "pg", "~> 1.1"
 gem "puma", "~> 5.0"
 # Use SCSS for stylesheets
 gem "sass-rails", ">= 6"
-# Transpile app-like JavaScript. 
+# Transpile app-like JavaScript.
 gem "jsbundling-rails"
 # Handle scss the new way
 gem "cssbundling-rails"

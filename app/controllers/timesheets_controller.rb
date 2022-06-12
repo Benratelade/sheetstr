@@ -22,7 +22,7 @@ class TimesheetsController < ApplicationController
       redirect_to @timesheet
     else
       flash.now[:danger] = @timesheet.errors.full_messages.join(". ")
-      render :new
+      render :new, status: :unprocessable_entity
     end
   end
 

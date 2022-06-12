@@ -221,7 +221,7 @@ RSpec.describe TimesheetsController, type: :controller do
         ).to eq("Some error messages")
       end
 
-      it "renders the new view" do
+      it "renders the new view and an error code of unprocessable_entity (422)" do
         post :create, params: {
           timesheet: {
             start_date: Date.parse("23 Jan 2022"),
@@ -230,6 +230,7 @@ RSpec.describe TimesheetsController, type: :controller do
         }
 
         expect(response).to render_template(:new)
+        expect(response).to have_http_status(:unprocessable_entity)
       end
     end
   end

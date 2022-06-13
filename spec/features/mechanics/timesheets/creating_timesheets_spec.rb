@@ -37,11 +37,11 @@ describe "An existing user creates a timesheet from the index page", type: :feat
     end
 
     When "she edits the start date to a date that is not a Monday" do
-      fill_in("Start date", with: "23-01-2022")
+      fill_in("Start date", with: Time.iso8601("2022-01-23T13:00:00"))
     end
 
     And "she edits the end date to anything other than 6 days from the start date and submits" do
-      fill_in("End date", with: "25-01-2022")
+      fill_in("End date", with: Time.iso8601("2022-01-25T13:00:00"))
       focus_on(Support::PageFragments::Form).form.submit
     end
 
@@ -55,8 +55,8 @@ describe "An existing user creates a timesheet from the index page", type: :feat
     end
 
     When "she corrects the dates to match a week starting on Monday" do
-      fill_in("Start date", with: "24-01-2022")
-      fill_in("End date", with: "30-01-2022")
+      fill_in("Start date", with: Time.iso8601("2022-01-24T13:00:00"))
+      fill_in("End date", with: Time.iso8601("2022-01-30T13:00:00"))
       focus_on(Support::PageFragments::Form).form.submit
     end
 

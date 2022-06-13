@@ -122,28 +122,26 @@ describe "timesheets/show", type: :view do
 
   context "When the timesheet has some grouped line items" do
     before do
+      @line_item_1 = double(
+        "line item 1",
+        description: "description 1",
+        hourly_rate: 24,
+        total_decimal_hours: "total decimal hours 1",
+        subtotal: "subtotal 1",
+        weekday: "monday",
+      )
+      @line_item_2 = double(
+        "line item 2",
+        description: "description 2",
+        hourly_rate: 30,
+        total_decimal_hours: "total decimal hours 2",
+        subtotal: "subtotal 2",
+        weekday: "wednesday",
+      )
       allow(@timesheet).to receive(:grouped_line_items).and_return(
         {
-          "monday" => [
-            double(
-              "line item 1",
-              description: "description 1",
-              hourly_rate: 24,
-              total_decimal_hours: "total decimal hours 1",
-              subtotal: "subtotal 1",
-              weekday: "monday",
-            ),
-          ],
-          "wednesday" => [
-            double(
-              "line item 2",
-              description: "description 2",
-              hourly_rate: 30,
-              total_decimal_hours: "total decimal hours 2",
-              subtotal: "subtotal 2",
-              weekday: "wednesday",
-            ),
-          ],
+          "monday" => [@line_item_1],
+          "wednesday" => [@line_item_2],
         },
       )
     end
@@ -178,6 +176,22 @@ describe "timesheets/show", type: :view do
       expect(wednesday_line_items[0].find(".hourly-rate").text).to eq("30")
       expect(wednesday_line_items[0].find(".total-decimal-hours").text).to eq("total decimal hours 2")
       expect(wednesday_line_items[0].find(".subtotal").text).to eq("subtotal 2")
+    end
+
+    it "Displays a summary each line item's decimal hours and subtotal with 2 digits after the decimal place" do
+      allow(@line_item_1).to receive(:subtotal).and_return(BigDecimal("116.3333333333"))
+      allow(@line_item_1).to receive(:total_decimal_hours).and_return(BigDecimal("4.3333333333"))
+
+      render
+
+      page = Capybara.string(rendered)
+      weekday_summaries = page.find_all(".weekday-summary")
+
+      monday_line_items = weekday_summaries[0].find_all(".line-item")
+      expect(monday_line_items[0].find(".description").text).to eq("description 1")
+      expect(monday_line_items[0].find(".hourly-rate").text).to eq("24")
+      expect(monday_line_items[0].find(".total-decimal-hours").text).to eq("4.33")
+      expect(monday_line_items[0].find(".subtotal").text).to eq("116.33")
     end
   end
 end

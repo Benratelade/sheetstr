@@ -76,24 +76,24 @@ describe "An existing user views a timesheet from the index page", type: :featur
             {
               "description" => "office hours",
               "hourly rate" => "24.0",
-              "subtotal" => "228.0",
-              "total decimal hours" => "9.5",
+              "subtotal" => "228.00",
+              "total decimal hours" => "9.50",
             },
           ],
           "Tuesday" => [
             {
               "description" => "shooting",
-              "hourly rate" => "24.0",
-              "subtotal" => "156.0",
-              "total decimal hours" => "6.5",
+              "hourly rate" => "30.0",
+              "subtotal" => "195.00",
+              "total decimal hours" => "6.50",
             },
           ],
           "Thursday" => [
             {
               "description" => "office hours",
-              "hourly rate" => "30.0",
-              "subtotal" => "195.0",
-              "total decimal hours" => "6.5",
+              "hourly rate" => "24.0",
+              "subtotal" => "156.00",
+              "total decimal hours" => "6.50",
             },
           ],
         },

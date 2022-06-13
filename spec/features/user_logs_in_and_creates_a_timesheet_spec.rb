@@ -86,7 +86,6 @@ describe "An existing user logs in to sheetstr and creates a timesheet", type: :
     end
 
     And "there is a breakdown showing the new line item" do
-      pending "Fix format of digits"
       wait_for do
         focus_on(Support::PageFragments::Timesheet).daily_breakdown
       end.to eq(
@@ -133,7 +132,7 @@ describe "An existing user logs in to sheetstr and creates a timesheet", type: :
           "Monday, 24 Jan 2022",
           "Sunday, 30 Jan 2022",
           "4.33 hours",
-          "$116.91",
+          "$117.00",
           "View Edit",
         ],
       )

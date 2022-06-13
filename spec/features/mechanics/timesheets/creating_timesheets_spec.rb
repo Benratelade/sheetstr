@@ -116,8 +116,8 @@ describe "An existing user creates a timesheet from the index page", type: :feat
         [
           "Start Date" => "Monday, 24 Jan 2022",
           "End Date" => "Sunday, 30 Jan 2022",
-          "Total Decimal Hours" => "4.0 hours",
-          "Total Revenue" => "$108.0",
+          "Total Decimal Hours" => "4.00 hours",
+          "Total Revenue" => "$108.00",
           "Actions" => "View Edit",
         ],
       )

@@ -3,6 +3,16 @@
 module Support
   module PageFragments
     module Timesheet
+      def summary
+        summary_section = page.find("section[data-test_id=summary-section]")
+
+        summary = {
+          "Duration (decimal)" => summary_section.find("#decimal-value").text,
+          "Duration (in hours)" => summary_section.find("#hourly-value").text,
+          "Total revenue" => summary_section.find("#total-revenue").text,
+        }
+      end
+
       def daily_breakdown
         breakdown_data = {}
         daily_breakdown_section = page.find("#daily-breakdown")

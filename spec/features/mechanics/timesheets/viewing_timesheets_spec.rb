@@ -54,30 +54,25 @@ describe "An existing user views a timesheet from the index page", type: :featur
     end
 
     Then "They see a summary of the week's work" do
-      page_title = find("h2")
-      wait_for { page_title.text }.to eq("Timesheet for Monday, January 24 2022 to Sunday, January 30 2022")
+      wait_for do
+        focus_on(Support::PageFragments::Headers).page_header
+      end.to eq("Timesheet for Monday, January 24 2022 to Sunday, January 30 2022")
 
-      summary_section = find("section[data-test_id=summary-section]")
-      hours_summary = summary_section.find("#total-time-section")
-      decimal_value = hours_summary.find("#decimal-value")
-      hourly_value = hours_summary.find("#hourly-value")
-
-      wait_for { decimal_value.text }.to eq("22.50")
-      wait_for { hourly_value.text }.to eq("(22 hours 30 minutes)")
-
-      revenue_summary = summary_section.find("#total-revenue-section")
-      dollar_value = revenue_summary.find("#total-revenue")
-
-      wait_for { dollar_value.text }.to eq("$ 579.00")
+      wait_for { focus_on(Support::PageFragments::Timesheet).summary }.to eq(
+        {
+          "Duration (decimal)" => "22.50",
+          "Duration (in hours)" => "(22 hours 30 minutes)",
+          "Total revenue" => "$ 579.00",
+        },
+      )
     end
 
     And "a summary of each day's work is displayed" do
-      pending
       wait_for do
         focus_on(Support::PageFragments::Timesheet).daily_breakdown
       end.to eq(
         {
-          "monday" => [
+          "Monday" => [
             {
               "description" => "office hours",
               "hourly rate" => "24.0",
@@ -85,17 +80,17 @@ describe "An existing user views a timesheet from the index page", type: :featur
               "total decimal hours" => "9.5",
             },
           ],
-          "tuesday" => [
+          "Tuesday" => [
             {
-              "description" => "office hours",
+              "description" => "shooting",
               "hourly rate" => "24.0",
               "subtotal" => "156.0",
               "total decimal hours" => "6.5",
             },
           ],
-          "thursday" => [
+          "Thursday" => [
             {
-              "description" => "shooting",
+              "description" => "office hours",
               "hourly rate" => "30.0",
               "subtotal" => "195.0",
               "total decimal hours" => "6.5",

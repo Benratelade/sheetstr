@@ -4,7 +4,7 @@ module RSpec
   module Wait
     module Handler
       def handle_matcher(target, *args, &block)
-        start_time = Time.now
+        start_time = Time.now_without_mock_time
         timeout = RSpec.configuration.wait_timeout
 
         loop do
@@ -12,7 +12,7 @@ module RSpec
           super(actual, *args, &block)
           break
         rescue RSpec::Expectations::ExpectationNotMetError => e
-          elapsed = Time.now - start_time
+          elapsed = Time.now_without_mock_time - start_time
           raise e if elapsed > timeout
 
           sleep RSpec.configuration.wait_delay

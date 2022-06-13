@@ -12,7 +12,7 @@ describe "timesheets/new", type: :view do
   it "Displays the email of the current user" do
     render
 
-    expect(rendered).to have_css("h2", text: "Welcome ratelade.benjamin@gmail.com")
+    expect(rendered).to have_css("h2#page-header", text: "Welcome ratelade.benjamin@gmail.com")
   end
 
   it "Displays a title for the new Timesheet" do

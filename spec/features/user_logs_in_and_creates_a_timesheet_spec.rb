@@ -12,58 +12,95 @@ describe "An existing user logs in to sheetstr and creates a timesheet", type: :
       @ben = create(:user, email: "ratelade.benjamin@gmail.com", password: "password")
     end
 
-    When "They visit the sign in page" do
+    When "They visit the sign in page and logs in" do
       visit "users/sign_in"
+      login_as(@ben)
     end
 
-    And "they sign in" do
-      fill_in("Email", with: "ratelade.benjamin@gmail.com")
-      fill_in("Password", with: "password")
-      click_on("Log in")
+    Then "They are welcomed to Sheetstr" do
+      wait_for do
+        focus_on(Support::PageFragments::Headers).page_header
+      end.to eq("Welcome ratelade.benjamin@gmail.com")
     end
 
-    Then "They are taken to a new Timesheet page with their email showing, for this week" do
-      page_title = find("h2")
-      expect(page_title.text).to eq("Welcome ratelade.benjamin@gmail.com")
+    And "a form for a new timesheet is displayed for the current week" do
+      subtitle = page.find("h3").text
+      wait_for { subtitle }.to eq("New Timesheet")
 
-      timesheet_title = find_all("h3").first
-      expect(timesheet_title.text).to eq("New Timesheet")
+      start_date = find_field("Start date")
+      end_date = find_field("End date")
 
-      start_date = find_field("Start date", readonly: true)
-      expect(start_date).to be_readonly
-      end_date = find_field("End date", readonly: true)
-      expect(end_date).to be_readonly
-
-      expect(start_date.value).to eq("2022-01-24")
-      expect(end_date.value).to eq("2022-01-30")
+      wait_for { start_date.value }.to eq("2022-01-24")
+      wait_for { end_date.value }.to eq("2022-01-30")
     end
 
-    When "They fill out the form" do
-      days_sections = page.find_all("[data-testid^=day-section-]")
-      days_sections.each do |day_section|
-        day_section.fill_in("Start time", with: "08:00am")
-        day_section.fill_in("End time", with: "17:00")
-        day_section.fill_in("Hourly rate", with: "25")
-      end
-      click_button("Submit")
+    When "They submit the form" do
+      click_button("Save")
     end
 
     Then "They see a summary of the week's work" do
-      page_title = find("h2")
-      expect(page_title.text).to eq("Timesheet for Monday, January 24 2022 to Sunday, January 30 2022")
+      wait_for { focus_on(Support::PageFragments::Headers).page_header }.to(
+        eq("Timesheet for Monday, January 24 2022 to Sunday, January 30 2022"),
+      )
 
-      summary_section = find("section[data-test_id=summary-section]")
-      hours_summary = summary_section.find("#total-time-section")
-      decimal_value = hours_summary.find("#decimal-value")
-      hourly_value = hours_summary.find("#hourly-value")
+      wait_for { focus_on(Support::PageFragments::Timesheet).summary }.to(
+        eq(
+          {
+            "Duration (decimal)" => "0.00",
+            "Duration (in hours)" => "(0 hours 0 minutes)",
+            "Total revenue" => "$ 0.00",
+          },
+        ),
+      )
+    end
 
-      expect(decimal_value.text).to eq("63.00")
-      expect(hourly_value.text).to eq("(63 hours 0 minutes)")
+    When "they click to add an item" do
+      click_on("Add item")
+    end
 
-      revenue_summary = summary_section.find("#total-revenue-section")
-      dollar_value = revenue_summary.find("#total-revenue")
+    Then "a form for a line item is shown" do
+      wait_for { focus_on(Support::PageFragments::Form).form.labels }.to eq(
+        ["Weekday", "Description", "Start time", "End time", "Hourly rate"],
+      )
+    end
 
-      expect(dollar_value.text).to eq("$ 1575.00")
+    When "they fill out and submit the form" do
+      select("tuesday", from: "Weekday")
+      fill_in("Description", with: "On-site shooting")
+      fill_in("Start time", with: "08:30a.m.")
+      fill_in("End time", with: "12:50p.m.")
+      fill_in("Hourly rate", with: "27")
+      focus_on(Support::PageFragments::Form).form.submit
+    end
+
+    Then "they see the updated summary" do
+      wait_for { focus_on(Support::PageFragments::Timesheet).summary }.to(
+        eq(
+          {
+            "Duration (decimal)" => "4.33",
+            "Duration (in hours)" => "(4 hours 20 minutes)",
+            "Total revenue" => "$ 117.00",
+          },
+        ),
+      )
+    end
+
+    And "there is a breakdown showing the new line item" do
+      pending "Fix format of digits"
+      wait_for do
+        focus_on(Support::PageFragments::Timesheet).daily_breakdown
+      end.to eq(
+        {
+          "Tuesday" => [
+            {
+              "description" => "On-site shooting",
+              "hourly rate" => "27.0",
+              "subtotal" => "117.00",
+              "total decimal hours" => "4.33",
+            },
+          ],
+        },
+      )
     end
 
     When "They click on the button to go back to their Timesheets" do
@@ -81,7 +118,7 @@ describe "An existing user logs in to sheetstr and creates a timesheet", type: :
       timesheets_table = page.find("#timesheets-table")
       table_headers = timesheets_table.find_all("thead th").map(&:text)
 
-      expect(table_headers).to eq(
+      wait_for { table_headers }.to eq(
         [
           "Start Date",
           "End Date",
@@ -91,12 +128,12 @@ describe "An existing user logs in to sheetstr and creates a timesheet", type: :
         ],
       )
       rows_data = timesheets_table.find_all("tbody tr td").map(&:text)
-      expect(rows_data).to eq(
+      wait_for { rows_data }.to eq(
         [
           "Monday, 24 Jan 2022",
           "Sunday, 30 Jan 2022",
-          "63.0 hours",
-          "$1575.0",
+          "4.33 hours",
+          "$116.91",
           "View Edit",
         ],
       )

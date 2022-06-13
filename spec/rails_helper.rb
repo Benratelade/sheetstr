@@ -4,6 +4,7 @@
 require "spec_helper"
 require "driver_helper"
 require "capybara/rspec"
+require 'capybara-screenshot/rspec'
 ENV["RAILS_ENV"] ||= "test"
 require_relative "../config/environment"
 # Prevent database truncation if the environment is production

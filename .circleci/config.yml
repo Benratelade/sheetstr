@@ -62,6 +62,8 @@ jobs:
           include: spec/**/*_spec.rb
       - store_artifacts:
           path: /home/circleci/project/tmp/capybara
+  heroku/deploy-via-git: 
+
 workflows:
   build_and_test:
     jobs:
@@ -70,12 +72,9 @@ workflows:
       - test:
           requires:
             - build
-  heroku_deploy: 
-    jobs: 
       - heroku/deploy-via-git:
-        requires:
-          - build_and_test # only run deploy-via-git job if the build job has completed
+        requires: 
+          - test
             filters:
               branches:
-                only: main # only run deploy-via-git job on main branc
-            
+                only: main

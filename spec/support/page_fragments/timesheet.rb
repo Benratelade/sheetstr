@@ -6,7 +6,7 @@ module Support
       def summary
         summary_section = page.find("section[data-test_id=summary-section]")
 
-        summary = {
+        {
           "Duration (decimal)" => summary_section.find("#decimal-value").text,
           "Duration (in hours)" => summary_section.find("#hourly-value").text,
           "Total revenue" => summary_section.find("#total-revenue").text,

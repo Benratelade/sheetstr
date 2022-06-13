@@ -76,12 +76,12 @@ RSpec.configure do |config|
     line_number = meta[:line_number]
 
     time_now = Time.now
-    timestamp = "#{time_now.strftime('%Y-%m-%d-%H-%M-%S.')}#{'%03d' % (time_now.usec/1000).to_i}"
+    timestamp = "#{time_now.strftime('%Y-%m-%d-%H-%M-%S.')}#{format('%03d', (time_now.usec / 1000).to_i)}"
 
     screenshot_name = "screenshot-#{filename}-#{line_number}-#{timestamp}.png"
 
-    screenshot_root_path = ENV['CIRCLE_ARTIFACTS'] || Rails.root.join('tmp', 'capybara')
-    screenshot_path = [screenshot_root_path, screenshot_name].join('/')
+    screenshot_root_path = ENV.fetch("CIRCLE_ARTIFACTS") { Rails.root.join("tmp", "capybara") }
+    screenshot_path = [screenshot_root_path, screenshot_name].join("/")
 
     page.save_screenshot(screenshot_path, full: true)
     $stdout << "\nScreenshot: #{screenshot_path}\n"

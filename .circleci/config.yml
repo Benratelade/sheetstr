@@ -53,7 +53,7 @@ jobs:
           command: 'bundle exec rails db:schema:load --trace'
           name: Database setup
       - run: 
-          command: 'rails assets:precompile'
+          command: 'bundle exec rails assets:precompile'
           name: Precompiling assets
       - ruby/rspec-test:
           include: spec/**/*_spec.rb

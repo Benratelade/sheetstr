@@ -73,8 +73,8 @@ workflows:
           requires:
             - build
       - heroku/deploy-via-git:
-        requires: 
-          - test
-        filters:
-          branches:
-            only: main
+          requires: 
+            - test
+          filters:
+            branches:
+              only: main

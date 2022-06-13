@@ -45,7 +45,6 @@ jobs:
       - browser-tools/install-chromedriver
       - checkout
       - ruby/install-deps
-      - run: mkdir -p $CIRCLE_ARTIFACTS
       - node/install-packages:
           cache-path: ~/project/node_modules/yarn.lock
           pkg-manager: yarn

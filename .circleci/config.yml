@@ -60,7 +60,7 @@ jobs:
       - ruby/rspec-test:
           include: spec/**/*_spec.rb
       - store_artifacts:
-          path: tmp/capybara
+          path: /home/circleci/project/tmp/capybara
 workflows:
   build_and_test:
     jobs:

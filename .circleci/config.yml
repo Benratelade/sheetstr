@@ -7,12 +7,20 @@ jobs:
   build:
     docker:
       - image: cimg/ruby:3.1.0-browsers # use a tailored CircleCI docker image.
+        environment: 
+          CIRCLE_ARTIFACTS: /tmp/test-results
     steps:
       - checkout
       - ruby/install-deps
+      - run: mkdir -p $CIRCLE_ARTIFACTS
       - node/install-packages:
           cache-path: ~/project/node_modules/yarn.lock
           pkg-manager: yarn
+      - store_test_results:
+          path: /tmp/test-results
+      - store_artifacts:
+          path: /tmp/test-results
+          destination: test-results
   checking:
     docker:
       - image: cimg/ruby:3.1.0-browsers # use a tailored CircleCI docker image.

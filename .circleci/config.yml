@@ -16,11 +16,6 @@ jobs:
       - node/install-packages:
           cache-path: ~/project/node_modules/yarn.lock
           pkg-manager: yarn
-      - store_test_results:
-          path: /tmp/test-results
-      - store_artifacts:
-          path: /tmp/test-results
-          destination: test-results
   checking:
     docker:
       - image: cimg/ruby:3.1.0-browsers # use a tailored CircleCI docker image.
@@ -65,6 +60,11 @@ jobs:
           name: Precompiling assets
       - ruby/rspec-test:
           include: spec/**/*_spec.rb
+      - store_test_results:
+          path: /tmp/test-results
+      - store_artifacts:
+          path: /tmp/test-results
+          destination: test-results
 workflows:
   build_and_test:
     jobs:

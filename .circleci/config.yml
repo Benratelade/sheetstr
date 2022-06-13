@@ -3,6 +3,7 @@ orbs:
   ruby: circleci/ruby@1.7.1
   node: circleci/node@5.0.2
   browser-tools: circleci/browser-tools@1.2.5
+  heroku: circleci/heroku@x.y
 jobs:
   build:
     docker:
@@ -69,4 +70,12 @@ workflows:
       - test:
           requires:
             - build
+  heroku_deploy: 
+    jobs: 
+      - heroku/deploy-via-git:
+        requires:
+          - build_and_test # only run deploy-via-git job if the build job has completed
+            filters:
+              branches:
+                only: main # only run deploy-via-git job on main branc
             

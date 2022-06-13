@@ -60,10 +60,8 @@ jobs:
           name: Precompiling assets
       - ruby/rspec-test:
           include: spec/**/*_spec.rb
-      - store_test_results:
-          path: /tmp/test-results
       - store_artifacts:
-          path: /tmp/test-results
+          path: /tmp/capybara
           destination: test-results
 workflows:
   build_and_test:

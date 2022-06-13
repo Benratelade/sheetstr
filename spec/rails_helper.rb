@@ -70,26 +70,6 @@ RSpec.configure do |config|
   config.include FactoryBot::Syntax::Methods
 
   config.include Devise::Test::ControllerHelpers, type: :controller
-
-  def save_timestamped_screenshot(page, meta)
-    filename = File.basename(meta[:file_path])
-    line_number = meta[:line_number]
-
-    time_now = Time.now
-    timestamp = "#{time_now.strftime('%Y-%m-%d-%H-%M-%S.')}#{format('%03d', (time_now.usec / 1000).to_i)}"
-
-    screenshot_name = "screenshot-#{filename}-#{line_number}-#{timestamp}.png"
-
-    screenshot_root_path = ENV.fetch("CIRCLE_ARTIFACTS") { Rails.root.join("tmp", "capybara") }
-    screenshot_path = [screenshot_root_path, screenshot_name].join("/")
-
-    page.save_screenshot(screenshot_path, full: true)
-    $stdout << "\nScreenshot: #{screenshot_path}\n"
-  end
-
-  config.after(:each, js: true) do |example|
-    save_timestamped_screenshot(Capybara.page, example.metadata) if example.exception
-  end
 end
 
 require "sheetstr_spec_helper"

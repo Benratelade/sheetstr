@@ -12,7 +12,6 @@ jobs:
     steps:
       - checkout
       - ruby/install-deps
-      - run: mkdir -p $CIRCLE_ARTIFACTS
       - node/install-packages:
           cache-path: ~/project/node_modules/yarn.lock
           pkg-manager: yarn
@@ -46,6 +45,7 @@ jobs:
       - browser-tools/install-chromedriver
       - checkout
       - ruby/install-deps
+      - run: mkdir -p $CIRCLE_ARTIFACTS
       - node/install-packages:
           cache-path: ~/project/node_modules/yarn.lock
           pkg-manager: yarn
@@ -62,7 +62,6 @@ jobs:
           include: spec/**/*_spec.rb
       - store_artifacts:
           path: /tmp/capybara
-          destination: test-results
 workflows:
   build_and_test:
     jobs:

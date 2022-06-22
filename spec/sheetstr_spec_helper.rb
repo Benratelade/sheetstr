@@ -8,3 +8,5 @@ RSpec.configure do |config|
   config.include Support::PageFragments
   config.include Support::PageFragments::Login
 end
+
+Capybara.server_port = 5000

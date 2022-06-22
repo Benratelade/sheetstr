@@ -18,7 +18,7 @@ describe "layouts/application", type: :view do
     allow(view).to receive(:render).and_call_original
     expect(Navigation::NavbarComponent).to receive(:new).and_return(navbar_component)
     expect(view).to receive(:render).with(navbar_component).and_return("a navbar component")
-    
+
     render
 
     expect(rendered).to have_content("a navbar component")

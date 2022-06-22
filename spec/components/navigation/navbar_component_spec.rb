@@ -3,7 +3,7 @@
 require "rails_helper"
 
 RSpec.describe Navigation::NavbarComponent, type: :component do
-  before do 
+  before do
     @component = Navigation::NavbarComponent.new
   end
 

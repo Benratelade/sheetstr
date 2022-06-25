@@ -2,7 +2,7 @@
 <html>
   <head>
     <title>Sheetstr</title>
-    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
@@ -11,10 +11,12 @@
   </head>
 
   <body>
-    <% flash.each do |type, msg| %>
-      <div class="flash alert alert-<%= type %>"><%= msg %></div>
-    <% end %>
-    <%= render(Navigation::NavbarComponent.new) %>
-    <%= yield %>
+    <div class="container-fluid">
+      <% flash.each do |type, msg| %>
+        <div class="flash alert alert-<%= type %>"><%= msg %></div>
+      <% end %>
+      <%= render(Navigation::NavbarComponent.new) %>
+      <%= yield %>
+    </div>
   </body>
 </html>

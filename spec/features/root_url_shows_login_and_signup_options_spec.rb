@@ -9,7 +9,7 @@ describe "Someone visits the homepage, and sees the options to log in or sign up
     end
 
     Then "They are given the option to log in or sign up" do
-      actions = page.find_all(".login-options a").map(&:text)
+      actions = page.find_all(".navbar-actions a").map(&:text)
       expect(actions).to eq(
         [
           "Log in",

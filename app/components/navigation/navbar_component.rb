@@ -2,5 +2,8 @@
 
 module Navigation
   class NavbarComponent < ViewComponent::Base
+    def initialize(user: nil)
+      @user = user
+    end
   end
 end

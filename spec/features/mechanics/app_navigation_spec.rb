@@ -21,6 +21,39 @@ describe "Navigating through the app", type: :feature do
   end
 
   context "When the user IS logged in" do
-    pending "Need to implement logout button"
+    before do 
+      @otolose = create(:user)
+    end
+    
+    scenario "A user who is logged in sees a logout link" do
+      When "A user is signs in" do
+        login_as(@otolose)
+      end
+
+      Then "the only link in the nav is a logout link" do
+        wait_for { focus_on(Support::PageFragments::Navigation).actions }.to eq(
+          {
+            "Log out" => "http://127.0.0.1:5000/users/sign_out",
+          },
+        )
+      end
+
+      When "they click on the logout link" do
+        click_on("Log out")
+      end
+
+      Then "they are taken back to the login page" do
+        wait_for { current_path }.to eq("/users/sign_in")
+      end
+
+      And "the actions allow him to sign back in" do
+        wait_for { focus_on(Support::PageFragments::Navigation).actions }.to eq(
+          {
+            "Log in" => "http://127.0.0.1:5000/users/sign_in",
+            "Sign up" => "http://127.0.0.1:5000/users/sign_up",
+          },
+        )
+      end
+    end
   end
 end

@@ -6,8 +6,10 @@ describe "layouts/application", type: :view do
   it "sets the viewport for bootstrap" do
     render
 
-    expect(rendered).to have_css("head meta[name='viewport'][content='width=device-width, initial-scale=1']",
-                                 visible: false,)
+    expect(rendered).to have_css(
+      "head meta[name='viewport'][content='width=device-width, initial-scale=1']",
+      visible: false,
+    )
   end
 
   it "sets a container around the body" do
@@ -28,12 +30,14 @@ describe "layouts/application", type: :view do
 
   it "renders a Navbar Component" do
     navbar_component = double("A navbar component")
+    current_user = double("the current user")
     allow(view).to receive(:render).and_call_original
-    expect(Navigation::NavbarComponent).to receive(:new).and_return(navbar_component)
-    expect(view).to receive(:render).with(navbar_component).and_return("a navbar component")
+    allow(view).to receive(:current_user).and_return(current_user)
+    expect(Navigation::NavbarComponent).to receive(:new).with(user: current_user).and_return(navbar_component)
+    expect(view).to receive(:render).with(navbar_component) { "the rendered navbar component" }
 
     render
 
-    expect(rendered).to have_content("a navbar component")
+    expect(rendered).to have_content("the rendered navbar component")
   end
 end

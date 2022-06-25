@@ -21,10 +21,10 @@ describe "Navigating through the app", type: :feature do
   end
 
   context "When the user IS logged in" do
-    before do 
+    before do
       @otolose = create(:user)
     end
-    
+
     scenario "A user who is logged in sees a logout link" do
       When "A user is signs in" do
         login_as(@otolose)

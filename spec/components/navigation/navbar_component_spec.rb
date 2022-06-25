@@ -35,7 +35,7 @@ RSpec.describe Navigation::NavbarComponent, type: :component do
   end
 
   context "when there is a current_user" do
-    before do 
+    before do
       @user = double("a logged in user")
       @component = Navigation::NavbarComponent.new(user: @user)
     end

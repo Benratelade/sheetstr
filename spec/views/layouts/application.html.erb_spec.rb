@@ -6,7 +6,8 @@ describe "layouts/application", type: :view do
   it "sets the viewport for bootstrap" do
     render
 
-    expect(rendered).to have_css("head meta[name='viewport'][content='width=device-width, initial-scale=1']", visible: false)
+    expect(rendered).to have_css("head meta[name='viewport'][content='width=device-width, initial-scale=1']",
+                                 visible: false,)
   end
 
   it "sets a container around the body" do

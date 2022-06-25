@@ -3,7 +3,7 @@
 require "rails_helper"
 
 describe "devise/sessions/new", type: :view do
-  before do 
+  before do
     @resource = User.new
     @resource_name = :user
     stub_template("devise/shared/_links.html.erb" => "The devise links")
@@ -66,9 +66,9 @@ describe "devise/sessions/new", type: :view do
 
   it "renders some devise links" do
     render template: subject, locals: { resource: @resource, resource_name: @resource_name }
-    
+
     expect(view).to render_template(partial: "_links")
-    
+
     page = Capybara.string(rendered)
     expect(page.find(".col-6")).to have_content("The devise links")
   end

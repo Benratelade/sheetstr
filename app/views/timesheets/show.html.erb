@@ -17,14 +17,11 @@
   <% @timesheet.grouped_line_items.each do |weekday, line_items| %>
     <div class="weekday-summary">
       <h3 class="weekday"><%= weekday %></h3>
-      <% line_items.each do |line_item| %>
-        <div class="line-item">
-          <div class="field-description">Description:  <span class="description"><%= line_item.description %></span></div>
-          <div>Duration: <span class="total-decimal-hours"><%= number_with_precision(line_item.total_decimal_hours, precision: 2) %></span></div>
-          <div>Hourly Rate:  <span class="hourly-rate"><%= line_item.hourly_rate %></span></div>
-          <div>Subtotal: <span class="subtotal"><%= number_with_precision(line_item.subtotal, precision: 2) %></span></div>
-        </div>
-      <% end %>
+      <ul class="list-group">
+        <% line_items.each do |line_item| %>
+          <%= render(LineItems::LineItemSummaryComponent.new(line_item)) %>
+        <% end %>
+      </ul>
     </div>
   <% end %>
 </section>

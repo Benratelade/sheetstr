@@ -14,14 +14,14 @@ describe "An existing user views a timesheet from the index page", type: :featur
       end_date: Date.parse("Jan 30 2022"),
     )
 
-    @timesheet_2 = create(
+    create(
       :timesheet,
       user: @otolose,
       start_date: Date.parse("Jan 31 2022"),
       end_date: Date.parse("Feb 6 2022"),
     )
 
-    @timesheet_3 = create(
+    create(
       :timesheet,
       user: @otolose,
       start_date: Date.parse("Feb 7 2022"),
@@ -40,7 +40,17 @@ describe "An existing user views a timesheet from the index page", type: :featur
       description: "office hours",
       hourly_rate: 24,
       start_time: Time.iso8601("2022-01-24T08:00:00+10:00"),
-      end_time: Time.iso8601("2022-01-24T17:30:00+10:00"),
+      end_time: Time.iso8601("2022-01-24T12:30:00+10:00"),
+    )
+
+    create(
+      :line_item,
+      timesheet: @timesheet_1,
+      weekday: "monday",
+      description: "on-site shooting",
+      hourly_rate: 30,
+      start_time: Time.iso8601("2022-01-24T12:30:00+10:00"),
+      end_time: Time.iso8601("2022-01-24T18:30:00+10:00"),
     )
 
     create(
@@ -88,8 +98,8 @@ describe "An existing user views a timesheet from the index page", type: :featur
           }, {
             "Start Date" => "Monday, 24 Jan 2022",
             "End Date" => "Sunday, 30 Jan 2022",
-            "Total Decimal Hours" => "22.50 hours",
-            "Total Revenue" => "$579.00",
+            "Total Decimal Hours" => "23.50 hours",
+            "Total Revenue" => "$639.00",
             "Actions" => "View Edit",
           },
         ],
@@ -107,9 +117,9 @@ describe "An existing user views a timesheet from the index page", type: :featur
 
       wait_for { focus_on(Support::PageFragments::Timesheet).summary }.to eq(
         {
-          "Duration (decimal)" => "22.50",
-          "Duration (in hours)" => "(22 hours 30 minutes)",
-          "Total revenue" => "$ 579.00",
+          "Duration (decimal)" => "23.50",
+          "Duration (in hours)" => "(23 hours 30 minutes)",
+          "Total revenue" => "$ 639.00",
         },
       )
     end
@@ -123,8 +133,13 @@ describe "An existing user views a timesheet from the index page", type: :featur
             {
               "description" => "office hours",
               "hourly rate" => "24.0",
-              "subtotal" => "228.00",
-              "total decimal hours" => "9.50",
+              "subtotal" => "108.00",
+              "total decimal hours" => "4.50",
+            }, {
+              "description" => "on-site shooting",
+              "hourly rate" => "30.0",
+              "subtotal" => "180.00",
+              "total decimal hours" => "6.00",
             },
           ],
           "Tuesday" => [
@@ -155,6 +170,32 @@ describe "An existing user views a timesheet from the index page", type: :featur
       wait_for do
         focus_on(Support::PageFragments::Headers).page_header
       end.to eq("Timesheets for #{@otolose.email}")
+    end
+  end
+
+  context "when there are line items with the same description and hourly rate" do
+    before do
+      create(
+        :line_item,
+        timesheet: @timesheet_1,
+        weekday: "tuesday",
+        description: "office hours",
+        hourly_rate: 24,
+        start_time: Time.iso8601("2022-02-24T08:00:00+10:00"),
+        end_time: Time.iso8601("2022-02-24T12:30:00+10:00"),
+      )
+    end
+
+    scenario "Otolose views the timesheet and sees line items grouped by description and hourly rate" do
+      When "a logged in user visits the timesheet" do
+        login_as(@otolose)
+        visit(timesheet_path(@timesheet_1))
+      end
+
+      Then "a summary of unique line items is displayed" do
+        pending "need to add a summary of combined line items"
+        wait_for { 5 }.to eq(2)
+      end
     end
   end
 end

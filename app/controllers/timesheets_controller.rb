@@ -2,7 +2,7 @@
 
 class TimesheetsController < ApplicationController
   def index
-    @timesheets = current_user.timesheets
+    @timesheets = current_user.timesheets.order(start_date: :desc)
   end
 
   def new

@@ -5,16 +5,37 @@ require "rails_helper"
 describe "An existing user views a timesheet from the index page", type: :feature do
   before do
     @otolose = create(:user)
-    @timesheet = create(
+    @arthur = create(:user)
+
+    @timesheet_1 = create(
       :timesheet,
       user: @otolose,
       start_date: Date.parse("Jan 24 2022"),
       end_date: Date.parse("Jan 30 2022"),
     )
 
+    @timesheet_2 = create(
+      :timesheet,
+      user: @otolose,
+      start_date: Date.parse("Jan 31 2022"),
+      end_date: Date.parse("Feb 6 2022"),
+    )
+
+    @timesheet_3 = create(
+      :timesheet,
+      user: @otolose,
+      start_date: Date.parse("Feb 7 2022"),
+      end_date: Date.parse("Feb 13 2022"),
+    )
+
+    @arthur_timesheet = create(
+      :timesheet,
+      user: @arthur,
+    )
+
     create(
       :line_item,
-      timesheet: @timesheet,
+      timesheet: @timesheet_1,
       weekday: "monday",
       description: "office hours",
       hourly_rate: 24,
@@ -24,7 +45,7 @@ describe "An existing user views a timesheet from the index page", type: :featur
 
     create(
       :line_item,
-      timesheet: @timesheet,
+      timesheet: @timesheet_1,
       weekday: "tuesday",
       description: "shooting",
       hourly_rate: 30,
@@ -34,7 +55,7 @@ describe "An existing user views a timesheet from the index page", type: :featur
 
     create(
       :line_item,
-      timesheet: @timesheet,
+      timesheet: @timesheet_1,
       weekday: "thursday",
       description: "office hours",
       hourly_rate: 24,
@@ -44,13 +65,39 @@ describe "An existing user views a timesheet from the index page", type: :featur
   end
 
   scenario "Otolose looks at an existing timesheet" do
-    When "Otolose is logged in and visits the list of her timesheets" do
+    When "a logged in user visits the list of her timesheets" do
       login_as(@otolose)
       visit(timesheets_path)
     end
 
+    Then "a list of all her timesheets is shown, ordered by start date, with most recent timesheets first" do
+      wait_for { focus_on(Support::PageFragments::Table).table.data }.to eq(
+        [
+          {
+            "Start Date" => "Monday, 07 Feb 2022",
+            "End Date" => "Sunday, 13 Feb 2022",
+            "Total Decimal Hours" => "0.00 hours",
+            "Total Revenue" => "$0.00",
+            "Actions" => "View Edit",
+          }, {
+            "Start Date" => "Monday, 31 Jan 2022",
+            "End Date" => "Sunday, 06 Feb 2022",
+            "Total Decimal Hours" => "0.00 hours",
+            "Total Revenue" => "$0.00",
+            "Actions" => "View Edit",
+          }, {
+            "Start Date" => "Monday, 24 Jan 2022",
+            "End Date" => "Sunday, 30 Jan 2022",
+            "Total Decimal Hours" => "22.50 hours",
+            "Total Revenue" => "$579.00",
+            "Actions" => "View Edit",
+          },
+        ],
+      )
+    end
+
     And "she clicks to view one of her existing timesheets" do
-      focus_on(Support::PageFragments::Table).table.rows.first.go_to("View")
+      focus_on(Support::PageFragments::Table).table.rows.last.go_to("View")
     end
 
     Then "They see a summary of the week's work" do

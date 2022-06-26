@@ -236,13 +236,26 @@ RSpec.describe TimesheetsController, type: :controller do
   end
 
   describe "#index" do
+    before do
+      @timesheet_1 = double("Timesheet 1", start_date: Date.parse("Jan 24 2022"))
+      @timesheet_2 = double("Timesheet 2", start_date: Date.parse("Jan 31 2022"))
+      @user_timesheets = double("Timesheets", order: [@timesheet_1, @timesheet_2])
+      @current_user = double("user", timesheets: @user_timesheets)
+      allow(controller).to receive(:current_user).and_return(@current_user)
+    end
+
     it "assigns all of the current user's timesheets to @timesheets" do
-      timesheet_1 = double("Timesheet 1")
-      timesheet_2 = double("Timesheet 2")
-      current_user = double("user", timesheets: [timesheet_1, timesheet_2])
-      allow(controller).to receive(:current_user).and_return(current_user)
+      expect(@current_user).to receive(:timesheets)
+
       get :index
-      expect(assigns(:timesheets)).to eq([timesheet_1, timesheet_2])
+
+      expect(assigns(:timesheets)).to eq([@timesheet_1, @timesheet_2])
+    end
+
+    it "orders timesheets by start_date, descending" do
+      expect(@user_timesheets).to receive(:order).with(start_date: :desc)
+      get :index
+
     end
   end
 end

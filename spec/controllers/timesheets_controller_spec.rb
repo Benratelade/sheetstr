@@ -255,7 +255,6 @@ RSpec.describe TimesheetsController, type: :controller do
     it "orders timesheets by start_date, descending" do
       expect(@user_timesheets).to receive(:order).with(start_date: :desc)
       get :index
-
     end
   end
 end

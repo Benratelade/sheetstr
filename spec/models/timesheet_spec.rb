@@ -103,7 +103,7 @@ RSpec.describe Timesheet, type: :model do
     end
   end
 
-  describe "#grouped_line_items" do
+  describe "#daily_line_items" do
     before do
       @timesheet = Timesheet.new
     end
@@ -121,7 +121,7 @@ RSpec.describe Timesheet, type: :model do
 
       allow(@timesheet).to receive(:line_items).and_return([line_item_1, line_item_2])
 
-      expect(@timesheet.grouped_line_items).to eq(
+      expect(@timesheet.daily_line_items).to eq(
         {
           "monday" => [line_item_2],
           "tuesday" => [line_item_1],
@@ -142,7 +142,7 @@ RSpec.describe Timesheet, type: :model do
 
       allow(@timesheet).to receive(:line_items).and_return([line_item_1, line_item_2])
 
-      expect(@timesheet.grouped_line_items).to eq(
+      expect(@timesheet.daily_line_items).to eq(
         {
           "tuesday" => [line_item_1, line_item_2],
         },

@@ -15,7 +15,7 @@ describe "timesheets/show", type: :view do
       total_decimal_hours: "",
       hours_breakdown: {},
       total_revenue: double("some revenue"),
-      grouped_line_items: [],
+      daily_line_items: [],
     )
     allow(view).to receive(:render).and_call_original
   end
@@ -159,7 +159,7 @@ describe "timesheets/show", type: :view do
         subtotal: "subtotal 3",
         weekday: "wednesday",
       )
-      allow(@timesheet).to receive(:grouped_line_items).and_return(
+      allow(@timesheet).to receive(:daily_line_items).and_return(
         {
           "monday" => [@line_item_1, @line_item_2],
           "wednesday" => [@line_item_3],

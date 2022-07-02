@@ -15,7 +15,7 @@
   <%= link_to("View my timesheets", timesheets_path) %>
 </section>
 <section id="daily-breakdown">
-  <% @timesheet.grouped_line_items.each do |weekday, line_items| %>
+  <% @timesheet.daily_line_items.each do |weekday, line_items| %>
     <div class="weekday-summary">
       <h3 class="weekday"><%= weekday %></h3>
       <ul class="list-group">

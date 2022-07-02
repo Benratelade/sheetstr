@@ -16,6 +16,7 @@ describe "timesheets/show", type: :view do
       hours_breakdown: {},
       total_revenue: double("some revenue"),
       daily_line_items: [],
+      grouped_line_items: [],
     )
     allow(view).to receive(:render).and_call_original
   end

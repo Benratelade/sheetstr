@@ -4,7 +4,7 @@ module Support
   module PageFragments
     module Timesheet
       def summary
-        summary_section = page.find("section[data-test_id=summary-section]")
+        summary_section = page.find("section#summary-section")
 
         {
           "Duration (decimal)" => summary_section.find("#decimal-value").text,

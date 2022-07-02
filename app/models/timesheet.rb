@@ -45,7 +45,7 @@ class Timesheet < ApplicationRecord
         hash[signature][:total_decimal_hours] += line_item.total_decimal_hours
         hash[signature][:subtotal] += line_item.subtotal
       else
-        hash[signature] = build_item_summary(item)
+        hash[signature] = build_item_summary(line_item)
       end
     end
 
@@ -72,7 +72,7 @@ class Timesheet < ApplicationRecord
     errors.add(:base, "Timesheets must be 7 days long") if start_date && end_date && end_date - start_date != 6
   end
 
-  def build_item_summary(_item)
+  def build_item_summary(line_item)
     {
       description: line_item.description,
       hourly_rate: line_item.hourly_rate,

@@ -5,23 +5,21 @@ require "rails_helper"
 RSpec.describe Timesheets::TimesheetLineItemsSummaryComponent, type: :component do
   before do
     @timesheet = double(
-      "A timesheet", 
+      "A timesheet",
       grouped_line_items: [
-        double(
-          "line item 1",
+        {
           description: "line item 1 description",
           total_decimal_hours: 12.6666666,
           hourly_rate: 30,
           subtotal: 379.9998,
-        ), 
-        double(
-          "line item 2",
+        },
+        {
           description: "line item 2 description",
           total_decimal_hours: 10,
           hourly_rate: 27,
           subtotal: 270,
-        ),
-      ]
+        },
+      ],
     )
     @component = Timesheets::TimesheetLineItemsSummaryComponent.new(timesheet: @timesheet)
   end
@@ -45,6 +43,5 @@ RSpec.describe Timesheets::TimesheetLineItemsSummaryComponent, type: :component 
     expect(item_summary[1].find(".total-decimal-hours").text).to eq("10.00")
     expect(item_summary[1].find(".hourly-rate").text).to eq("27")
     expect(item_summary[1].find(".subtotal").text).to eq("270.00")
-
   end
 end

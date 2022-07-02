@@ -174,18 +174,6 @@ describe "An existing user views a timesheet from the index page", type: :featur
   end
 
   context "when there are line items with the same description and hourly rate" do
-    before do
-      create(
-        :line_item,
-        timesheet: @timesheet_1,
-        weekday: "tuesday",
-        description: "office hours",
-        hourly_rate: 24,
-        start_time: Time.iso8601("2022-02-24T08:00:00+10:00"),
-        end_time: Time.iso8601("2022-02-24T12:30:00+10:00"),
-      )
-    end
-
     scenario "Otolose views the timesheet and sees line items grouped by description and hourly rate" do
       When "a logged in user visits the timesheet" do
         login_as(@otolose)
@@ -193,7 +181,6 @@ describe "An existing user views a timesheet from the index page", type: :featur
       end
 
       Then "a summary of unique line items is displayed" do
-        pending "need to add a summary of combined line items"
         wait_for do
           focus_on(Support::PageFragments::Timesheet).items_summary
         end.to eq(

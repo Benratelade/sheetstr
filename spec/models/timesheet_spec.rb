@@ -130,6 +130,7 @@ RSpec.describe Timesheet, type: :model do
     end
 
     it "groups line items by weekday" do
+      
       line_item_1 = double(
         "line_item_1",
         weekday: "tuesday",
@@ -146,6 +147,69 @@ RSpec.describe Timesheet, type: :model do
         {
           "tuesday" => [line_item_1, line_item_2],
         },
+      )
+    end
+  end
+
+  describe "#grouped_line_items" do
+    before do
+      @timesheet = Timesheet.new
+    end
+
+    it "returns a summary of all line items that share the same description AND hourly rate" do
+      line_item_1 = double(
+        "line_item_1",
+        description: "a description",
+        hourly_rate: "an hourly rate", 
+        total_decimal_hours: 13,
+        subtotal: 123,
+      )
+
+      line_item_2 = double(
+        "line_item_2",
+        description: "a different description",
+        hourly_rate: "an hourly rate", 
+        total_decimal_hours: 72,
+        subtotal: 728,
+      )
+
+      line_item_3 = double(
+        "line_item_3",
+        description: "a description",
+        hourly_rate: "an hourly rate", 
+        total_decimal_hours: 14,
+        subtotal: 231,
+      )
+
+      line_item_4 = double(
+        "line_item_4",
+        description: "a description",
+        hourly_rate: "another hourly rate", 
+        total_decimal_hours: 55,
+        subtotal: 500,
+      )
+
+      allow(@timesheet).to receive(:line_items).and_return([line_item_1, line_item_2, line_item_3, line_item_4])
+
+      expect(@timesheet.grouped_line_items).to eq(
+        [
+          {
+            description: "a description",
+            hourly_rate: "an hourly rate",
+            total_decimal_hours: 27,
+            subtotal: 354,
+          }, {
+            description: "a different description",
+            hourly_rate: "an hourly rate", 
+            total_decimal_hours: 72,
+            subtotal: 728,
+          }, {
+            description: "a description",
+            hourly_rate: "another hourly rate",
+            total_decimal_hours: 55,
+            subtotal: 500,
+          }, 
+        ]
       )
     end
   end

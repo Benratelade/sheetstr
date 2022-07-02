@@ -38,6 +38,26 @@ class Timesheet < ApplicationRecord
   end
 
   def grouped_line_items
+    results_hash = line_items.each_with_object({}) do |line_item, hash|
+      signature = "#{line_item.description} - #{line_item.hourly_rate}"
+
+      if hash[signature].present?
+        hash[signature][:total_decimal_hours] += line_item.total_decimal_hours
+        hash[signature][:subtotal] += line_item.subtotal
+      else
+        hash[signature] = {
+          description: line_item.description,
+          hourly_rate: line_item.hourly_rate,
+          total_decimal_hours: line_item.total_decimal_hours,
+          subtotal: line_item.subtotal,
+        }
+      end
+    end
+
+    results_hash.values
+  end
+
+  def daily_line_items
     weekdays = {}
     line_items.each do |line_item|
       weekdays[line_item.weekday] ||= []

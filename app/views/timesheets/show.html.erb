@@ -1,6 +1,6 @@
 <h2 id="page-header">Timesheet for <%= @timesheet.start_date.strftime("%A, %B %d %Y") %> to <%= @timesheet.end_date.strftime("%A, %B %d %Y") %></h2>
 
-<section data-test_id="summary-section">
+<section id="summary-section">
   <div id="total-time-section">Total hours worked (decimal): 
     <p id="decimal-value"><%= number_with_precision(@timesheet.total_decimal_hours, precision: 2) %></p>
     <p id="hourly-value">(<%= "#{@timesheet.hours_breakdown[:hours]} hours #{@timesheet.hours_breakdown[:minutes]} minutes" %>)</p>
@@ -8,6 +8,7 @@
   <div id="total-revenue-section">
     <p id="total-revenue">$ <%= number_with_precision(@timesheet.total_revenue, precision: 2) %></p>
   </div>
+  <%= render(Timesheets::TimesheetLineItemsSummaryComponent.new(timesheet: @timesheet))%>
 </section>
 <section class="page-actions">
   <%= link_to("Add item", new_timesheet_line_item_path(@timesheet.id)) %>

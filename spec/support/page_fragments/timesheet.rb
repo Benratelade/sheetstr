@@ -22,6 +22,15 @@ module Support
         breakdown_data
       end
 
+      def items_summary
+        summary_data = {}
+        items_summary_section = page.find("#items-summary")
+        items_summary_section.find_all(".item-summary").each do |item_summary|
+          build_item_summary(summary_data, item_summary)
+        end
+        summary_data
+      end
+
       private
 
       def build_weekday_summary(hash, weekday_summary_section)
@@ -36,6 +45,15 @@ module Support
             "subtotal" => line_item.find(".subtotal").text,
           }
         end
+      end
+
+      def build_item_summary(hash, item_summary_section)
+        item_description = item_summary_section.find(".description").text
+        hash[item_description] ||= {}
+
+        hash[item_description]["total decimal hours"] = item_summary_section.find(".total-decimal-hours").text
+        hash[item_description]["hourly rate"] = item_summary_section.find(".hourly-rate").text
+        hash[item_description]["subtotal"] = item_summary_section.find(".subtotal").text
       end
     end
   end

@@ -47,7 +47,7 @@ describe "An existing user views a timesheet from the index page", type: :featur
       :line_item,
       timesheet: @timesheet_1,
       weekday: "monday",
-      description: "on-site shooting",
+      description: "shooting",
       hourly_rate: 30,
       start_time: Time.iso8601("2022-01-24T12:30:00+10:00"),
       end_time: Time.iso8601("2022-01-24T18:30:00+10:00"),
@@ -136,7 +136,7 @@ describe "An existing user views a timesheet from the index page", type: :featur
               "subtotal" => "108.00",
               "total decimal hours" => "4.50",
             }, {
-              "description" => "on-site shooting",
+              "description" => "shooting",
               "hourly rate" => "30.0",
               "subtotal" => "180.00",
               "total decimal hours" => "6.00",
@@ -194,7 +194,22 @@ describe "An existing user views a timesheet from the index page", type: :featur
 
       Then "a summary of unique line items is displayed" do
         pending "need to add a summary of combined line items"
-        wait_for { 5 }.to eq(2)
+        wait_for do
+          focus_on(Support::PageFragments::Timesheet).items_summary
+        end.to eq(
+          {
+            "office hours" => {
+              "hourly rate" => "24.0",
+              "total decimal hours" => "11.00",
+              "subtotal" => "264.00",
+            },
+            "shooting" => {
+              "hourly rate" => "30.0",
+              "total decimal hours" => "12.50",
+              "subtotal" => "375.00",
+            },
+          },
+        )
       end
     end
   end

@@ -17,6 +17,7 @@ describe "timesheets/show", type: :view do
       total_revenue: double("some revenue"),
       grouped_line_items: [],
     )
+    allow(view).to receive(:render).and_call_original
   end
 
   it "Displays the email of the current user" do
@@ -31,7 +32,7 @@ describe "timesheets/show", type: :view do
   it "displays a summary section" do
     render
 
-    expect(rendered).to have_css("section[data-test_id=summary-section]")
+    expect(rendered).to have_css("section[id=summary-section]")
   end
 
   it "Displays the total number of decimal hours worked for that timesheet inside the summary section" do
@@ -40,7 +41,7 @@ describe "timesheets/show", type: :view do
     render
 
     page = Capybara.string(rendered)
-    total = page.find("section[data-test_id=summary-section] #total-time-section #decimal-value")
+    total = page.find("section[id=summary-section] #total-time-section #decimal-value")
     expect(total.text).to eq("27.33")
   end
 
@@ -55,7 +56,7 @@ describe "timesheets/show", type: :view do
     render
 
     page = Capybara.string(rendered)
-    total = page.find("section[data-test_id=summary-section] #total-time-section #hourly-value")
+    total = page.find("section[id=summary-section] #total-time-section #hourly-value")
     expect(total.text).to eq("(26 hours 47 minutes)")
   end
 
@@ -71,8 +72,20 @@ describe "timesheets/show", type: :view do
     render
 
     page = Capybara.string(rendered)
-    total = page.find("section[data-test_id=summary-section] #total-revenue-section #total-revenue")
+    total = page.find("section[id=summary-section] #total-revenue-section #total-revenue")
     expect(total.text).to eq("$ 1512.00")
+  end
+
+  it "Renders a TimesheetLineItemsSummaryComponent" do
+    summary_component = double("A timesheet line items summary component")
+    expect(Timesheets::TimesheetLineItemsSummaryComponent).to receive(:new).with(timesheet: @timesheet).and_return(summary_component)
+    expect(view).to receive(:render).with(summary_component) { "summary component rendered" }
+
+    render
+
+    page = Capybara.string(rendered)
+    summary_section = page.find("#summary-section")
+    expect(summary_section).to have_content("summary component rendered")
   end
 
   it "Displays the total revenue with 2 digits after the decimal place" do
@@ -87,7 +100,7 @@ describe "timesheets/show", type: :view do
     render
 
     page = Capybara.string(rendered)
-    total = page.find("section[data-test_id=summary-section] #total-revenue-section #total-revenue")
+    total = page.find("section[id=summary-section] #total-revenue-section #total-revenue")
     expect(total.text).to eq("$ 1512.33")
   end
 
@@ -152,7 +165,6 @@ describe "timesheets/show", type: :view do
           "wednesday" => [@line_item_3],
         },
       )
-      allow(view).to receive(:render).and_call_original
     end
 
     it "Displays a weekday-summary that contains a list group for each weekday" do

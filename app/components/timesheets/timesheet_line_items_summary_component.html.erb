@@ -1,0 +1,10 @@
+<section id="items-summary">
+  <% @timesheet.grouped_line_items.each do |line_items_group| %>
+    <li class="list-group-item item-summary">
+      <h4 class="description"><%= line_items_group.description %></h4>
+      <div class="total-decimal-hours"><%= number_with_precision(line_items_group.total_decimal_hours, precision: 2) %></div>
+      <div class="hourly-rate"><%= line_items_group.hourly_rate %></div>
+      <div class="subtotal"><%= number_with_precision(line_items_group.subtotal, precision: 2) %></div>
+    </li>
+  <% end %>
+</section>

@@ -130,7 +130,6 @@ RSpec.describe Timesheet, type: :model do
     end
 
     it "groups line items by weekday" do
-      
       line_item_1 = double(
         "line_item_1",
         weekday: "tuesday",
@@ -160,7 +159,7 @@ RSpec.describe Timesheet, type: :model do
       line_item_1 = double(
         "line_item_1",
         description: "a description",
-        hourly_rate: "an hourly rate", 
+        hourly_rate: "an hourly rate",
         total_decimal_hours: 13,
         subtotal: 123,
       )
@@ -168,7 +167,7 @@ RSpec.describe Timesheet, type: :model do
       line_item_2 = double(
         "line_item_2",
         description: "a different description",
-        hourly_rate: "an hourly rate", 
+        hourly_rate: "an hourly rate",
         total_decimal_hours: 72,
         subtotal: 728,
       )
@@ -176,7 +175,7 @@ RSpec.describe Timesheet, type: :model do
       line_item_3 = double(
         "line_item_3",
         description: "a description",
-        hourly_rate: "an hourly rate", 
+        hourly_rate: "an hourly rate",
         total_decimal_hours: 14,
         subtotal: 231,
       )
@@ -184,7 +183,7 @@ RSpec.describe Timesheet, type: :model do
       line_item_4 = double(
         "line_item_4",
         description: "a description",
-        hourly_rate: "another hourly rate", 
+        hourly_rate: "another hourly rate",
         total_decimal_hours: 55,
         subtotal: 500,
       )
@@ -200,7 +199,7 @@ RSpec.describe Timesheet, type: :model do
             subtotal: 354,
           }, {
             description: "a different description",
-            hourly_rate: "an hourly rate", 
+            hourly_rate: "an hourly rate",
             total_decimal_hours: 72,
             subtotal: 728,
           }, {
@@ -208,8 +207,8 @@ RSpec.describe Timesheet, type: :model do
             hourly_rate: "another hourly rate",
             total_decimal_hours: 55,
             subtotal: 500,
-          }, 
-        ]
+          },
+        ],
       )
     end
   end

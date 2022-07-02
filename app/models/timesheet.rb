@@ -14,7 +14,7 @@ class Timesheet < ApplicationRecord
     (line_items || []).sum(&:total_decimal_hours)
   end
 
-  def hours_breakdown # rubocop:todo Metrics/AbcSize
+  def hours_breakdown
     breakdown = {
       hours: 0,
       minutes: 0,
@@ -45,12 +45,7 @@ class Timesheet < ApplicationRecord
         hash[signature][:total_decimal_hours] += line_item.total_decimal_hours
         hash[signature][:subtotal] += line_item.subtotal
       else
-        hash[signature] = {
-          description: line_item.description,
-          hourly_rate: line_item.hourly_rate,
-          total_decimal_hours: line_item.total_decimal_hours,
-          subtotal: line_item.subtotal,
-        }
+        hash[signature] = build_item_summary(item)
       end
     end
 
@@ -75,5 +70,14 @@ class Timesheet < ApplicationRecord
 
   def must_be_7_days_long
     errors.add(:base, "Timesheets must be 7 days long") if start_date && end_date && end_date - start_date != 6
+  end
+
+  def build_item_summary(_item)
+    {
+      description: line_item.description,
+      hourly_rate: line_item.hourly_rate,
+      total_decimal_hours: line_item.total_decimal_hours,
+      subtotal: line_item.subtotal,
+    }
   end
 end

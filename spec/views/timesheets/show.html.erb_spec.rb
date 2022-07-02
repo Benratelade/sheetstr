@@ -78,7 +78,9 @@ describe "timesheets/show", type: :view do
 
   it "Renders a TimesheetLineItemsSummaryComponent" do
     summary_component = double("A timesheet line items summary component")
-    expect(Timesheets::TimesheetLineItemsSummaryComponent).to receive(:new).with(timesheet: @timesheet).and_return(summary_component)
+    expect(Timesheets::TimesheetLineItemsSummaryComponent).to receive(:new).with(
+      timesheet: @timesheet,
+    ).and_return(summary_component)
     expect(view).to receive(:render).with(summary_component) { "summary component rendered" }
 
     render

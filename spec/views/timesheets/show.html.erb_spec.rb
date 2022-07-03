@@ -37,7 +37,7 @@ describe "timesheets/show", type: :view do
   it "displays a summary section" do
     render
 
-    expect(rendered).to have_css("section.mb-2#summary-section")
+    expect(rendered).to have_css("section.mb-2.col-6#summary-section")
   end
 
   it "Displays the total number of decimal hours worked for that timesheet inside the summary section" do
@@ -155,7 +155,7 @@ describe "timesheets/show", type: :view do
   it "Displays a daily breakdown section" do
     render
 
-    expect(rendered).to have_css(".mb-2#daily-breakdown")
+    expect(rendered).to have_css(".mb-2.col-6#daily-breakdown")
   end
 
   context "When the timesheet has some grouped line items" do

@@ -55,7 +55,6 @@ RSpec.describe Utilities::Buttons::ButtonComponent, type: :component do
           style: "nonna_the_above",
         )
         render_inline(@component)
-
       end.to raise_error("Unrecognized button style: nonna_the_above")
     end
   end

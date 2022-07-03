@@ -23,7 +23,6 @@ RSpec.describe LineItems::LineItemSummaryComponent, type: :component do
     render_inline(@component)
 
     expect(page).to have_css("li.list-group-item.line-item")
-    # d-flex justify-content-between align-items-start
   end
 
   it "displays the description as a header" do

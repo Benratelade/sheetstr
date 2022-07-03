@@ -176,6 +176,7 @@ describe "timesheets/show", type: :view do
       page = Capybara.string(rendered)
       daily_breakdown = page.find("#daily-breakdown")
 
+      expect(daily_breakdown).to have_css("h3", text: "Weekdays summary")
       weekday_summaries = daily_breakdown.find_all(".weekday-summary")
       expect(weekday_summaries.count).to eq(2)
 

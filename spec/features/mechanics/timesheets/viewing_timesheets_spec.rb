@@ -184,18 +184,19 @@ describe "An existing user views a timesheet from the index page", type: :featur
         wait_for do
           focus_on(Support::PageFragments::Timesheet).items_summary
         end.to eq(
-          {
-            "office hours" => {
+          [
+            {
+              "description" => "office hours",
               "hourly rate" => "24.0",
               "total decimal hours" => "11.00",
               "subtotal" => "264.00",
-            },
-            "shooting" => {
+            }, {
+              "description" => "shooting",
               "hourly rate" => "30.0",
               "total decimal hours" => "12.50",
               "subtotal" => "375.00",
             },
-          },
+          ],
         )
       end
     end

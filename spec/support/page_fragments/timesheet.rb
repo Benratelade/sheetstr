@@ -23,7 +23,7 @@ module Support
       end
 
       def items_summary
-        summary_data = {}
+        summary_data = []
         items_summary_section = page.find("#items-summary")
         items_summary_section.find_all(".item-summary").each do |item_summary|
           build_item_summary(summary_data, item_summary)
@@ -47,13 +47,13 @@ module Support
         end
       end
 
-      def build_item_summary(hash, item_summary_section)
-        item_description = item_summary_section.find(".description").text
-        hash[item_description] ||= {}
-
-        hash[item_description]["total decimal hours"] = item_summary_section.find(".total-decimal-hours").text
-        hash[item_description]["hourly rate"] = item_summary_section.find(".hourly-rate").text
-        hash[item_description]["subtotal"] = item_summary_section.find(".subtotal").text
+      def build_item_summary(array, item_summary_section)
+        array << {
+          "description" => item_summary_section.find(".description").text,
+          "total decimal hours" => item_summary_section.find(".total-decimal-hours").text,
+          "hourly rate" => item_summary_section.find(".hourly-rate").text,
+          "subtotal" => item_summary_section.find(".subtotal").text,
+        }
       end
     end
   end

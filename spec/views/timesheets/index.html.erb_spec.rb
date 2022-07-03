@@ -8,6 +8,7 @@ describe "timesheets/index", type: :view do
     allow(controller).to receive(:current_user).and_return(@current_user)
     @timesheets = double("Timesheets")
     allow(@timesheets).to receive(:each).and_return([])
+    allow(view).to receive(:render).and_call_original
   end
 
   it "Displays a title that contains the currently logged-in user's email" do
@@ -33,11 +34,18 @@ describe "timesheets/index", type: :view do
   end
 
   it "renders a link to create new timesheets" do
+    button_component = double("a button component")
+
+    expect(Utilities::Buttons::ButtonComponent).to receive(:new).with(
+      text: "Create timesheet",
+      link: "http://test.host/timesheets/new",
+      style: "primary",
+    ).and_return(button_component)
+    expect(view).to receive(:render).with(button_component) { "A rendered button component" }
     render
 
     page = Capybara.string(rendered)
-    create_link = page.find_link("Create timesheet")
-    expect(create_link["href"]).to eq("http://test.host/timesheets/new")
+    expect(page).to have_content("A rendered button component")
   end
 
   context "when there ARE timesheets" do

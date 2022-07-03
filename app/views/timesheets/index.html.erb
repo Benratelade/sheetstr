@@ -22,4 +22,10 @@
   </tbody>
 </table>
 
-<%= link_to("Create timesheet", new_timesheet_url) %>
+<%= render(
+  Utilities::Buttons::ButtonComponent.new(
+    text: "Create timesheet",
+    link: new_timesheet_url,
+    style: "primary", 
+    ),
+  ) %>

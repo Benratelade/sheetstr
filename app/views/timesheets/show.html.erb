@@ -1,6 +1,6 @@
 <h2 id="page-header">Timesheet for <%= @timesheet.start_date.strftime("%A, %B %d %Y") %> to <%= @timesheet.end_date.strftime("%A, %B %d %Y") %></h2>
 
-<section id="summary-section">
+<section class="mb-2" id="summary-section">
   <div id="total-time-section">Total hours worked (decimal): 
     <p id="decimal-value"><%= number_with_precision(@timesheet.total_decimal_hours, precision: 2) %></p>
     <p id="hourly-value">(<%= "#{@timesheet.hours_breakdown[:hours]} hours #{@timesheet.hours_breakdown[:minutes]} minutes" %>)</p>
@@ -10,11 +10,23 @@
   </div>
   <%= render(Timesheets::TimesheetLineItemsSummaryComponent.new(timesheet: @timesheet))%>
 </section>
-<section class="page-actions">
-  <%= link_to("Add item", new_timesheet_line_item_path(@timesheet.id)) %>
-  <%= link_to("View my timesheets", timesheets_path) %>
+<section class="mb-2 page-actions">
+  <%= render(
+   Utilities::Buttons::ButtonComponent.new(
+      text: "Add item",
+      link: new_timesheet_line_item_path(@timesheet.id),
+      style: "primary", 
+    ),
+  ) %>
+  <%= render(
+    Utilities::Buttons::ButtonComponent.new(
+      text: "View my timesheets",
+      link: timesheets_path,
+      style: "secondary",
+    ),
+  ) %>
 </section>
-<section id="daily-breakdown">
+<section class="mb-2" id="daily-breakdown">
   <h3>Weekdays summary</h3>
   <% @timesheet.daily_line_items.each do |weekday, line_items| %>
     <div class="weekday-summary">

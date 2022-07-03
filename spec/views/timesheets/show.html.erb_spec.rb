@@ -18,7 +18,11 @@ describe "timesheets/show", type: :view do
       daily_line_items: [],
       grouped_line_items: [],
     )
+
+    button_component = double("a button component")
     allow(view).to receive(:render).and_call_original
+    allow(Utilities::Buttons::ButtonComponent).to receive(:new).and_return(button_component)
+    allow(view).to receive(:render).with(button_component) { "some rendered button component" }
   end
 
   it "Displays the email of the current user" do
@@ -33,7 +37,7 @@ describe "timesheets/show", type: :view do
   it "displays a summary section" do
     render
 
-    expect(rendered).to have_css("section[id=summary-section]")
+    expect(rendered).to have_css("section.mb-2#summary-section")
   end
 
   it "Displays the total number of decimal hours worked for that timesheet inside the summary section" do
@@ -42,7 +46,7 @@ describe "timesheets/show", type: :view do
     render
 
     page = Capybara.string(rendered)
-    total = page.find("section[id=summary-section] #total-time-section #decimal-value")
+    total = page.find("section#summary-section #total-time-section #decimal-value")
     expect(total.text).to eq("27.33")
   end
 
@@ -57,7 +61,7 @@ describe "timesheets/show", type: :view do
     render
 
     page = Capybara.string(rendered)
-    total = page.find("section[id=summary-section] #total-time-section #hourly-value")
+    total = page.find("section#summary-section #total-time-section #hourly-value")
     expect(total.text).to eq("(26 hours 47 minutes)")
   end
 
@@ -73,7 +77,7 @@ describe "timesheets/show", type: :view do
     render
 
     page = Capybara.string(rendered)
-    total = page.find("section[id=summary-section] #total-revenue-section #total-revenue")
+    total = page.find("section#summary-section #total-revenue-section #total-revenue")
     expect(total.text).to eq("$ 1512.00")
   end
 
@@ -103,7 +107,7 @@ describe "timesheets/show", type: :view do
     render
 
     page = Capybara.string(rendered)
-    total = page.find("section[id=summary-section] #total-revenue-section #total-revenue")
+    total = page.find("section#summary-section #total-revenue-section #total-revenue")
     expect(total.text).to eq("$ 1512.33")
   end
 
@@ -111,29 +115,47 @@ describe "timesheets/show", type: :view do
     render
 
     page = Capybara.string(rendered)
-    expect(page).to have_css("section.page-actions")
-  end
-
-  it "Displays a link to go to the list of all timesheets" do
-    render
-
-    page = Capybara.string(rendered)
-    view_timesheets_button = page.find_link("View my timesheets")
-    expect(view_timesheets_button["href"]).to eq("/timesheets")
+    expect(page).to have_css("section.mb-2.page-actions")
   end
 
   it "Displays a button to add more items" do
+    add_item_button = double("add item button")
+
+    expect(Utilities::Buttons::ButtonComponent).to receive(:new).with(
+      text: "Add item",
+      link: "/timesheets/timesheet-id/line_items/new",
+      style: "primary",
+    ).and_return(add_item_button)
+    expect(view).to receive(:render).with(add_item_button) { "A rendered add item button component" }
+
     render
 
     page = Capybara.string(rendered)
-    add_item_button = page.find_link("Add item")
-    expect(add_item_button["href"]).to eq("/timesheets/timesheet-id/line_items/new")
+    actions_section = page.find("section.mb-2.page-actions")
+    expect(actions_section).to have_content("A rendered add item button component")
+  end
+
+  it "Displays a link to go to the list of all timesheets" do
+    view_timesheets_button = double("view timesheets button")
+
+    expect(Utilities::Buttons::ButtonComponent).to receive(:new).with(
+      text: "View my timesheets",
+      link: "/timesheets",
+      style: "secondary",
+    ).and_return(view_timesheets_button)
+    expect(view).to receive(:render).with(view_timesheets_button) { "A rendered view timesheets button component" }
+
+    render
+
+    page = Capybara.string(rendered)
+    actions_section = page.find("section.mb-2.page-actions")
+    expect(actions_section).to have_content("A rendered view timesheets button component")
   end
 
   it "Displays a daily breakdown section" do
     render
 
-    expect(rendered).to have_css("#daily-breakdown")
+    expect(rendered).to have_css(".mb-2#daily-breakdown")
   end
 
   context "When the timesheet has some grouped line items" do

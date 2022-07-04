@@ -24,7 +24,7 @@ RSpec.describe Utilities::Buttons::ButtonComponent, type: :component do
     expect(page).to have_css("a.btn.btn-primary", text: "Button text")
   end
 
-  it "sets no method by default" do 
+  it "sets no method by default" do
     render_inline(@component)
 
     link = page.find("a")
@@ -78,14 +78,14 @@ RSpec.describe Utilities::Buttons::ButtonComponent, type: :component do
   end
 
   context "when the method is provided" do
-    it "sets the method to the provided method" do 
+    it "sets the method to the provided method" do
       @component = Utilities::Buttons::ButtonComponent.new(
         text: "Button text",
         link: "button-link",
         method: "delete",
       )
       render_inline(@component)
-  
+
       link = page.find("a")
       expect(link["data-method"]).to eq("delete")
     end
@@ -96,8 +96,8 @@ RSpec.describe Utilities::Buttons::ButtonComponent, type: :component do
         link: "button-link",
         method: "unknown_http_method",
       )
-      
-      expect do 
+
+      expect do
         render_inline(@component)
       end.to raise_error("Unrecognized http method: unknown_http_method")
     end

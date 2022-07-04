@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Timesheet < ApplicationRecord
-  has_many :line_items, dependent:  :destroy
+  has_many :line_items, dependent: :destroy
   belongs_to :user
   accepts_nested_attributes_for :line_items, reject_if: proc { |attributes|
     attributes["start_time"].blank? || attributes["end_time"].blank?

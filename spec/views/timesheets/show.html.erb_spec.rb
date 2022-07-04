@@ -158,6 +158,23 @@ describe "timesheets/show", type: :view do
     expect(rendered).to have_css(".mb-2.col-6#daily-breakdown")
   end
 
+  it "displays a delete button" do
+    delete_timesheet_button = double("delete timesheet button")
+
+    expect(Utilities::Buttons::ButtonComponent).to receive(:new).with(
+      text: "Delete",
+      link: "/timesheets/timesheet-id",
+      style: "danger",
+      method: "delete",
+    ).and_return(delete_timesheet_button)
+    expect(view).to receive(:render).with(delete_timesheet_button) { "A rendered delete timesheet button component" }
+
+    render
+
+    page = Capybara.string(rendered)
+    expect(page).to have_content("A rendered delete timesheet button component")
+  end
+
   context "When the timesheet has some grouped line items" do
     before do
       @line_item_1 = double(

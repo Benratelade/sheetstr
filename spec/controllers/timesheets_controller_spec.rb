@@ -257,4 +257,38 @@ RSpec.describe TimesheetsController, type: :controller do
       get :index
     end
   end
+
+  describe "#destroy" do
+    before do
+      @current_user = User.create!(email: "bob@sheetstr.com", password: "password")
+      allow(controller).to receive(:current_user).and_return(@current_user)
+      @timesheet = double(
+        "A timesheet",
+        id: "timesheet-id",
+        to_model: double(
+          "to_model",
+          model_name: double(
+            "model_name",
+            name: Timesheet,
+            singular_route_key: "timesheet",
+          ),
+          persisted?: true,
+        ),
+      )
+      @timesheets = double("some timesheets")
+      allow(@current_user).to receive(:timesheets).and_return(@timesheets)
+      allow(@timesheets).to receive(:find).and_return(@timesheet)
+      allow(@timesheet).to receive(:destroy).and_return(true)
+    end
+
+    it "calls destroy on the timesheet" do
+      expect(@timesheet).to receive(:destroy)
+      delete :destroy, params: { id: @timesheet.id }
+    end
+
+    it "redirects to the list of timesheets" do
+      delete :destroy, params: { id: @timesheet.id }
+      expect(response).to redirect_to("/timesheets")
+    end
+  end
 end

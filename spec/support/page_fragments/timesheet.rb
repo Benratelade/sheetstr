@@ -3,6 +3,10 @@
 module Support
   module PageFragments
     module Timesheet
+      def delete
+        click_link("Delete")
+      end
+
       def summary
         summary_section = page.find("section#summary-section")
 

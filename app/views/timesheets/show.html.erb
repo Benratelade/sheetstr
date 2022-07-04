@@ -41,3 +41,12 @@
     </div>
   <% end %>
 </section>
+
+<%= render(
+   Utilities::Buttons::ButtonComponent.new(
+      text: "Delete",
+      link: timesheet_path(@timesheet.id),
+      style: "danger", 
+      method: "delete", 
+    ),
+  ) %>

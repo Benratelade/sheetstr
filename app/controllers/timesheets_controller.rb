@@ -30,6 +30,13 @@ class TimesheetsController < ApplicationController
     @timesheet = Timesheet.find(params[:id])
   end
 
+  def destroy
+    @timesheet = current_user.timesheets.find(params[:id])
+    @timesheet.destroy
+
+    redirect_to timesheets_path
+  end
+
   private
 
   def timesheet_params

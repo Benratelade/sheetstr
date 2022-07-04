@@ -10,7 +10,7 @@ RSpec.describe Navigation::NavbarComponent, type: :component do
   it "renders a nav" do
     render_inline(@component)
 
-    expect(page).to have_css("nav.navbar div.container-fluid")
+    expect(page).to have_css("nav.navbar div.container-fluid.justify-content-start")
   end
 
   it "renders a logo for Sheetstr" do
@@ -32,12 +32,31 @@ RSpec.describe Navigation::NavbarComponent, type: :component do
       expect(log_in_link["href"]).to eq("/users/sign_in")
       expect(sign_up_link["href"]).to eq("/users/sign_up")
     end
+
+    it "does NOT render a section for navbar items" do
+      render_inline(@component)
+
+      expect(page).not_to have_css("ul.navbar-nav")
+    end
   end
 
   context "when there is a current_user" do
     before do
       @user = double("a logged in user")
       @component = Navigation::NavbarComponent.new(user: @user)
+    end
+
+    it "renders a section for navbar items" do
+      render_inline(@component)
+
+      expect(page).to have_css("nav div.container-fluid ul.navbar-nav.flex-grow-1")
+    end
+
+    it "renders a link to list of timesheets inside the navbar items" do
+      render_inline(@component)
+
+      navbar_container = page.find("nav div.container-fluid ul.navbar-nav")
+      expect(navbar_container).to have_css("li.nav-item a.nav-link[href='/timesheets']")
     end
 
     it "renders a section for navbar actions with a logout link" do

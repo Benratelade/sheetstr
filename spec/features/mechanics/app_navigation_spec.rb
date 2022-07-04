@@ -30,7 +30,13 @@ describe "Navigating through the app", type: :feature do
         login_as(@otolose)
       end
 
-      Then "the only link in the nav is a logout link" do
+      Then "a link to view their timesheets is displayed" do
+        wait_for { focus_on(Support::PageFragments::Navigation).links }.to eq(
+          "Timesheets" => "http://127.0.0.1:5000/timesheets",
+        )
+      end
+
+      And "there is a logout link in the nav actions section" do
         wait_for { focus_on(Support::PageFragments::Navigation).actions }.to eq(
           {
             "Log out" => "http://127.0.0.1:5000/users/sign_out",

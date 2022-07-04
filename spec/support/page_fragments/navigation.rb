@@ -3,6 +3,16 @@
 module Support
   module PageFragments
     module Navigation
+      def links
+        nav = page.find("nav.navbar")
+        links = {}
+        nav.find(".navbar-nav").find_all(".nav-item").each do |link_item|
+          links[link_item.text] = link_item.find("a")["href"]
+        end
+
+        links
+      end
+
       def actions
         nav = page.find("nav.navbar")
         actions = {}

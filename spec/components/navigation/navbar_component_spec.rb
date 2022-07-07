@@ -25,7 +25,7 @@ RSpec.describe Navigation::NavbarComponent, type: :component do
     it "renders a section for navbar actions with links to log in or sign up" do
       render_inline(@component)
 
-      actions_container = page.find("nav div.container-fluid div.navbar-actions")
+      actions_container = page.find("nav div.container-fluid div.navbar-actions.ms-auto")
       log_in_link = actions_container.find_link("Log in")
       sign_up_link = actions_container.find_link("Sign up")
 
@@ -49,7 +49,7 @@ RSpec.describe Navigation::NavbarComponent, type: :component do
     it "renders a section for navbar items" do
       render_inline(@component)
 
-      expect(page).to have_css("nav div.container-fluid ul.navbar-nav.flex-grow-1")
+      expect(page).to have_css("nav div.container-fluid ul.navbar-nav")
     end
 
     it "renders a link to list of timesheets inside the navbar items" do
@@ -62,7 +62,7 @@ RSpec.describe Navigation::NavbarComponent, type: :component do
     it "renders a section for navbar actions with a logout link" do
       render_inline(@component)
 
-      actions_container = page.find("nav div.container-fluid div.navbar-actions")
+      actions_container = page.find("nav div.container-fluid div.navbar-actions.ms-auto")
       log_out_link = actions_container.find_link("Log out")
 
       expect(log_out_link["href"]).to eq("/users/sign_out")

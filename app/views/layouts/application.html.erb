@@ -14,7 +14,7 @@
     <div class="container-fluid">
       <%= render(Navigation::NavbarComponent.new(user: current_user)) %>
       <% flash.each do |type, msg| %>
-        <div class="flash alert alert-<%= type %>"><%= msg %></div>
+        <div class="flash alert alert-danger"><%= msg %></div>
       <% end %>
       <%= yield %>
     </div>

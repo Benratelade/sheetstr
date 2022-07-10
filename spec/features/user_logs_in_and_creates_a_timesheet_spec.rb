@@ -12,8 +12,18 @@ describe "An existing user logs in to sheetstr and creates a timesheet", type: :
       @ben = create(:user, email: "ratelade.benjamin@gmail.com", password: "password")
     end
 
-    When "They visit the sign in page and logs in" do
+    When "They visit the sign in page and enters the wrong credentials" do
       visit "users/sign_in"
+      fill_in("Email", with: "ratelade.benjamin@gmail.com")
+      fill_in("Password", with: "some)junk")
+      click_button("Log in")
+    end
+
+    Then "an error explains that credentials are incorrect" do
+      wait_for { focus_on(Support::PageFragments::Flash).messages }.to eq(["Invalid Email or password"])
+    end
+
+    When "they enter the correct credentials" do
       login_as(@ben)
     end
 

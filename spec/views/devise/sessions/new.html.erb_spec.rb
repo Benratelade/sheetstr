@@ -40,7 +40,17 @@ describe "devise/sessions/new", type: :view do
     expect(form["action"]).to eq("/users/sign_in")
   end
 
-  it "renders fields for an email, password and remeberance" do
+  it "renders the form WITHOUT using turbo" do
+    render template: subject, locals: { resource: @resource, resource_name: @resource_name }
+
+    page = Capybara.string(rendered)
+    card = page.find("div.card-body")
+    form = card.find("form")
+
+    expect(form["data-turbo"]).to eq("false")
+  end
+
+  it "renders fields for an email, password and rememberance" do
     render template: subject, locals: { resource: @resource, resource_name: @resource_name }
 
     page = Capybara.string(rendered)

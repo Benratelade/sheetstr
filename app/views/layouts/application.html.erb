@@ -14,7 +14,11 @@
     <div class="container-fluid">
       <%= render(Navigation::NavbarComponent.new(user: current_user)) %>
       <% flash.each do |type, msg| %>
-        <div class="flash alert alert-danger"><%= msg %></div>
+        <% if type == :alert %>
+          <div class="flash alert alert-danger"><%= msg %></div>
+        <% else %>
+          <div class="flash alert alert-success"><%= msg %></div>
+        <% end %>
       <% end %>
       <%= yield %>
     </div>

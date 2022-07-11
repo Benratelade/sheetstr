@@ -18,14 +18,24 @@ describe "layouts/application", type: :view do
     expect(rendered).to have_css("body div.container-fluid")
   end
 
-  it "renders all alert flash messages in a bootstrap alert" do
+  it "renders an alert as a 'warning' if the flash type is 'alert'" do
     allow(controller).to receive(:flash).and_return(
-      anything: "Some alert messages",
+      alert: "Some alert message",
     )
 
     render
 
-    expect(rendered).to have_css("div.flash.alert.alert-danger", text: "Some alert messages")
+    expect(rendered).to have_css("div.flash.alert.alert-danger", text: "Some alert message")
+  end
+
+  it "renders an alert with the class 'success' when it's just a notice" do
+    allow(controller).to receive(:flash).and_return(
+      notice: "Some notice message",
+    )
+
+    render
+
+    expect(rendered).to have_css("div.flash.alert.alert-success", text: "Some notice message")
   end
 
   it "renders a Navbar Component" do

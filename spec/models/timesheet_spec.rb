@@ -190,8 +190,14 @@ RSpec.describe Timesheet, type: :model do
 
       line_items_association = double("line items association")
       expect(@timesheet).to receive(:line_items).and_return(line_items_association)
-      expect(line_items_association).to receive(:order).with("lower(description)").and_return([line_item_1, line_item_3, line_item_4, line_item_2])
-
+      expect(line_items_association).to receive(:order).with("lower(description)").and_return(
+        [
+          line_item_1,
+          line_item_3,
+          line_item_4,
+          line_item_2,
+        ],
+      )
 
       expect(@timesheet.grouped_line_items).to eq(
         [

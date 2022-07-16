@@ -106,6 +106,9 @@ RSpec.describe Timesheet, type: :model do
   describe "#daily_line_items" do
     before do
       @timesheet = Timesheet.new
+      @line_items_association = double("line items association")
+      allow(@timesheet).to receive(:line_items).and_return(@line_items_association)
+      allow(@line_items_association).to receive(:order)
     end
 
     it "returns information about line_items ordered by start time for each weekday" do
@@ -121,9 +124,7 @@ RSpec.describe Timesheet, type: :model do
         start_time: "first",
       )
 
-      line_items_association = double("line items association")
-      allow(@timesheet).to receive(:line_items).and_return(line_items_association)
-      expect(line_items_association).to receive(:order).with(:start_time).and_return([line_item_1, line_item_2])
+      expect(@line_items_association).to receive(:order).with(:start_time).and_return([line_item_1, line_item_2])
 
       expect(@timesheet.daily_line_items).to eq(
         {
@@ -144,7 +145,7 @@ RSpec.describe Timesheet, type: :model do
         weekday: "tuesday",
       )
 
-      allow(@timesheet).to receive(:line_items).and_return([line_item_1, line_item_2])
+      allow(@line_items_association).to receive(:order).and_return([line_item_1, line_item_2])
 
       expect(@timesheet.daily_line_items).to eq(
         {

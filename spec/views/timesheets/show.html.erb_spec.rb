@@ -25,7 +25,7 @@ describe "timesheets/show", type: :view do
     allow(view).to receive(:render).with(button_component) { "some rendered button component" }
     line_item_component = double("line item component")
     allow(LineItems::LineItemSummaryComponent).to receive(:new).and_return(line_item_component)
-    allow(view).to receive(:render).with(line_item_component) { "rendered line item component"}
+    allow(view).to receive(:render).with(line_item_component) { "rendered line item component" }
   end
 
   it "Displays the email of the current user" do

@@ -23,6 +23,9 @@ describe "timesheets/show", type: :view do
     allow(view).to receive(:render).and_call_original
     allow(Utilities::Buttons::ButtonComponent).to receive(:new).and_return(button_component)
     allow(view).to receive(:render).with(button_component) { "some rendered button component" }
+    line_item_component = double("line item component")
+    allow(LineItems::LineItemSummaryComponent).to receive(:new).and_return(line_item_component)
+    allow(view).to receive(:render).with(line_item_component) { "rendered line item component"}
   end
 
   it "Displays the email of the current user" do
@@ -179,6 +182,8 @@ describe "timesheets/show", type: :view do
     before do
       @line_item_1 = double(
         "line item 1",
+        id: "line-item-1-id",
+        timesheet_id: "timesheet-id",
         description: "description 1",
         hourly_rate: 24,
         total_decimal_hours: "total decimal hours 1",
@@ -187,6 +192,8 @@ describe "timesheets/show", type: :view do
       )
       @line_item_2 = double(
         "line item 2",
+        id: "line-item-2-id",
+        timesheet_id: "timesheet-id",
         description: "description 2",
         hourly_rate: 24,
         total_decimal_hours: "total decimal hours 2",
@@ -195,6 +202,8 @@ describe "timesheets/show", type: :view do
       )
       @line_item_3 = double(
         "line item 3",
+        id: "line-item-3-id",
+        timesheet_id: "timesheet-id",
         description: "description 3",
         hourly_rate: 30,
         total_decimal_hours: "total decimal hours 3",

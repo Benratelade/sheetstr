@@ -155,7 +155,7 @@ RSpec.describe Timesheet, type: :model do
       @timesheet = Timesheet.new
     end
 
-    it "returns a summary of all line items that share the same description AND hourly rate" do
+    it "returns a summary of all line items that share the same description AND hourly rate, sorted by description" do
       line_item_1 = double(
         "line_item_1",
         description: "a description",
@@ -166,7 +166,7 @@ RSpec.describe Timesheet, type: :model do
 
       line_item_2 = double(
         "line_item_2",
-        description: "a different description",
+        description: "c different description",
         hourly_rate: "an hourly rate",
         total_decimal_hours: 72,
         subtotal: 728,
@@ -182,13 +182,16 @@ RSpec.describe Timesheet, type: :model do
 
       line_item_4 = double(
         "line_item_4",
-        description: "a description",
+        description: "b description",
         hourly_rate: "another hourly rate",
         total_decimal_hours: 55,
         subtotal: 500,
       )
 
-      allow(@timesheet).to receive(:line_items).and_return([line_item_1, line_item_2, line_item_3, line_item_4])
+      line_items_association = double("line items association")
+      expect(@timesheet).to receive(:line_items).and_return(line_items_association)
+      expect(line_items_association).to receive(:order).with("lower(description)").and_return([line_item_1, line_item_3, line_item_4, line_item_2])
+
 
       expect(@timesheet.grouped_line_items).to eq(
         [
@@ -198,15 +201,15 @@ RSpec.describe Timesheet, type: :model do
             total_decimal_hours: 27,
             subtotal: 354,
           }, {
-            description: "a different description",
-            hourly_rate: "an hourly rate",
-            total_decimal_hours: 72,
-            subtotal: 728,
-          }, {
-            description: "a description",
+            description: "b description",
             hourly_rate: "another hourly rate",
             total_decimal_hours: 55,
             subtotal: 500,
+          }, {
+            description: "c different description",
+            hourly_rate: "an hourly rate",
+            total_decimal_hours: 72,
+            subtotal: 728,
           },
         ],
       )

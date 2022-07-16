@@ -38,7 +38,7 @@ class Timesheet < ApplicationRecord
   end
 
   def grouped_line_items
-    results_hash = line_items.each_with_object({}) do |line_item, hash|
+    results_hash = line_items.order("lower(description)").each_with_object({}) do |line_item, hash|
       signature = "#{line_item.description} - #{line_item.hourly_rate}"
 
       if hash[signature].present?

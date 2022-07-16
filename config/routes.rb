@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   root to: "pages#home"
   resources :timesheets, only: %i[index new create show destroy] do
     scope module: "timesheets" do
-      resources :line_items, only: %i[new create]
+      resources :line_items, only: %i[new create edit update]
     end
   end
 

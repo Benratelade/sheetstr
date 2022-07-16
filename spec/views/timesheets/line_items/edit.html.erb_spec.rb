@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-describe "timesheets/line_items/new", type: :view do
+describe "timesheets/line_items/edit", type: :view do
   before do
     @line_item = double(
       "a line item",
@@ -30,7 +30,7 @@ describe "timesheets/line_items/new", type: :view do
   it "renders a title" do
     render
 
-    expect(rendered).to have_css("h2", text: "Add item")
+    expect(rendered).to have_css("h2", text: "Edit item")
   end
 
   it "Displays a form for the new item" do

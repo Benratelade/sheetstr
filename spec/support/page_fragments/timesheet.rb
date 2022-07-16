@@ -7,6 +7,14 @@ module Support
         click_link("Delete")
       end
 
+      def view(timesheet)
+        page.find("[href*=\"#{timesheet.id}\"]", text: "View").click
+      end
+
+      def edit_line_item(line_item)
+        page.find("[href*=\"#{line_item.id}\"]", text: "Edit").click
+      end
+
       def summary
         summary_section = page.find("section#summary-section")
 

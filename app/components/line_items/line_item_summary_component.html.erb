@@ -1,6 +1,15 @@
-<li class="list-group-item line-item">
-  <h4>Description:  <span class="description"><%= @item.description %></span></h3>
-  <div>Duration: <span class="total-decimal-hours"><%= number_with_precision(@item.total_decimal_hours, precision: 2) %></span></div>
-  <div>Hourly Rate:  <span class="hourly-rate"><%= @item.hourly_rate %></span></div>
-  <div>Subtotal: <span class="subtotal"><%= number_with_precision(@item.subtotal, precision: 2) %></span></div>
+<li class="list-group-item line-item d-flex justify-content-between align-items-start">
+  <div class="line-item-info">
+    <h4>Description:  <span class="description"><%= @item.description %></span></h3>
+    <div>Duration: <span class="total-decimal-hours"><%= number_with_precision(@item.total_decimal_hours, precision: 2) %></span></div>
+    <div>Hourly Rate:  <span class="hourly-rate"><%= @item.hourly_rate %></span></div>
+    <div>Subtotal: <span class="subtotal"><%= number_with_precision(@item.subtotal, precision: 2) %></span></div>
+  </div>
+  <%= render(
+  Utilities::Buttons::ButtonComponent.new(
+    text: "Edit",
+    link: edit_timesheet_line_item_url(@item.timesheet_id, @item.id),
+    style: "primary", 
+    ),
+  ) %>
 </li>

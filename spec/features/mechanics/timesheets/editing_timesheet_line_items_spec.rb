@@ -79,7 +79,7 @@ describe "Editing a timesheet's line items", type: :feature do
     When "she goes to edit one of the line items" do
       focus_on(Support::PageFragments::Timesheet).edit_line_item(@line_item_1)
     end
-    
+
     And "she updates the line item details" do
       select("tuesday", from: "Weekday")
       fill_in("Description", with: "On-site shooting")
@@ -133,7 +133,7 @@ describe "Editing a timesheet's line items", type: :feature do
         visit(timesheets_path)
         focus_on(Support::PageFragments::Timesheet).view(@timesheet)
       end
-  
+
       Then "she sees the summary of the timesheet" do
         wait_for { focus_on(Support::PageFragments::Timesheet).summary }.to eq(
           {
@@ -167,7 +167,7 @@ describe "Editing a timesheet's line items", type: :feature do
         visit(timesheets_path)
         focus_on(Support::PageFragments::Timesheet).view(@timesheet)
       end
-  
+
       Then "she sees the summary of the timesheet" do
         wait_for { focus_on(Support::PageFragments::Timesheet).summary }.to eq(
           {
@@ -196,4 +196,3 @@ describe "Editing a timesheet's line items", type: :feature do
     end
   end
 end
- 

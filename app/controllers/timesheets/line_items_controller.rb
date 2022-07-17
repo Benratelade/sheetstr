@@ -26,7 +26,6 @@ module Timesheets
     def update
       @timesheet = current_user.timesheets.find(params[:timesheet_id])
       @line_item = @timesheet.line_items.find(params[:id])
-
       return unless @line_item.update(line_item_params)
 
       flash[:notice] = "Line item was updated"

@@ -79,7 +79,7 @@ describe "Editing a timesheet's line items", type: :feature do
     When "she goes to edit one of the line items" do
       focus_on(Support::PageFragments::Timesheet).edit_line_item(@line_item_1)
     end
-
+    
     And "she updates the line item details" do
       select("tuesday", from: "Weekday")
       fill_in("Description", with: "On-site shooting")
@@ -125,4 +125,75 @@ describe "Editing a timesheet's line items", type: :feature do
       )
     end
   end
+
+  context "An error occurs during the update" do
+    scenario "When the timesheet doesn't exist" do
+      When "Otolose views one of her timesheets that has line items" do
+        login_as(@otolose)
+        visit(timesheets_path)
+        focus_on(Support::PageFragments::Timesheet).view(@timesheet)
+      end
+  
+      Then "she sees the summary of the timesheet" do
+        wait_for { focus_on(Support::PageFragments::Timesheet).summary }.to eq(
+          {
+            "Duration (decimal)" => "9.00",
+            "Duration (in hours)" => "(9 hours 0 minutes)",
+            "Total revenue" => "$ 216.00",
+          },
+        )
+      end
+
+      When "she goes to edit one of the line items" do
+        focus_on(Support::PageFragments::Timesheet).edit_line_item(@line_item_1)
+      end
+
+      And "the timesheet has been deleted in the meantime" do
+        @timesheet.delete
+      end
+
+      And "she presses save" do
+        focus_on(Support::PageFragments::Form).form.submit
+      end
+
+      Then "a 404 error page is displayed" do
+        wait_for { focus_on(Support::PageFragments::ErrorPage).error_code }.to eq("404")
+      end
+    end
+
+    scenario "When the timesheet exists but the line item doesn't" do
+      When "Otolose views one of her timesheets that has line items" do
+        login_as(@otolose)
+        visit(timesheets_path)
+        focus_on(Support::PageFragments::Timesheet).view(@timesheet)
+      end
+  
+      Then "she sees the summary of the timesheet" do
+        wait_for { focus_on(Support::PageFragments::Timesheet).summary }.to eq(
+          {
+            "Duration (decimal)" => "9.00",
+            "Duration (in hours)" => "(9 hours 0 minutes)",
+            "Total revenue" => "$ 216.00",
+          },
+        )
+      end
+
+      When "she goes to edit one of the line items" do
+        focus_on(Support::PageFragments::Timesheet).edit_line_item(@line_item_1)
+      end
+
+      And "the line item has been deleted in the meantime" do
+        @line_item_1.delete
+      end
+
+      And "she presses save" do
+        focus_on(Support::PageFragments::Form).form.submit
+      end
+
+      Then "a 404 error page is displayed" do
+        wait_for { focus_on(Support::PageFragments::ErrorPage).error_code }.to eq("404")
+      end
+    end
+  end
 end
+ 

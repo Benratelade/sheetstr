@@ -62,8 +62,25 @@ jobs:
           include: spec/**/*_spec.rb
       - store_artifacts:
           path: /home/circleci/project/tmp/capybara
-  heroku/deploy-via-git: 
-
+  heroku/deploy-via-git:
+  Deploy-to-Fly: 
+    docker: 
+      - image: circleci/python
+        auth:
+          username: mydockerhub-user
+          password: $DOCKERHUB_PASSWORD
+    steps:
+      - checkout
+      - run: 
+          name: Deploy to Fly.io
+          command: | 
+            python3 -m pip install --user ansible
+            . bin/secrets/load-env
+            curl -L https://fly.io/install.sh | sh
+            export FLYCTL_INSTALL="/home/circleci/.fly"
+            export PATH="$FLYCTL_INSTALL/bin:$PATH"
+            fly deploy --app "sheetstr" --auto-confirm --access-token $FLY_ACCESS_TOKEN
+ 
 workflows:
   build_and_test:
     jobs:
@@ -73,6 +90,14 @@ workflows:
           requires:
             - build
       - heroku/deploy-via-git:
+          requires: 
+            - test
+          filters:
+            branches:
+              only: main
+      - Deploy-to-Fly:
+          context: 
+            - sheetstr
           requires: 
             - test
           filters:

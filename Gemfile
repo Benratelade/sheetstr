@@ -3,26 +3,26 @@
 source "https://rubygems.org"
 git_source(:github) { |_repo| "https://github.com/#{repo}.git" }
 
-ruby "3.1.0"
+ruby "3.2.3"
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails', branch: 'main'
-gem "rails", "~> 7.0.1", ">= 7.0.1"
+gem "rails", "~> 7.1.3"
 # Use postgresql as the database for Active Record
-gem "pg", "~> 1.1"
+gem "pg"
 # Use Puma as the app server
-gem "puma", "~> 5.0"
+gem "puma"
 # Use SCSS for stylesheets
-gem "sass-rails", ">= 6"
+gem "sass-rails"
 # Transpile app-like JavaScript.
 gem "jsbundling-rails"
 # Handle scss the new way
 gem "cssbundling-rails"
 # Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
-gem "turbolinks", "~> 5"
+gem "turbolinks"
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
-gem "jbuilder", "~> 2.7"
+gem "jbuilder"
 # Use Redis adapter to run Action Cable in production
-gem "redis", "~> 4.0"
+gem "redis"
 # Use Active Model has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
@@ -30,7 +30,7 @@ gem "redis", "~> 4.0"
 # gem 'image_processing', '~> 1.2'
 
 # Reduces boot times through caching; required in config/boot.rb
-gem "bootsnap", ">= 1.4.4", require: false
+gem "bootsnap", require: false
 
 gem "devise"
 
@@ -41,18 +41,18 @@ group :development, :test do
   gem "byebug", platforms: %i[mri mingw x64_mingw]
   gem "pry-byebug"
 
-  gem "rspec-rails", "~> 5.0.0"
+  gem "rspec-rails"
 
   gem "letter_opener"
 end
 
 group :development do
   # Access an interactive console on exception pages or by calling 'console' anywhere in the code.
-  gem "web-console", ">= 4.1.0"
+  gem "web-console"
   # Display performance information such as SQL time and flame graphs for each request in your browser.
   # Can be configured to work on production as well see: https://github.com/MiniProfiler/rack-mini-profiler/blob/master/README.md
-  gem "listen", "~> 3.3"
-  gem "rack-mini-profiler", "~> 2.0"
+  gem "listen"
+  gem "rack-mini-profiler"
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem "rubocop", require: false
   gem "rubocop-rails", require: false
@@ -63,7 +63,7 @@ end
 
 group :test do
   # Adds support for Capybara system testing and selenium driver
-  gem "capybara", ">= 3.26"
+  gem "capybara"
   gem "capybara-screenshot"
   gem "selenium-webdriver"
   # Easy installation and use of web drivers to run system tests with browsers

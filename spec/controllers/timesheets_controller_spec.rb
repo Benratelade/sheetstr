@@ -190,7 +190,7 @@ RSpec.describe TimesheetsController, type: :controller do
         },
       }
 
-      post :create, params: params
+      post(:create, params:)
 
       expect(assigns(:timesheet).start_date).to eq(Date.parse("Jan 31 2022"))
       expect(assigns(:timesheet).end_date).to eq(Date.parse("Feb 06 2022"))

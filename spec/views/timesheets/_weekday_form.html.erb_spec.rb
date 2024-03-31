@@ -39,7 +39,7 @@ describe "timesheets/_weekday_form", type: :view do
       end
     end
 
-    render partial: "timesheets/weekday_form", locals: { date: @date, form: form }
+    render partial: "timesheets/weekday_form", locals: { date: @date, form: }
 
     expect(view).to render_template(partial: "_line_item_form", locals: { form: fields_for_builder })
     expect(view).to render_template(partial: "_line_item_form", locals: { form: fields_for_builder })

@@ -34,7 +34,7 @@ gem "bootsnap", require: false
 
 gem "devise"
 
-gem "view_component", require: "view_component/engine"
+gem "view_component", "~>2.82.0", require: "view_component/engine"
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -66,8 +66,6 @@ group :test do
   gem "capybara"
   gem "capybara-screenshot"
   gem "selenium-webdriver"
-  # Easy installation and use of web drivers to run system tests with browsers
-  gem "webdrivers"
 
   # For more descriptive tests
   gem "rails-controller-testing"

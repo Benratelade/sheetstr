@@ -6,8 +6,6 @@ describe "timesheets/_form", type: :view do
   before do
     @timesheet = double(
       "A timesheet",
-      start_date: Date.parse("Jan 31 2022"),
-      end_date: Date.parse("Feb 06 2022"),
       to_model: double(
         "to_model",
         model_name: double(
@@ -17,6 +15,8 @@ describe "timesheets/_form", type: :view do
           param_key: "timesheet",
           i18n_key: "id",
         ),
+        start_date: Date.parse("Jan 31 2022"),
+        end_date: Date.parse("Feb 06 2022"),
         persisted?: false,
       ),
     )

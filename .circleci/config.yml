@@ -50,7 +50,7 @@ jobs:
           cache-path: ~/project/node_modules/yarn.lock
           pkg-manager: yarn
       - run:
-          command: 'dockerize -wait tcp://localhost:5432 -timeout 1m'
+          command: 'dockerize -wait tcp://localhost:5555 -timeout 1m'
           name: Wait for DB
       - run:
           command: 'bundle exec rails db:schema:load --trace'

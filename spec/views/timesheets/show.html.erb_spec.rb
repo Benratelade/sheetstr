@@ -14,7 +14,7 @@ describe "timesheets/show", type: :view do
       end_date: Date.parse("30 Jan 2022"),
       total_decimal_hours: "",
       hours_breakdown: {},
-      total_revenue: double("some revenue"),
+      total_revenue: 888,
       daily_line_items: [],
       grouped_line_items: [],
     )

@@ -44,9 +44,9 @@ describe "Editing a timesheet's line items", type: :feature do
     Then "she sees the summary of the timesheet" do
       wait_for { focus_on(Support::PageFragments::Timesheet).summary }.to eq(
         {
-          "Duration (decimal)" => "9.00",
-          "Duration (in hours)" => "(9 hours 0 minutes)",
-          "Total revenue" => "$ 216.00",
+          "Total hours worked (decimal)" => ["9.0"],
+          "Duration (in hours)" => ["9 hours 0 minutes"],
+          "Total revenue" => ["$216.0"],
         },
       )
     end
@@ -96,9 +96,9 @@ describe "Editing a timesheet's line items", type: :feature do
     And "the summary of the timesheet is updated" do
       wait_for { focus_on(Support::PageFragments::Timesheet).summary }.to eq(
         {
-          "Duration (decimal)" => "12.50",
-          "Duration (in hours)" => "(12 hours 30 minutes)",
-          "Total revenue" => "$ 324.00",
+          "Total hours worked (decimal)" => ["12.5"],
+          "Duration (in hours)" => ["12 hours 30 minutes"],
+          "Total revenue" => ["$324.0"],
         },
       )
     end
@@ -137,9 +137,9 @@ describe "Editing a timesheet's line items", type: :feature do
       Then "she sees the summary of the timesheet" do
         wait_for { focus_on(Support::PageFragments::Timesheet).summary }.to eq(
           {
-            "Duration (decimal)" => "9.00",
-            "Duration (in hours)" => "(9 hours 0 minutes)",
-            "Total revenue" => "$ 216.00",
+            "Total hours worked (decimal)" => ["9.0"],
+            "Duration (in hours)" => ["9 hours 0 minutes"],
+            "Total revenue" => ["$216.0"],
           },
         )
       end
@@ -171,9 +171,9 @@ describe "Editing a timesheet's line items", type: :feature do
       Then "she sees the summary of the timesheet" do
         wait_for { focus_on(Support::PageFragments::Timesheet).summary }.to eq(
           {
-            "Duration (decimal)" => "9.00",
-            "Duration (in hours)" => "(9 hours 0 minutes)",
-            "Total revenue" => "$ 216.00",
+            "Total hours worked (decimal)" => ["9.0"],
+            "Duration (in hours)" => ["9 hours 0 minutes"],
+            "Total revenue" => ["$216.0"],
           },
         )
       end

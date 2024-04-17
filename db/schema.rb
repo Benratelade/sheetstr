@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2022_06_04_065449) do
+ActiveRecord::Schema[7.1].define(version: 2024_04_17_103926) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -56,6 +56,8 @@ ActiveRecord::Schema[7.1].define(version: 2022_06_04_065449) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.enum "weekday", enum_type: "weekdays"
+    t.integer "hourly_rate_cents"
+    t.string "currency", default: "XXX"
     t.index ["timesheet_id"], name: "index_line_items_on_timesheet_id"
   end
 

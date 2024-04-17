@@ -56,9 +56,9 @@ describe "An existing user logs in to sheetstr and creates a timesheet", type: :
       wait_for { focus_on(Support::PageFragments::Timesheet).summary }.to(
         eq(
           {
-            "Duration (decimal)" => "0.00",
-            "Duration (in hours)" => "(0 hours 0 minutes)",
-            "Total revenue" => "$ 0.00",
+            "Total hours worked (decimal)" => ["0"],
+            "Duration (in hours)" => ["0 hours 0 minutes"],
+            "Total revenue" => ["$0"],
           },
         ),
       )
@@ -87,9 +87,9 @@ describe "An existing user logs in to sheetstr and creates a timesheet", type: :
       wait_for { focus_on(Support::PageFragments::Timesheet).summary }.to(
         eq(
           {
-            "Duration (decimal)" => "4.33",
-            "Duration (in hours)" => "(4 hours 20 minutes)",
-            "Total revenue" => "$ 117.00",
+            "Total hours worked (decimal)" => ["4.33"],
+            "Duration (in hours)" => ["4 hours 20 minutes"],
+            "Total revenue" => ["$117.0"],
           },
         ),
       )

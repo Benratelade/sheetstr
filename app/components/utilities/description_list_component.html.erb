@@ -1,0 +1,6 @@
+<dl>
+  <% @values_hash.each do |key,value| %>
+    <dt name="<%= key %>"><%= key %></dt>
+    <dd for="<%= key %>"><%= value %></dd>
+  <% end %>
+</dl>

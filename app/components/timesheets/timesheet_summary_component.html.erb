@@ -1,0 +1,7 @@
+<%= render(Utilities::DescriptionListComponent.new(
+  {
+    "Total hours worked (decimal)" => @timesheet.formatted_total_decimal_hours,
+    "Duration (in hours)" => "#{@timesheet.hours_breakdown[:hours]} hours #{@timesheet.hours_breakdown[:minutes]} minutes",
+    "Total revenue" => @timesheet.formatted_total_revenue,
+  }
+)) %>

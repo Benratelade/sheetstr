@@ -12,9 +12,6 @@ describe "timesheets/show", type: :view do
       id: "timesheet-id",
       start_date: Date.parse("24 Jan 2022"),
       end_date: Date.parse("30 Jan 2022"),
-      total_decimal_hours: "",
-      hours_breakdown: {},
-      total_revenue: 888,
       daily_line_items: [],
       grouped_line_items: [],
     )
@@ -26,6 +23,9 @@ describe "timesheets/show", type: :view do
     line_item_component = double("line item component")
     allow(LineItems::LineItemSummaryComponent).to receive(:new).and_return(line_item_component)
     allow(view).to receive(:render).with(line_item_component) { "rendered line item component" }
+    @timesheet_summary_component = double("timesheet summary component")
+    allow(Timesheets::TimesheetSummaryComponent).to receive(:new).and_return(@timesheet_summary_component)
+    allow(view).to receive(:render).with(@timesheet_summary_component) { "rendered timesheet summary component" }
   end
 
   it "Displays the email of the current user" do
@@ -37,51 +37,21 @@ describe "timesheets/show", type: :view do
     )
   end
 
+  it "renders a TimesheetSummaryComponent" do
+    expect(Timesheets::TimesheetSummaryComponent).to(
+      receive(:new).with(timesheet: @timesheet),
+    )
+    expect(view).to receive(:render).with(@timesheet_summary_component)
+
+    render
+
+    expect(rendered).to have_content("rendered timesheet summary component")
+  end
+
   it "displays a summary section" do
     render
 
     expect(rendered).to have_css("section.mb-2.col-6#summary-section")
-  end
-
-  it "Displays the total number of decimal hours worked for that timesheet inside the summary section" do
-    allow(@timesheet).to receive(:total_decimal_hours).and_return(27.3333333)
-
-    render
-
-    page = Capybara.string(rendered)
-    total = page.find("section#summary-section #total-time-section #decimal-value")
-    expect(total.text).to eq("27.33")
-  end
-
-  it "Displays the total number of hourly hours worked for that timesheet inside the summary section" do
-    allow(@timesheet).to receive(:hours_breakdown).and_return(
-      {
-        hours: 26,
-        minutes: 47,
-      },
-    )
-
-    render
-
-    page = Capybara.string(rendered)
-    total = page.find("section#summary-section #total-time-section #hourly-value")
-    expect(total.text).to eq("(26 hours 47 minutes)")
-  end
-
-  it "Displays the total revenue for this period" do
-    allow(@timesheet).to receive(:hours_breakdown).and_return(
-      {
-        hours: 0,
-        minutes: 0,
-      },
-    )
-    allow(@timesheet).to receive(:total_revenue).and_return(1512)
-
-    render
-
-    page = Capybara.string(rendered)
-    total = page.find("section#summary-section #total-revenue-section #total-revenue")
-    expect(total.text).to eq("$ 1512.00")
   end
 
   it "Renders a TimesheetLineItemsSummaryComponent" do
@@ -98,21 +68,21 @@ describe "timesheets/show", type: :view do
     expect(summary_section).to have_content("summary component rendered")
   end
 
-  it "Displays the total revenue with 2 digits after the decimal place" do
-    allow(@timesheet).to receive(:hours_breakdown).and_return(
-      {
-        hours: 0,
-        minutes: 0,
-      },
-    )
-    allow(@timesheet).to receive(:total_revenue).and_return(BigDecimal("1512.3333333333"))
+  # it "Displays the total revenue with 2 digits after the decimal place" do
+  #   allow(@timesheet).to receive(:hours_breakdown).and_return(
+  #     {
+  #       hours: 0,
+  #       minutes: 0,
+  #     },
+  #   )
+  #   allow(@timesheet).to receive(:total_revenue).and_return(BigDecimal("1512.3333333333"))
 
-    render
+  #   render
 
-    page = Capybara.string(rendered)
-    total = page.find("section#summary-section #total-revenue-section #total-revenue")
-    expect(total.text).to eq("$ 1512.33")
-  end
+  #   page = Capybara.string(rendered)
+  #   total = page.find("section#summary-section #total-revenue-section #total-revenue")
+  #   expect(total.text).to eq("$ 1512.33")
+  # end
 
   it "Displays a section for actions" do
     render

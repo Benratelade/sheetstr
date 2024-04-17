@@ -16,13 +16,7 @@ module Support
       end
 
       def summary
-        summary_section = page.find("section#summary-section")
-
-        {
-          "Duration (decimal)" => summary_section.find("#decimal-value").text,
-          "Duration (in hours)" => summary_section.find("#hourly-value").text,
-          "Total revenue" => summary_section.find("#total-revenue").text,
-        }
+        Support::PageFragments::DescriptionList.new(page.find("#summary-section dl")).summary
       end
 
       def daily_breakdown

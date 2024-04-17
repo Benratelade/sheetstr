@@ -92,19 +92,27 @@ describe "An existing user creates a timesheet from the index page", type: :feat
 
     And "the details are updated to include the newly added line item" do
       wait_for do
-        summary_section = find("section[data-test_id=summary-section]")
-        hours_summary = summary_section.find("#total-time-section")
-        decimal_value = hours_summary.find("#decimal-value")
-        hourly_value = hours_summary.find("#hourly-value")
+        focus_on(Support::PageFragments::Timesheet).summary
+        # summary_section = find("section[data-test_id=summary-section]")
+        # hours_summary = summary_section.find("#total-time-section")
+        # decimal_value = hours_summary.find("#decimal-value")
+        # hourly_value = hours_summary.find("#hourly-value")
 
-        expect(decimal_value.text).to eq("4.00")
-        expect(hourly_value.text).to eq("(4 hours 0 minutes)")
+        # expect(decimal_value.text).to eq("4.00")
+        # expect(hourly_value.text).to eq("(4 hours 0 minutes)")
 
-        revenue_summary = summary_section.find("#total-revenue-section")
-        dollar_value = revenue_summary.find("#total-revenue")
+        # revenue_summary = summary_section.find("#total-revenue-section")
+        # dollar_value = revenue_summary.find("#total-revenue")
 
-        expect(dollar_value.text).to eq("$ 108.00")
-      end
+        # expect(dollar_value.text).to eq("$ 108.00")
+      end.to eq(
+        {
+          "decimal_value" => "4.00",
+          "hourly_value" => "(4 hours 0 minutes)",
+          "total-revenue" => "$ 108.00",
+
+        },
+      )
     end
 
     When "she goes to the list of her timesheets" do

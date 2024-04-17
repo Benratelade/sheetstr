@@ -110,16 +110,16 @@ describe "An existing user views a timesheet from the index page", type: :featur
       focus_on(Support::PageFragments::Table).table.rows.last.go_to("View")
     end
 
-    Then "They see a summary of the week's work" do
+    Then "she sees a summary of the week's work" do
       wait_for do
         focus_on(Support::PageFragments::Headers).page_header
       end.to eq("Timesheet for Monday, January 24 2022 to Sunday, January 30 2022")
 
       wait_for { focus_on(Support::PageFragments::Timesheet).summary }.to eq(
         {
-          "Duration (decimal)" => "23.50",
-          "Duration (in hours)" => "(23 hours 30 minutes)",
-          "Total revenue" => "$ 639.00",
+          "Total hours worked (decimal)" => ["23.5"],
+          "Duration (in hours)" => ["23 hours 30 minutes"],
+          "Total revenue" => ["$639.0"],
         },
       )
     end

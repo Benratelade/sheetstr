@@ -18,13 +18,7 @@
 </section>
 
 <section class="mb-2 col-6" id="summary-section">
-  <div id="total-time-section">Total hours worked (decimal): 
-    <p id="decimal-value"><%= number_with_precision(@timesheet.total_decimal_hours, precision: 2) %></p>
-    <p id="hourly-value">(<%= "#{@timesheet.hours_breakdown[:hours]} hours #{@timesheet.hours_breakdown[:minutes]} minutes" %>)</p>
-  </div>
-  <div id="total-revenue-section">
-    <p id="total-revenue">$ <%= number_with_precision(@timesheet.total_revenue, precision: 2) %></p>
-  </div>
+  <%= render(Timesheets::TimesheetSummaryComponent.new(timesheet: @timesheet)) %>
   <%= render(Timesheets::TimesheetLineItemsSummaryComponent.new(timesheet: @timesheet))%>
 </section>
 

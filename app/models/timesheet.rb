@@ -14,6 +14,11 @@ class Timesheet < ApplicationRecord
     (line_items || []).sum(&:total_decimal_hours)
   end
 
+  # TODO: - test
+  def formatted_total_decimal_hours
+    total_decimal_hours.round(2)
+  end
+
   def hours_breakdown
     breakdown = {
       hours: 0,
@@ -35,6 +40,11 @@ class Timesheet < ApplicationRecord
 
   def total_revenue
     (line_items || []).sum(&:subtotal)
+  end
+
+  # TODO: - test
+  def formatted_total_revenue
+    "$#{total_revenue}"
   end
 
   def grouped_line_items

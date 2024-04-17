@@ -93,24 +93,11 @@ describe "An existing user creates a timesheet from the index page", type: :feat
     And "the details are updated to include the newly added line item" do
       wait_for do
         focus_on(Support::PageFragments::Timesheet).summary
-        # summary_section = find("section[data-test_id=summary-section]")
-        # hours_summary = summary_section.find("#total-time-section")
-        # decimal_value = hours_summary.find("#decimal-value")
-        # hourly_value = hours_summary.find("#hourly-value")
-
-        # expect(decimal_value.text).to eq("4.00")
-        # expect(hourly_value.text).to eq("(4 hours 0 minutes)")
-
-        # revenue_summary = summary_section.find("#total-revenue-section")
-        # dollar_value = revenue_summary.find("#total-revenue")
-
-        # expect(dollar_value.text).to eq("$ 108.00")
       end.to eq(
         {
-          "decimal_value" => "4.00",
-          "hourly_value" => "(4 hours 0 minutes)",
-          "total-revenue" => "$ 108.00",
-
+          "Total hours worked (decimal)" => ["4.0"],
+          "Duration (in hours)" => ["4 hours 0 minutes"],
+          "Total revenue" => ["$108.0"],
         },
       )
     end

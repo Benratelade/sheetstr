@@ -44,7 +44,7 @@ class Timesheet < ApplicationRecord
 
   # TODO: - test
   def formatted_total_revenue
-    "$#{total_revenue}"
+    "$#{total_revenue.to_f}"
   end
 
   def grouped_line_items

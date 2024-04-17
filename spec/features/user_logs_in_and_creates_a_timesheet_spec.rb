@@ -58,7 +58,7 @@ describe "An existing user logs in to sheetstr and creates a timesheet", type: :
           {
             "Total hours worked (decimal)" => ["0"],
             "Duration (in hours)" => ["0 hours 0 minutes"],
-            "Total revenue" => ["$0"],
+            "Total revenue" => ["$0.0"],
           },
         ),
       )

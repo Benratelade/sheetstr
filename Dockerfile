@@ -19,8 +19,7 @@
 
 ARG RUBY_VERSION=3.2.3
 ARG VARIANT=jemalloc-bullseye-slim
-# FROM quay.io/evl.ms/fullstaq-ruby:${RUBY_VERSION}-${VARIANT} as base
-FROM ruby:3.2.3-slim-bullseye as base
+FROM ruby:${RUBY_VERSION}-slim-bullseye as base
 
 LABEL fly_launch_runtime="rails"
 
@@ -58,6 +57,12 @@ RUN --mount=type=cache,id=dev-apt-cache,sharing=locked,target=/var/cache/apt \
     apt-get install --no-install-recommends -y ${BUILD_PACKAGES} \
     && rm -rf /var/lib/apt/lists /var/cache/apt/archives
 
+#######################################################################
+
+# install gems
+
+FROM build_deps as gems
+
 RUN curl https://get.volta.sh | bash
 ENV VOLTA_HOME /root/.volta
 ENV PATH $VOLTA_HOME/bin:/usr/local/bin:$PATH
@@ -65,15 +70,8 @@ RUN volta install node@${NODE_VERSION} yarn@${YARN_VERSION} && \
     gem update --system --no-document && \
     gem install -N bundler -v ${BUNDLER_VERSION}
 
-#######################################################################
-
-# install gems
-
-FROM build_deps as gems
-
 COPY Gemfile* ./
 RUN bundle install &&  rm -rf vendor/bundle/ruby/*/cache
-
 #######################################################################
 
 # install node modules

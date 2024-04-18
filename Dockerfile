@@ -19,7 +19,8 @@
 
 ARG RUBY_VERSION=3.2.3
 ARG VARIANT=jemalloc-bullseye-slim
-FROM quay.io/evl.ms/fullstaq-ruby:${RUBY_VERSION}-${VARIANT} as base
+# FROM quay.io/evl.ms/fullstaq-ruby:${RUBY_VERSION}-${VARIANT} as base
+FROM ruby:3.2.3-slim-bullseye as base
 
 LABEL fly_launch_runtime="rails"
 

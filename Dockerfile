@@ -23,8 +23,6 @@ FROM ruby:${RUBY_VERSION}-slim-bullseye as base
 
 LABEL fly_launch_runtime="rails"
 
-ARG BUNDLER_VERSION=2.2.22
-
 ARG RAILS_ENV=production
 ENV RAILS_ENV=${RAILS_ENV}
 
@@ -63,6 +61,7 @@ FROM build_deps as gems
 
 ARG NODE_VERSION=16.14.0
 ARG YARN_VERSION=1.22.17
+ARG BUNDLER_VERSION=2.2.22
 
 RUN curl https://get.volta.sh | bash
 ENV VOLTA_HOME /root/.volta

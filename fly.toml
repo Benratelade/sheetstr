@@ -50,3 +50,7 @@ swap_size_mb = 256
 [[statics]]
   guest_path = "/app/public"
   url_prefix = "/"
+
+[[vm]]
+  size = "shared-cpu-1x"
+  memory = "1gb"

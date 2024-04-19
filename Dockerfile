@@ -18,7 +18,6 @@
 # performance.
 
 ARG RUBY_VERSION=3.2.3
-ARG VARIANT=jemalloc-bullseye-slim
 FROM ruby:${RUBY_VERSION}-slim-bullseye as base
 
 LABEL fly_launch_runtime="rails"
@@ -29,10 +28,28 @@ ENV RAILS_ENV=${RAILS_ENV}
 ENV RAILS_SERVE_STATIC_FILES true
 ENV RAILS_LOG_TO_STDOUT true
 
+RUN --mount=type=cache,id=dev-apt-cache,sharing=locked,target=/var/cache/apt \
+    --mount=type=cache,id=dev-apt-lib,sharing=locked,target=/var/lib/apt \
+    apt-get update -qq && \
+    apt-get install --no-install-recommends -y curl \
+    && rm -rf /var/lib/apt/lists /var/cache/apt/archives
+
 ARG BUNDLE_WITHOUT=development:test
 ARG BUNDLE_PATH=vendor/bundle
 ENV BUNDLE_PATH ${BUNDLE_PATH}
 ENV BUNDLE_WITHOUT ${BUNDLE_WITHOUT}
+
+ARG NODE_VERSION=16.14.0
+ARG YARN_VERSION=1.22.17
+ARG BUNDLER_VERSION=2.2.22
+
+ENV VOLTA_HOME /root/.volta
+ENV PATH $VOLTA_HOME/bin:/usr/local/bin:$PATH
+
+RUN curl https://get.volta.sh | bash
+RUN volta install node@${NODE_VERSION} yarn@${YARN_VERSION} && \
+    gem update --system --no-document && \
+    gem install -N bundler -v ${BUNDLER_VERSION}
 
 RUN mkdir /app
 WORKDIR /app
@@ -59,16 +76,7 @@ RUN --mount=type=cache,id=dev-apt-cache,sharing=locked,target=/var/cache/apt \
 
 FROM build_deps as gems
 
-ARG NODE_VERSION=16.14.0
-ARG YARN_VERSION=1.22.17
 ARG BUNDLER_VERSION=2.2.22
-
-RUN curl https://get.volta.sh | bash
-ENV VOLTA_HOME /root/.volta
-ENV PATH $VOLTA_HOME/bin:/usr/local/bin:$PATH
-RUN volta install node@${NODE_VERSION} yarn@${YARN_VERSION} && \
-    gem update --system --no-document && \
-    gem install -N bundler -v ${BUNDLER_VERSION}
 
 COPY Gemfile* ./
 RUN bundle install &&  rm -rf vendor/bundle/ruby/*/cache
@@ -76,7 +84,7 @@ RUN bundle install &&  rm -rf vendor/bundle/ruby/*/cache
 
 # install node modules
 
-FROM build_deps as node_modules
+FROM gems as node_modules
 
 COPY package*json ./
 COPY yarn.* ./

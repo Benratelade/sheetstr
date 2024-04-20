@@ -103,7 +103,7 @@ describe "An existing user logs in to sheetstr and creates a timesheet", type: :
           "Tuesday" => [
             {
               "description" => "On-site shooting",
-              "hourly rate" => "27.0",
+              "hourly rate" => "27.00",
               "subtotal" => "117.00",
               "total decimal hours" => "4.33",
             },

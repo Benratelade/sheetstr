@@ -102,8 +102,7 @@ RSpec.describe LineItem, type: :model do
       line_item = LineItem.new(hourly_rate: 25)
       allow(line_item).to receive(:total_decimal_hours).and_return(16.7)
 
-      expect(line_item.subtotal).to eq(417.5)
-      expect(line_item.subtotal).to be_a(BigDecimal)
+      expect(line_item.subtotal).to eq(Money.new(41_750))
     end
   end
 

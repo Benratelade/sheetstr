@@ -4,6 +4,7 @@ class LineItem < ApplicationRecord
   belongs_to :timesheet
 
   monetize :hourly_rate_cents
+  monetize :subtotal_cents
 
   enum weekday: {
     monday: "monday",
@@ -41,7 +42,7 @@ class LineItem < ApplicationRecord
     breakdown
   end
 
-  def subtotal
-    total_decimal_hours * (hourly_rate || 0)
+  def subtotal_cents
+    total_decimal_hours * (hourly_rate_cents || 0)
   end
 end

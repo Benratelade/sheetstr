@@ -106,4 +106,16 @@ RSpec.describe LineItem, type: :model do
       expect(line_item.subtotal).to be_a(BigDecimal)
     end
   end
+
+  describe "#hourly_rate" do
+    it "sets the hourly_rate_cents correctly" do
+      line_item = LineItem.new(hourly_rate: 10)
+      expect(line_item.hourly_rate_cents).to eq(1000)
+    end
+
+    it "returns a money" do
+      line_item = LineItem.new(hourly_rate: 10)
+      expect(line_item.hourly_rate).to eq(Money.new(1000))
+    end
+  end
 end

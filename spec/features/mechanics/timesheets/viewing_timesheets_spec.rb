@@ -132,12 +132,12 @@ describe "An existing user views a timesheet from the index page", type: :featur
           "Monday" => [
             {
               "description" => "office hours",
-              "hourly rate" => "24.0",
+              "hourly rate" => "24.00",
               "subtotal" => "108.00",
               "total decimal hours" => "4.50",
             }, {
               "description" => "shooting",
-              "hourly rate" => "30.0",
+              "hourly rate" => "30.00",
               "subtotal" => "180.00",
               "total decimal hours" => "6.00",
             },
@@ -145,7 +145,7 @@ describe "An existing user views a timesheet from the index page", type: :featur
           "Tuesday" => [
             {
               "description" => "shooting",
-              "hourly rate" => "30.0",
+              "hourly rate" => "30.00",
               "subtotal" => "195.00",
               "total decimal hours" => "6.50",
             },
@@ -153,7 +153,7 @@ describe "An existing user views a timesheet from the index page", type: :featur
           "Thursday" => [
             {
               "description" => "office hours",
-              "hourly rate" => "24.0",
+              "hourly rate" => "24.00",
               "subtotal" => "156.00",
               "total decimal hours" => "6.50",
             },
@@ -187,12 +187,12 @@ describe "An existing user views a timesheet from the index page", type: :featur
           [
             {
               "description" => "office hours",
-              "hourly rate" => "$24.0 per hour",
+              "hourly rate" => "$24.00 per hour",
               "total decimal hours" => "11.00 hours",
               "subtotal" => "$264.00",
             }, {
               "description" => "shooting",
-              "hourly rate" => "$30.0 per hour",
+              "hourly rate" => "$30.00 per hour",
               "total decimal hours" => "12.50 hours",
               "subtotal" => "$375.00",
             },

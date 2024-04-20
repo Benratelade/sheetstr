@@ -59,7 +59,7 @@ describe "Editing a timesheet's line items", type: :feature do
           "Monday" => [
             {
               "description" => "office hours",
-              "hourly rate" => "24.0",
+              "hourly rate" => "24.00",
               "subtotal" => "108.00",
               "total decimal hours" => "4.50",
             },
@@ -67,7 +67,7 @@ describe "Editing a timesheet's line items", type: :feature do
           "Tuesday" => [
             {
               "description" => "office hours",
-              "hourly rate" => "24.0",
+              "hourly rate" => "24.00",
               "subtotal" => "108.00",
               "total decimal hours" => "4.50",
             },
@@ -111,12 +111,12 @@ describe "Editing a timesheet's line items", type: :feature do
           "Tuesday" => [
             {
               "description" => "office hours",
-              "hourly rate" => "24.0",
+              "hourly rate" => "24.00",
               "subtotal" => "108.00",
               "total decimal hours" => "4.50",
             }, {
               "description" => "On-site shooting",
-              "hourly rate" => "27.0",
+              "hourly rate" => "27.00",
               "subtotal" => "216.00",
               "total decimal hours" => "8.00",
             },

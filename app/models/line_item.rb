@@ -2,6 +2,9 @@
 
 class LineItem < ApplicationRecord
   belongs_to :timesheet
+
+  monetize :hourly_rate_cents
+
   enum weekday: {
     monday: "monday",
     tuesday: "tuesday",

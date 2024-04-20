@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_04_17_103926) do
+ActiveRecord::Schema[7.1].define(version: 2024_04_20_071019) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -51,7 +51,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_17_103926) do
     t.string "description"
     t.datetime "start_time"
     t.datetime "end_time"
-    t.decimal "hourly_rate"
     t.uuid "timesheet_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

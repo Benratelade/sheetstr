@@ -26,6 +26,9 @@ describe "timesheets/show", type: :view do
     @timesheet_summary_component = double("timesheet summary component")
     allow(Timesheets::TimesheetSummaryComponent).to receive(:new).and_return(@timesheet_summary_component)
     allow(view).to receive(:render).with(@timesheet_summary_component) { "rendered timesheet summary component" }
+    @daily_breakdown_component = double("timesheet breakdown component")
+    allow(Timesheets::DailyBreakdownComponent).to receive(:new).and_return(@daily_breakdown_component)
+    allow(view).to receive(:render).with(@daily_breakdown_component) { "rendered daily breakdown component" }
   end
 
   it "Displays the email of the current user" do
@@ -68,22 +71,6 @@ describe "timesheets/show", type: :view do
     expect(summary_section).to have_content("summary component rendered")
   end
 
-  # it "Displays the total revenue with 2 digits after the decimal place" do
-  #   allow(@timesheet).to receive(:hours_breakdown).and_return(
-  #     {
-  #       hours: 0,
-  #       minutes: 0,
-  #     },
-  #   )
-  #   allow(@timesheet).to receive(:total_revenue).and_return(BigDecimal("1512.3333333333"))
-
-  #   render
-
-  #   page = Capybara.string(rendered)
-  #   total = page.find("section#summary-section #total-revenue-section #total-revenue")
-  #   expect(total.text).to eq("$ 1512.33")
-  # end
-
   it "Displays a section for actions" do
     render
 
@@ -125,10 +112,14 @@ describe "timesheets/show", type: :view do
     expect(actions_section).to have_content("A rendered view timesheets button component")
   end
 
-  it "Displays a daily breakdown section" do
+  it "Displays a daily breakdown component" do
+    expect(Timesheets::DailyBreakdownComponent).to receive(:new).with(
+      timesheet: @timesheet,
+    ).and_return(@daily_breakdown_component)
+
     render
 
-    expect(rendered).to have_css(".mb-2.col-6#daily-breakdown")
+    expect(rendered).to have_content("rendered daily breakdown component")
   end
 
   it "displays a delete button" do
@@ -146,82 +137,5 @@ describe "timesheets/show", type: :view do
 
     page = Capybara.string(rendered)
     expect(page).to have_content("A rendered delete timesheet button component")
-  end
-
-  context "When the timesheet has some grouped line items" do
-    before do
-      @line_item_1 = double(
-        "line item 1",
-        id: "line-item-1-id",
-        timesheet_id: "timesheet-id",
-        description: "description 1",
-        hourly_rate: 24,
-        total_decimal_hours: "total decimal hours 1",
-        subtotal: "subtotal 1",
-        weekday: "monday",
-      )
-      @line_item_2 = double(
-        "line item 2",
-        id: "line-item-2-id",
-        timesheet_id: "timesheet-id",
-        description: "description 2",
-        hourly_rate: 24,
-        total_decimal_hours: "total decimal hours 2",
-        subtotal: "subtotal 2",
-        weekday: "monday",
-      )
-      @line_item_3 = double(
-        "line item 3",
-        id: "line-item-3-id",
-        timesheet_id: "timesheet-id",
-        description: "description 3",
-        hourly_rate: 30,
-        total_decimal_hours: "total decimal hours 3",
-        subtotal: "subtotal 3",
-        weekday: "wednesday",
-      )
-      allow(@timesheet).to receive(:daily_line_items).and_return(
-        {
-          "monday" => [@line_item_1, @line_item_2],
-          "wednesday" => [@line_item_3],
-        },
-      )
-    end
-
-    it "Displays a weekday-summary that contains a list group for each weekday" do
-      render
-
-      page = Capybara.string(rendered)
-      daily_breakdown = page.find("#daily-breakdown")
-
-      expect(daily_breakdown).to have_css("h3", text: "Weekdays summary")
-      weekday_summaries = daily_breakdown.find_all(".weekday-summary")
-      expect(weekday_summaries.count).to eq(2)
-
-      weekday_names = weekday_summaries.map { |summary| summary.find(".weekday").text }
-      expect(weekday_names).to eq(%w[monday wednesday])
-      expect(weekday_summaries[0]).to have_css("ul.list-group")
-    end
-
-    it "Displays a summary of worked hours for each line item" do
-      item_1_component = double("Line Item 1 Component")
-      item_2_component = double("Line Item 2 Component")
-      item_3_component = double("Line Item 3 Component")
-
-      expect(LineItems::LineItemSummaryComponent).to receive(:new).with(@line_item_1).and_return(item_1_component)
-      expect(LineItems::LineItemSummaryComponent).to receive(:new).with(@line_item_2).and_return(item_2_component)
-      expect(LineItems::LineItemSummaryComponent).to receive(:new).with(@line_item_3).and_return(item_3_component)
-      expect(view).to receive(:render).with(item_1_component) { "line item 1 rendered" }
-      expect(view).to receive(:render).with(item_2_component) { "line item 2 rendered" }
-      expect(view).to receive(:render).with(item_3_component) { "line item 3 rendered" }
-
-      render
-
-      page = Capybara.string(rendered)
-      monday_summary = page.find_all(".weekday-summary")[0]
-
-      expect(monday_summary).to have_content("line item 1 rendered")
-      expect(monday_summary).to have_content("line item 2 rendered")
-    end
   end
 end

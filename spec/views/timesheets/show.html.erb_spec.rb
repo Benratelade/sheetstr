@@ -20,9 +20,6 @@ describe "timesheets/show", type: :view do
     allow(view).to receive(:render).and_call_original
     allow(Utilities::Buttons::ButtonComponent).to receive(:new).and_return(button_component)
     allow(view).to receive(:render).with(button_component) { "some rendered button component" }
-    line_item_component = double("line item component")
-    allow(LineItems::LineItemSummaryComponent).to receive(:new).and_return(line_item_component)
-    allow(view).to receive(:render).with(line_item_component) { "rendered line item component" }
     @timesheet_summary_component = double("timesheet summary component")
     allow(Timesheets::TimesheetSummaryComponent).to receive(:new).and_return(@timesheet_summary_component)
     allow(view).to receive(:render).with(@timesheet_summary_component) { "rendered timesheet summary component" }
@@ -31,7 +28,7 @@ describe "timesheets/show", type: :view do
     allow(view).to receive(:render).with(@daily_breakdown_component) { "rendered daily breakdown component" }
   end
 
-  it "Displays the email of the current user" do
+  it "Displays the date for the timesheet" do
     render
 
     expect(rendered).to have_css(

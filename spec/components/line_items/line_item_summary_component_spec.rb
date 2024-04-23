@@ -21,6 +21,7 @@ RSpec.describe LineItems::LineItemSummaryComponent, type: :component do
       subtotal: "subtotal",
       weekday: "monday",
       timesheet_id: "timesheet-id",
+      start_time: Time.iso8601("2022-01-24T00:00:00Z"),
     )
     @component = LineItems::LineItemSummaryComponent.new(@item)
   end
@@ -60,13 +61,17 @@ RSpec.describe LineItems::LineItemSummaryComponent, type: :component do
     expect(list_container).to have_content("A rendered button component")
   end
 
-  it "shows decimal hours and subtotal with 2 digits after the decimal place" do
-    allow(@item).to receive(:subtotal).and_return(BigDecimal("116.3333333333"))
+  it "shows decimal hours with 2 digits after the decimal place" do
     allow(@item).to receive(:total_decimal_hours).and_return(BigDecimal("4.3333333333"))
 
     render_inline(@component)
 
     expect(list_info).to have_css(".total-decimal-hours", text: "4.33")
-    expect(list_info).to have_css(".subtotal", text: "116.33")
+  end
+
+  it "shows the line item's date in a friendly format" do
+    render_inline(@component)
+
+    expect(list_info).to have_css(".date", text: "Monday, 24 January 2022")
   end
 end

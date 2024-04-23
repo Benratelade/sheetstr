@@ -19,8 +19,8 @@ describe "Editing a timesheet's line items", type: :feature do
       weekday: "monday",
       description: "office hours",
       hourly_rate: 24,
-      start_time: Time.iso8601("2022-01-24T08:00:00+10:00"),
-      end_time: Time.iso8601("2022-01-24T12:30:00+10:00"),
+      start_time: Time.iso8601("2022-01-24T08:00:00Z"),
+      end_time: Time.iso8601("2022-01-24T12:30:00Z"),
     )
 
     create(
@@ -29,8 +29,8 @@ describe "Editing a timesheet's line items", type: :feature do
       weekday: "tuesday",
       description: "office hours",
       hourly_rate: 24,
-      start_time: Time.iso8601("2022-01-25T08:00:00+10:00"),
-      end_time: Time.iso8601("2022-01-25T12:30:00+10:00"),
+      start_time: Time.iso8601("2022-01-25T08:00:00Z"),
+      end_time: Time.iso8601("2022-01-25T12:30:00Z"),
     )
   end
 
@@ -59,6 +59,7 @@ describe "Editing a timesheet's line items", type: :feature do
           "Monday" => [
             {
               "description" => "office hours",
+              "date" => "Monday, 24 January 2022",
               "hourly rate" => "24.00",
               "subtotal" => "108.00",
               "total decimal hours" => "4.50",
@@ -67,6 +68,7 @@ describe "Editing a timesheet's line items", type: :feature do
           "Tuesday" => [
             {
               "description" => "office hours",
+              "date" => "Tuesday, 25 January 2022",
               "hourly rate" => "24.00",
               "subtotal" => "108.00",
               "total decimal hours" => "4.50",
@@ -111,11 +113,13 @@ describe "Editing a timesheet's line items", type: :feature do
           "Tuesday" => [
             {
               "description" => "office hours",
+              "date" => "Tuesday, 25 January 2022",
               "hourly rate" => "24.00",
               "subtotal" => "108.00",
               "total decimal hours" => "4.50",
             }, {
               "description" => "On-site shooting",
+              "date" => "Tuesday, 26 January 2022",
               "hourly rate" => "27.00",
               "subtotal" => "216.00",
               "total decimal hours" => "8.00",

@@ -46,6 +46,7 @@ module Support
         weekday_summary_section.find_all(".line-item").each do |line_item|
           hash[weekday] << {
             "description" => line_item.find(".description").text,
+            "date" => line_item.find(".date").text,
             "total decimal hours" => line_item.find(".total-decimal-hours").text,
             "hourly rate" => line_item.find(".hourly-rate").text,
             "subtotal" => line_item.find(".subtotal").text,

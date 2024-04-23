@@ -39,8 +39,8 @@ describe "An existing user views a timesheet from the index page", type: :featur
       weekday: "monday",
       description: "office hours",
       hourly_rate: 24,
-      start_time: Time.iso8601("2022-01-24T08:00:00+10:00"),
-      end_time: Time.iso8601("2022-01-24T12:30:00+10:00"),
+      start_time: Time.iso8601("2022-01-24T08:00:00Z"),
+      end_time: Time.iso8601("2022-01-24T12:30:00Z"),
     )
 
     create(
@@ -49,8 +49,8 @@ describe "An existing user views a timesheet from the index page", type: :featur
       weekday: "monday",
       description: "shooting",
       hourly_rate: 30,
-      start_time: Time.iso8601("2022-01-24T12:30:00+10:00"),
-      end_time: Time.iso8601("2022-01-24T18:30:00+10:00"),
+      start_time: Time.iso8601("2022-01-24T12:30:00Z"),
+      end_time: Time.iso8601("2022-01-24T18:30:00Z"),
     )
 
     create(
@@ -59,8 +59,8 @@ describe "An existing user views a timesheet from the index page", type: :featur
       weekday: "tuesday",
       description: "shooting",
       hourly_rate: 30,
-      start_time: Time.iso8601("2022-01-25T08:00:00+10:00"),
-      end_time: Time.iso8601("2022-01-25T14:30:00+10:00"),
+      start_time: Time.iso8601("2022-01-25T08:00:00Z"),
+      end_time: Time.iso8601("2022-01-25T14:30:00Z"),
     )
 
     create(
@@ -69,8 +69,8 @@ describe "An existing user views a timesheet from the index page", type: :featur
       weekday: "thursday",
       description: "office hours",
       hourly_rate: 24,
-      start_time: Time.iso8601("2022-01-27T08:00:00+10:00"),
-      end_time: Time.iso8601("2022-01-27T14:30:00+10:00"),
+      start_time: Time.iso8601("2022-01-27T08:00:00Z"),
+      end_time: Time.iso8601("2022-01-27T14:30:00Z"),
     )
   end
 
@@ -132,11 +132,13 @@ describe "An existing user views a timesheet from the index page", type: :featur
           "Monday" => [
             {
               "description" => "office hours",
+              "date" => "Monday, 24 January 2022",
               "hourly rate" => "24.00",
               "subtotal" => "108.00",
               "total decimal hours" => "4.50",
             }, {
               "description" => "shooting",
+              "date" => "Monday, 24 January 2022",
               "hourly rate" => "30.00",
               "subtotal" => "180.00",
               "total decimal hours" => "6.00",
@@ -145,6 +147,7 @@ describe "An existing user views a timesheet from the index page", type: :featur
           "Tuesday" => [
             {
               "description" => "shooting",
+              "date" => "Tuesday, 25 January 2022",
               "hourly rate" => "30.00",
               "subtotal" => "195.00",
               "total decimal hours" => "6.50",
@@ -153,6 +156,7 @@ describe "An existing user views a timesheet from the index page", type: :featur
           "Thursday" => [
             {
               "description" => "office hours",
+              "date" => "Thursday, 27 January 2022",
               "hourly rate" => "24.00",
               "subtotal" => "156.00",
               "total decimal hours" => "6.50",

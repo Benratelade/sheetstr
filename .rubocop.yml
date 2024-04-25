@@ -46,3 +46,6 @@ Metrics/CyclomaticComplexity:
 
 Metrics/AbcSize:
   Max: 45
+
+Style/HashSyntax: 
+  EnforcedShorthandSyntax: never

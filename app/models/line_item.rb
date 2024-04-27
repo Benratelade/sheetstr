@@ -45,4 +45,17 @@ class LineItem < ApplicationRecord
   def subtotal_cents
     total_decimal_hours * (hourly_rate_cents || 0)
   end
+
+  def available_dates
+    dates = {}
+    (timesheet.start_date..timesheet.start_date + 6.days).each do |date|
+      dates[date.strftime("%A, %d %B %Y")] = date
+    end
+
+    dates
+  end
+
+  def day_of_week
+    start_time.strftime("%A").downcase
+  end
 end

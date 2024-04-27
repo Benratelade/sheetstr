@@ -65,8 +65,8 @@ class Timesheet < ApplicationRecord
   def daily_line_items
     weekdays = {}
     line_items.order(:start_time).each do |line_item|
-      weekdays[line_item.weekday] ||= []
-      weekdays[line_item.weekday] << line_item
+      weekdays[line_item.day_of_week] ||= []
+      weekdays[line_item.day_of_week] << line_item
     end
 
     weekdays

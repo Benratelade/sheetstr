@@ -49,12 +49,9 @@ RSpec.describe Timesheets::LineItemsController, type: :controller do
       @timesheets = double("some timesheets")
       @timesheet = double("a timesheet", id: "timesheet-id")
       @line_item = double("a line item")
-      @line_items = double("some line items")
       allow(@current_user).to receive(:timesheets).and_return(@timesheets)
       allow(@timesheets).to receive(:find).and_return(@timesheet)
-      allow(@timesheet).to receive(:line_items).and_return(@line_items)
-      allow(@line_items).to receive(:new).and_return(@line_item)
-      allow(@line_item).to receive(:save)
+      allow(LineItemFactory).to receive(:create!).and_return(@line_item)
     end
 
     it "assigns the timesheet" do
@@ -76,17 +73,32 @@ RSpec.describe Timesheets::LineItemsController, type: :controller do
     end
 
     it "creates and assigns a new line item based on the params" do
-      expect(@timesheet).to receive(:line_items).and_return(@line_items)
-      expect(@line_items).to receive(:new).with(
-        {
-          "weekday" => "some day",
+      expect(LineItemFactory).to receive(:create!).with(
+        timesheet: @timesheet,
+        attributes: {
           "description" => "some description",
+          "start_date" => "a start date",
           "start_time" => "a start time",
           "end_time" => "an end time",
           "hourly_rate" => "an hourly rate",
         },
-      ).and_return(@line_item)
+      )
 
+      post :create, params: {
+        timesheet_id: "timesheet-id",
+        line_item: {
+          start_date: "a start date",
+          description: "some description",
+          start_time: "a start time",
+          end_time: "an end time",
+          hourly_rate: "an hourly rate",
+        },
+      }
+
+      expect(assigns(:line_item)).to eq(@line_item)
+    end
+
+    it "redirects to the timesheet" do
       post :create, params: {
         timesheet_id: "timesheet-id",
         line_item: {
@@ -98,31 +110,12 @@ RSpec.describe Timesheets::LineItemsController, type: :controller do
         },
       }
 
-      expect(assigns(:line_item)).to eq(@line_item)
+      expect(response).to redirect_to("/timesheets/timesheet-id")
     end
 
-    context "when the line item is valid" do
-      it "redirects to the timesheet" do
-        allow(@line_item).to receive(:save).and_return(true)
-
-        post :create, params: {
-          timesheet_id: "timesheet-id",
-          line_item: {
-            weekday: "some day",
-            description: "some description",
-            start_time: "a start time",
-            end_time: "an end time",
-            hourly_rate: "an hourly rate",
-          },
-        }
-
-        expect(response).to redirect_to("/timesheets/timesheet-id")
-      end
-    end
-
-    context "when the line item is NOT valid" do
+    context "when there was a validation error" do
       it "renders the new method" do
-        allow(@line_item).to receive(:save).and_return(false)
+        allow(LineItemFactory).to receive(:create!).and_raise(ActiveRecord::RecordInvalid)
 
         post :create, params: {
           timesheet_id: "timesheet-id",

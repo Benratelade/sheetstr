@@ -9,13 +9,11 @@ module Timesheets
 
     def create
       @timesheet = current_user.timesheets.find(params[:timesheet_id])
-      @line_item = @timesheet.line_items.new(line_item_params)
+      @line_item = LineItemFactory.create!(timesheet: @timesheet, attributes: line_item_params)
 
-      if @line_item.save
-        redirect_to timesheet_path(@timesheet.id)
-      else
-        render :new
-      end
+      redirect_to timesheet_path(@timesheet.id)
+    rescue ActiveRecord::RecordInvalid
+      render :new
     end
 
     def edit
@@ -39,6 +37,7 @@ module Timesheets
         :timesheet_id,
         :weekday,
         :description,
+        :start_date,
         :start_time,
         :end_time,
         :hourly_rate,

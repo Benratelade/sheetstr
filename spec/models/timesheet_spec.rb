@@ -114,13 +114,13 @@ RSpec.describe Timesheet, type: :model do
     it "returns information about line_items ordered by start time for each weekday" do
       line_item_1 = double(
         "line_item_1",
-        weekday: "tuesday",
+        day_of_week: "tuesday",
         start_time: "second",
       )
 
       line_item_2 = double(
         "line_item_2",
-        weekday: "monday",
+        day_of_week: "monday",
         start_time: "first",
       )
 
@@ -137,12 +137,12 @@ RSpec.describe Timesheet, type: :model do
     it "groups line items by weekday" do
       line_item_1 = double(
         "line_item_1",
-        weekday: "tuesday",
+        day_of_week: "tuesday",
       )
 
       line_item_2 = double(
         "line_item_2",
-        weekday: "tuesday",
+        day_of_week: "tuesday",
       )
 
       allow(@line_items_association).to receive(:order).and_return([line_item_1, line_item_2])

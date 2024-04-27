@@ -26,10 +26,10 @@ describe "timesheets/line_items/_form", type: :view do
       "A line_item",
       id: nil,
       timesheet_id: "timesheet-id",
-      available_dates: [
-        Date.parse("Jan 24 2022"),
-        Date.parse("Jan 25 2022"),
-      ],
+      available_dates: {
+        "Monday, 24 January 2022" => Date.parse("Jan 24 2022"),
+        "Tuesday, 25 January 2022" => Date.parse("Jan 25 2022"),
+      },
       start_date: nil,
       description: nil,
       start_time: nil,

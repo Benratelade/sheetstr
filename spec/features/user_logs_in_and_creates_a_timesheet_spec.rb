@@ -70,12 +70,12 @@ describe "An existing user logs in to sheetstr and creates a timesheet", type: :
 
     Then "a form for a line item is shown" do
       wait_for { focus_on(Support::PageFragments::Form).form.labels }.to eq(
-        ["Weekday", "Description", "Start time", "End time", "Hourly rate"],
+        ["Start date", "Weekday", "Description", "Start time", "End time", "Hourly rate"],
       )
     end
 
     When "they fill out and submit the form" do
-      select("tuesday", from: "Weekday")
+      select("Tuesday", from: "Start date")
       fill_in("Description", with: "On-site shooting")
       fill_in("Start time", with: "08:30a.m.")
       fill_in("End time", with: "12:50p.m.")

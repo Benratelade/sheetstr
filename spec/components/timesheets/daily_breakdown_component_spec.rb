@@ -12,7 +12,7 @@ RSpec.describe Timesheets::DailyBreakdownComponent, type: :component do
       hourly_rate: 24,
       total_decimal_hours: "total decimal hours 1",
       subtotal: "subtotal 1",
-      weekday: "monday",
+      day_of_week: "monday",
     )
     @line_item_2 = double(
       "line item 2",
@@ -22,7 +22,7 @@ RSpec.describe Timesheets::DailyBreakdownComponent, type: :component do
       hourly_rate: 24,
       total_decimal_hours: "total decimal hours 2",
       subtotal: "subtotal 2",
-      weekday: "monday",
+      day_of_week: "monday",
     )
     @line_item_3 = double(
       "line item 3",
@@ -32,7 +32,7 @@ RSpec.describe Timesheets::DailyBreakdownComponent, type: :component do
       hourly_rate: 30,
       total_decimal_hours: "total decimal hours 3",
       subtotal: "subtotal 3",
-      weekday: "wednesday",
+      day_of_week: "wednesday",
     )
 
     timesheet = double(
@@ -44,11 +44,11 @@ RSpec.describe Timesheets::DailyBreakdownComponent, type: :component do
     )
     line_item_summary_component = double("line item summary component")
     allow(LineItems::LineItemSummaryComponent).to receive(:new).and_return(line_item_summary_component)
-    @component = Timesheets::DailyBreakdownComponent.new(timesheet:)
+    @component = Timesheets::DailyBreakdownComponent.new(timesheet: timesheet)
     allow(@component).to receive(:render).with(line_item_summary_component) { "rendered line item summary component" }
   end
 
-  it "Displays a weekday-summary that contains a list group for each weekday" do
+  it "Displays a weekday-summary that contains a list group for each day_of_week" do
     render_inline(@component)
 
     daily_breakdown = page.find("#daily-breakdown")

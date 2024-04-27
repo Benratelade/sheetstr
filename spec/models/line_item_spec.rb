@@ -117,4 +117,39 @@ RSpec.describe LineItem, type: :model do
       expect(line_item.hourly_rate).to eq(Money.new(1000))
     end
   end
+
+  describe "#available_dates" do
+    it "creates a list of dates available for this line item, based on the timesheet" do
+      line_item = LineItem.new(
+        timesheet: create(
+          :timesheet,
+          start_date: Date.iso8601("2022-01-24"),
+        ),
+      )
+
+      expect(line_item.available_dates).to eq(
+        {
+          "Monday, 24 January 2022" => Date.iso8601("2022-01-24"),
+          "Tuesday, 25 January 2022" => Date.iso8601("2022-01-25"),
+          "Wednesday, 26 January 2022" => Date.iso8601("2022-01-26"),
+          "Thursday, 27 January 2022" => Date.iso8601("2022-01-27"),
+          "Friday, 28 January 2022" => Date.iso8601("2022-01-28"),
+          "Saturday, 29 January 2022" => Date.iso8601("2022-01-29"),
+          "Sunday, 30 January 2022" => Date.iso8601("2022-01-30"),
+        },
+      )
+    end
+  end
+
+  describe "#day_of_week" do
+    it "returns the day of the week" do
+      expect(
+        LineItem.new(start_time: DateTime.iso8601("2022-01-24T00:00:00Z")).day_of_week,
+      ).to eq("monday")
+
+      expect(
+        LineItem.new(start_time: DateTime.iso8601("2022-01-25T00:00:00Z")).day_of_week,
+      ).to eq("tuesday")
+    end
+  end
 end

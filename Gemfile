@@ -38,6 +38,8 @@ gem "view_component", "~>2.82.0", require: "view_component/engine"
 
 gem "money-rails"
 
+gem "awesome_print"
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem "byebug", platforms: %i[mri mingw x64_mingw]

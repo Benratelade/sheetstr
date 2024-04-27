@@ -178,7 +178,7 @@ RSpec.describe Timesheets::LineItemsController, type: :controller do
 
   describe "PATCH #update" do
     before do
-      allow(@line_item).to receive(:update).and_return(true)
+      allow(LineItemRepository).to receive(:update!)
     end
 
     it "assigns the timesheet and the line item" do
@@ -198,11 +198,13 @@ RSpec.describe Timesheets::LineItemsController, type: :controller do
       expect(assigns(:timesheet)).to eq(@timesheet)
     end
 
-    it "updates the line item with permitted params" do
-      expect(@line_item).to receive(:update).with(
-        {
+    it "uses the LineItemRepository to update the line item with permitted params" do
+      expect(LineItemRepository).to receive(:update!).with(
+        line_item: @line_item,
+        attributes: {
           "weekday" => "weekday",
           "description" => "description",
+          "start_date" => "a start date",
           "start_time" => "start time",
           "end_time" => "end time",
           "hourly_rate" => "hourly rate",
@@ -216,6 +218,7 @@ RSpec.describe Timesheets::LineItemsController, type: :controller do
           weekday: "weekday",
           description: "description",
           start_time: "start time",
+          start_date: "a start date",
           end_time: "end time",
           hourly_rate: "hourly rate",
           not_permitted: "nope",
@@ -234,6 +237,39 @@ RSpec.describe Timesheets::LineItemsController, type: :controller do
 
       expect(flash[:notice]).to eq("Line item was updated")
       expect(response).to redirect_to(timesheet_url(@timesheet.id))
+    end
+
+    context "There was a validation error" do
+      it "renders the new method" do
+        allow(LineItemRepository).to receive(:update!).and_raise(ActiveRecord::RecordInvalid)
+
+        patch :update, params: {
+          timesheet_id: "timesheet-id",
+          id: "line-item-id",
+          line_item: {
+            foo: "bar",
+          },
+        }
+
+        expect(response).to render_template(:edit)
+      end
+    end
+
+    context "There was a RecordNotFound error" do
+      it "renders the 404 page" do
+        allow(@timesheets_association).to receive(:find).and_raise(ActiveRecord::RecordNotFound)
+
+        patch :update, params: {
+          timesheet_id: "timesheet-id",
+          id: "line-item-id",
+          line_item: {
+            foo: "bar",
+          },
+        }
+
+        expect(response).to render_template("shared/errors/404")
+        expect(response).to have_http_status(:not_found)
+      end
     end
   end
 end

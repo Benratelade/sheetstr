@@ -170,7 +170,6 @@ RSpec.describe Timesheets::LineItemsController, type: :controller do
       it "renders a 404 not found when the line item isn't found" do
         allow(@line_items_association).to receive(:find).and_raise(ActiveRecord::RecordNotFound)
 
-
         get :edit, params: { timesheet_id: "timesheet-id", id: "line-item-id" }
 
         expect(response).to render_template("shared/errors/404")

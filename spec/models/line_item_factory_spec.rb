@@ -10,8 +10,8 @@ RSpec.describe LineItemFactory do
         {
           "timesheet_id" => "timesheet-id",
           "description" => "description",
-          "start_time" => DateTime.iso8601("2022-01-25T08:30:00Z").to_s,
-          "end_time" => DateTime.iso8601("2022-01-25T12:50:00Z").to_s,
+          "start_time" => DateTime.iso8601("2022-01-25T08:30:00Z"),
+          "end_time" => DateTime.iso8601("2022-01-25T12:50:00Z"),
           "hourly_rate" => "hourly rate",
         },
       )

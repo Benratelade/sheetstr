@@ -75,7 +75,7 @@ RSpec.describe LineItems::LineItemSummaryComponent, type: :component do
       receive(:format_date_in_timezone).with(
         date: "start time",
         timezone_identifier: "timezone identifier",
-      )
+      ),
     )
 
     render_inline(@component)

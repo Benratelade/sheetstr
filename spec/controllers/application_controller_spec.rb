@@ -14,11 +14,10 @@ RSpec.describe ApplicationController, type: :controller do
   end
 
   before do
-    routes.draw { 
+    routes.draw do
       get "test_not_found" => "anonymous#test_not_found"
       get "test_timezone" => "anonymous#test_timezone"
-     }
-
+    end
   end
 
   context "When a record is not found" do
@@ -31,7 +30,7 @@ RSpec.describe ApplicationController, type: :controller do
   end
 
   describe "timezone" do
-    before do 
+    before do
       @current_user = double("user", timezone_identifier: nil)
       allow(controller).to receive(:current_user).and_return(@current_user)
     end

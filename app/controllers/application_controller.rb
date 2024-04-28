@@ -14,10 +14,10 @@ class ApplicationController < ActionController::Base
     render("shared/errors/404", status: :not_found)
   end
 
-  def set_time_zone
+  def set_time_zone(&)
     if current_user
-      Time.use_zone(current_user.timezone_identifier) { yield }
-    else 
+      Time.use_zone(current_user.timezone_identifier, &)
+    else
       yield
     end
   end

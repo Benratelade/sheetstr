@@ -111,7 +111,7 @@ describe "Editing a timesheet's line items", type: :feature do
         focus_on(Support::PageFragments::Timesheet).daily_breakdown
       end.to eq(
         {
-          "Tuesday" => [ 
+          "Tuesday" => [
             {
               "description" => "On-site shooting",
               "date" => "Tuesday, 01 February 2022",
@@ -125,7 +125,7 @@ describe "Editing a timesheet's line items", type: :feature do
               "hourly rate" => "24.00",
               "subtotal" => "108.00",
               "total decimal hours" => "4.50",
-            }
+            },
           ],
         },
       )

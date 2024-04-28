@@ -14,7 +14,7 @@ RSpec.describe OnboardingController, type: :controller do
 
       get :onboard
 
-      expect(response).to redirect_to(controller: "configurations", action: "edit")
+      expect(response).to redirect_to(controller: "users/configurations", action: "edit")
     end
 
     it "redirects to timesheets#new if the user's setup IS complete" do

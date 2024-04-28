@@ -4,7 +4,7 @@ module Support
   module PageFragments
     module Headers
       def page_header
-        page.find("#page-header").text
+        page.find("h2").text
       end
     end
   end

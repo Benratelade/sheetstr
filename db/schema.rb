@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_04_20_071019) do
+ActiveRecord::Schema[7.1].define(version: 2024_04_28_043805) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -67,6 +67,14 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_20_071019) do
     t.date "end_date"
     t.bigint "user_id"
     t.index ["user_id"], name: "index_timesheets_on_user_id"
+  end
+
+  create_table "user_configurations", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "timezone_identifier", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_user_configurations_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|

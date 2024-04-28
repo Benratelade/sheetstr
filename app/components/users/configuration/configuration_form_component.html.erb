@@ -1,0 +1,10 @@
+<%= form_with(
+  model: @user_configuration,
+  method: :patch,
+  url: configurations_path,
+  ) do |form| %>
+
+  <%= form.label(:timezone_identifier, "Timezone") %>
+  <%= form.time_zone_select(:timezone_identifier) %>
+  <%= form.submit("Save") %>
+<% end %>

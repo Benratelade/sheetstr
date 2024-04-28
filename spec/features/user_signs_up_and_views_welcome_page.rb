@@ -16,56 +16,67 @@ describe "A new user signs up to sheetstr and creates their first timesheet", ty
       fill_in("Email", with: "ratelade.benjamin@gmail.com")
       fill_in("Password", with: "password")
       fill_in("Password confirmation", with: "password")
-      click_on("Sign up")
+      focus_on(Support::PageFragments::Form).form.submit
     end
 
-    Then "A user is created" do
-      user = User.find_by(email: "ratelade.benjamin@gmail.com")
-      expect(user).to be_present
+    Then "a screen asks them to select their timezone" do
+      wait_for do
+        focus_on(Support::PageFragments::Headers).page_header
+      end.to eq("Please select your timezone")
+    end
+
+    When "they select and confirm their timezone" do
+      select("Sydney", from: "Timezone")
+      focus_on(Support::PageFragments::Form).form.submit
     end
 
     And "They are taken to a new Timesheet page with their email showing, for this week" do
-      page_title = find("h2")
-      expect(page_title.text).to eq("Welcome ratelade.benjamin@gmail.com")
+      wait_for do
+        focus_on(Support::PageFragments::Headers).page_header
+      end.to eq("Welcome ratelade.benjamin@gmail.com")
 
       timesheet_title = find_all("h3").first
       expect(timesheet_title.text).to eq("New Timesheet")
 
-      start_date = find_field("Start date", readonly: true)
-      expect(start_date).to be_readonly
-      end_date = find_field("End date", readonly: true)
-      expect(end_date).to be_readonly
+      start_date = find_field("Start date")
+      end_date = find_field("End date")
 
       expect(start_date.value).to eq("2022-01-24")
       expect(end_date.value).to eq("2022-01-30")
     end
 
-    When "They fill out the form" do
-      days_sections = page.find_all("[data-testid^=day-section-]")
-      days_sections.each do |day_section|
-        day_section.fill_in("Start time", with: "08:00am")
-        day_section.fill_in("End time", with: "17:00")
-        day_section.fill_in("Hourly rate", with: "25")
-      end
-      click_button("Submit")
+    When "they submit the form" do
+      focus_on(Support::PageFragments::Form).form.submit
+    end
+
+    And "they add a line item" do
+      click_on("Add item")
+      wait_for { focus_on(Support::PageFragments::Form).form.labels }.to eq(
+        ["Start date", "Weekday", "Description", "Start time", "End time", "Hourly rate"],
+      )
+
+      select("Tuesday", from: "Start date")
+      fill_in("Description", with: "On-site shooting")
+      fill_in("Start time", with: "08:00a.m.")
+      fill_in("End time", with: "05:00p.m.")
+      fill_in("Hourly rate", with: "25")
+      focus_on(Support::PageFragments::Form).form.submit
     end
 
     Then "They see a summary of each day's work" do
-      page_title = find("h2")
-      expect(page_title.text).to eq("Timesheet for Monday, January 24 2022 to Sunday, January 30 2022")
+      wait_for do
+        focus_on(Support::PageFragments::Headers).page_header
+      end.to eq("Timesheet for Monday, January 24 2022 to Sunday, January 30 2022")
 
-      summary_section = find("section[data-test_id=summary-section]")
-      hours_summary = summary_section.find("#total-time-section")
-      decimal_value = hours_summary.find("#decimal-value")
-      hourly_value = hours_summary.find("#hourly-value")
-
-      expect(decimal_value.text).to eq("63.00")
-      expect(hourly_value.text).to eq("(63 hours 0 minutes)")
-
-      revenue_summary = summary_section.find("#total-revenue-section")
-      dollar_value = revenue_summary.find("#total-revenue")
-
-      expect(dollar_value.text).to eq("$ 1575.00")
+      wait_for do
+        focus_on(Support::PageFragments::Timesheet).summary
+      end.to eq(
+        {
+          "Total hours worked (decimal)" => ["9.0"],
+          "Duration (in hours)" => ["9 hours 0 minutes"],
+          "Total revenue" => ["$225.0"],
+        },
+      )
     end
   end
 end

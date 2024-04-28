@@ -7,4 +7,9 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
   has_many :timesheets
+  has_one :user_configuration
+
+  def setup_complete?
+    user_configuration.present? && user_configuration.setup_complete?
+  end
 end

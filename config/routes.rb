@@ -8,6 +8,10 @@ Rails.application.routes.draw do
     end
   end
 
-  get "timesheet", to: "timesheets#new", as: :user_root
+  scope module: "users" do
+    resource :configurations, only: %i[edit update]
+  end
+
+  get "onboard", to: "onboarding#onboard", as: :user_root
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end

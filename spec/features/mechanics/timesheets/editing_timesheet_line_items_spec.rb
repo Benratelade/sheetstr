@@ -5,6 +5,7 @@ require "rails_helper"
 describe "Editing a timesheet's line items", type: :feature do
   before do
     @otolose = create(:user)
+    create(:user_configuration, timezone_identifier: "Sydney", user: @otolose)
 
     @timesheet = create(
       :timesheet,
@@ -19,8 +20,8 @@ describe "Editing a timesheet's line items", type: :feature do
       weekday: "monday",
       description: "office hours",
       hourly_rate: 24,
-      start_time: Time.iso8601("2022-01-31T08:00:00Z"),
-      end_time: Time.iso8601("2022-01-31T12:30:00Z"),
+      start_time: Time.iso8601("2022-01-31T08:00:00+10:00"),
+      end_time: Time.iso8601("2022-01-31T12:30:00+10:00"),
     )
 
     create(
@@ -29,8 +30,8 @@ describe "Editing a timesheet's line items", type: :feature do
       weekday: "tuesday",
       description: "office hours",
       hourly_rate: 24,
-      start_time: Time.iso8601("2022-02-01T08:00:00Z"),
-      end_time: Time.iso8601("2022-02-01T12:30:00Z"),
+      start_time: Time.iso8601("2022-02-01T08:00:00+10:00"),
+      end_time: Time.iso8601("2022-02-01T12:30:00+10:00"),
     )
   end
 

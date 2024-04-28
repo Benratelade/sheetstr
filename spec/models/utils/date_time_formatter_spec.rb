@@ -13,4 +13,22 @@ RSpec.describe Utils::DateTimeFormatter do
       expect(Utils::DateTimeFormatter.format_date(date)).to eq("Monday, 24 Jan 2022")
     end
   end
+
+  describe "#format_date_in_timezone" do
+    it "formats the date in the given timezone" do
+      expect(
+        Utils::DateTimeFormatter.format_date_in_timezone(
+          date: Time.iso8601("2022-01-31T08:00:00+11:00"),
+          timezone_identifier: "Sydney",
+        ),
+      ).to eq("Monday, 31 January 2022")
+
+      expect(
+        Utils::DateTimeFormatter.format_date_in_timezone(
+          date: Time.iso8601("2022-01-31T08:00:00+10:00"),
+          timezone_identifier: "UTC",
+        ),
+      ).to eq("Sunday, 30 January 2022")
+    end
+  end
 end

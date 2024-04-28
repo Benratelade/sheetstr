@@ -4,7 +4,7 @@ require "rails_helper"
 
 RSpec.describe Timesheets::LineItemsController, type: :controller do
   before do
-    @current_user = double("current user")
+    @current_user = double("current user", user_configuration: double(timezone_identifier: "user timezone identifier"))
     allow(controller).to receive(:current_user).and_return(@current_user)
 
     @timesheets_association = double("timesheets association")
@@ -203,6 +203,7 @@ RSpec.describe Timesheets::LineItemsController, type: :controller do
     it "uses the LineItemRepository to update the line item with permitted params" do
       expect(LineItemRepository).to receive(:update!).with(
         line_item: @line_item,
+        timezone_identifier: "user timezone identifier",
         attributes: {
           "weekday" => "weekday",
           "description" => "description",

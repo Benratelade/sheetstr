@@ -5,6 +5,7 @@ require "rails_helper"
 describe "An existing user creates a timesheet from the index page", type: :feature do
   before do
     @otolose = create(:user)
+    create(:user_configuration, timezone_identifier: "UTC", user: @otolose)
     Timecop.freeze(Date.parse("Jan 30 2022"))
   end
 

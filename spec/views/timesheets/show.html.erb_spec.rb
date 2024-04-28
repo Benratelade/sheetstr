@@ -4,7 +4,11 @@ require "rails_helper"
 
 describe "timesheets/show", type: :view do
   before do
-    @current_user = double("the user", email: "ratelade.benjamin@gmail.com")
+    @current_user = double(
+      "the user",
+      email: "ratelade.benjamin@gmail.com",
+      user_configuration: double(timezone_identifier: "timezone identifier"),
+    )
     allow(controller).to receive(:current_user).and_return(@current_user)
 
     @timesheet = double(
@@ -112,6 +116,7 @@ describe "timesheets/show", type: :view do
   it "Displays a daily breakdown component" do
     expect(Timesheets::DailyBreakdownComponent).to receive(:new).with(
       timesheet: @timesheet,
+      timezone_identifier: "timezone identifier",
     ).and_return(@daily_breakdown_component)
 
     render

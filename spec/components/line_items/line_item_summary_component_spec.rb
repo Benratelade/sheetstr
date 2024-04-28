@@ -21,9 +21,10 @@ RSpec.describe LineItems::LineItemSummaryComponent, type: :component do
       subtotal: "subtotal",
       weekday: "monday",
       timesheet_id: "timesheet-id",
-      start_time: Time.iso8601("2022-01-24T00:00:00Z"),
+      start_time: "start time",
     )
-    @component = LineItems::LineItemSummaryComponent.new(@item)
+    @component = LineItems::LineItemSummaryComponent.new(item: @item, timezone_identifier: "timezone identifier")
+    allow(Utils::DateTimeFormatter).to receive(:format_date_in_timezone).and_return("localised start time")
   end
 
   it "renders things within a .line-item div" do
@@ -70,8 +71,15 @@ RSpec.describe LineItems::LineItemSummaryComponent, type: :component do
   end
 
   it "shows the line item's date in a friendly format" do
+    expect(Utils::DateTimeFormatter).to(
+      receive(:format_date_in_timezone).with(
+        date: "start time",
+        timezone_identifier: "timezone identifier",
+      )
+    )
+
     render_inline(@component)
 
-    expect(list_info).to have_css(".date", text: "Monday, 24 January 2022")
+    expect(list_info).to have_css(".date", text: "localised start time")
   end
 end

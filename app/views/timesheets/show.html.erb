@@ -22,7 +22,10 @@
   <%= render(Timesheets::TimesheetLineItemsSummaryComponent.new(timesheet: @timesheet))%>
 </section>
 
-<%= render(Timesheets::DailyBreakdownComponent.new(timesheet: @timesheet)) %>
+<%= render(Timesheets::DailyBreakdownComponent.new(
+  timesheet: @timesheet, 
+  timezone_identifier: current_user.user_configuration.timezone_identifier
+)) %>
 
 <%= render(
    Utilities::Buttons::ButtonComponent.new(

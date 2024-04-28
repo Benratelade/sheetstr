@@ -44,7 +44,7 @@ RSpec.describe Timesheets::DailyBreakdownComponent, type: :component do
     )
     line_item_summary_component = double("line item summary component")
     allow(LineItems::LineItemSummaryComponent).to receive(:new).and_return(line_item_summary_component)
-    @component = Timesheets::DailyBreakdownComponent.new(timesheet: timesheet)
+    @component = Timesheets::DailyBreakdownComponent.new(timesheet: timesheet, timezone_identifier: "timezone identifier")
     allow(@component).to receive(:render).with(line_item_summary_component) { "rendered line item summary component" }
   end
 
@@ -67,9 +67,9 @@ RSpec.describe Timesheets::DailyBreakdownComponent, type: :component do
     item_2_component = double("Line Item 2 Component")
     item_3_component = double("Line Item 3 Component")
 
-    expect(LineItems::LineItemSummaryComponent).to receive(:new).with(@line_item_1).and_return(item_1_component)
-    expect(LineItems::LineItemSummaryComponent).to receive(:new).with(@line_item_2).and_return(item_2_component)
-    expect(LineItems::LineItemSummaryComponent).to receive(:new).with(@line_item_3).and_return(item_3_component)
+    expect(LineItems::LineItemSummaryComponent).to receive(:new).with(item: @line_item_1, timezone_identifier: "timezone identifier").and_return(item_1_component)
+    expect(LineItems::LineItemSummaryComponent).to receive(:new).with(item: @line_item_2, timezone_identifier: "timezone identifier").and_return(item_2_component)
+    expect(LineItems::LineItemSummaryComponent).to receive(:new).with(item: @line_item_3, timezone_identifier: "timezone identifier").and_return(item_3_component)
     expect(@component).to receive(:render).with(item_1_component) { "line item 1 rendered" }
     expect(@component).to receive(:render).with(item_2_component) { "line item 2 rendered" }
     expect(@component).to receive(:render).with(item_3_component) { "line item 3 rendered" }

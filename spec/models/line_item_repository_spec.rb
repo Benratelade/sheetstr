@@ -11,14 +11,14 @@ RSpec.describe LineItemRepository do
         receive(:build_from_date_and_time).with(
           date: "the start date",
           time: "the start time",
-          timezone_identifier: "UTC",
+          timezone_identifier: "timezone identifier",
         ),
       ).and_return("start date time")
       expect(Utils::DateTimeBuilder).to(
         receive(:build_from_date_and_time).with(
           date: "the start date",
           time: "the end time",
-          timezone_identifier: "UTC",
+          timezone_identifier: "timezone identifier",
         ),
       ).and_return("end date time")
 
@@ -33,6 +33,7 @@ RSpec.describe LineItemRepository do
 
       LineItemRepository.update!(
         line_item: line_item,
+        timezone_identifier: "timezone identifier",
         attributes: {
           "hourly_rate" => "hourly rate",
           "description" => "description",

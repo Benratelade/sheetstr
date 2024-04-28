@@ -5,7 +5,9 @@ require "rails_helper"
 describe "An existing user views a timesheet from the index page", type: :feature do
   before do
     @otolose = create(:user)
+    create(:user_configuration, timezone_identifier: "UTC", user: @otolose)
     @arthur = create(:user)
+    create(:user_configuration, timezone_identifier: "UTC", user: @arthur)
 
     @timesheet_1 = create(
       :timesheet,

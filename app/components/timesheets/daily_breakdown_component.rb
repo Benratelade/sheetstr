@@ -2,9 +2,10 @@
 
 module Timesheets
   class DailyBreakdownComponent < ViewComponent::Base
-    def initialize(timesheet:)
+    def initialize(timesheet:, timezone_identifier: )
       super
       @timesheet = timesheet
+      @timezone_identifier = timezone_identifier
     end
   end
 end

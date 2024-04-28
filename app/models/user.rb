@@ -12,4 +12,8 @@ class User < ApplicationRecord
   def setup_complete?
     user_configuration.present? && user_configuration.setup_complete?
   end
+
+  def timezone_identifier
+    user_configuration.present? ? user_configuration.timezone_identifier : "UTC"
+  end
 end

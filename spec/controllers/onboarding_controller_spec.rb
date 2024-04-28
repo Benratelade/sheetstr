@@ -6,6 +6,7 @@ RSpec.describe OnboardingController, type: :controller do
   describe "GET#onboard" do
     before do
       @user = double("user", setup_complete?: nil)
+      stub_signed_in_user(@user)
       allow(controller).to receive(:current_user).and_return(@user)
     end
 

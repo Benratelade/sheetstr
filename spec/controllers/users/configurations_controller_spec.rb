@@ -7,6 +7,7 @@ RSpec.describe Users::ConfigurationsController, type: :controller do
 
   before do
     @user = double("user", user_configuration: nil)
+    stub_signed_in_user(@user)
     allow(controller).to receive(:current_user).and_return(@user)
 
     @new_user_configuration = double("user configuration", update!: nil)

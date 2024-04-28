@@ -5,6 +5,7 @@ require "rails_helper"
 RSpec.describe Timesheets::LineItemsController, type: :controller do
   before do
     @current_user = double("current user", user_configuration: double(timezone_identifier: "user timezone identifier"))
+    stub_signed_in_user(@current_user)
     allow(controller).to receive(:current_user).and_return(@current_user)
 
     @timesheets_association = double("timesheets association")

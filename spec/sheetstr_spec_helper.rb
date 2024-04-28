@@ -8,6 +8,7 @@ RSpec.configure do |config|
   config.include Support::PageFragments
   config.include Support::PageFragments::Login
   config.include Devise::TestHelpers, type: :view
+  config.include Support::Controllers, type: :controller
 end
 
 Capybara.server_port = 5000

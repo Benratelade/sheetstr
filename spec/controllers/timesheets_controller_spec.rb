@@ -241,6 +241,7 @@ RSpec.describe TimesheetsController, type: :controller do
       @timesheet_2 = double("Timesheet 2", start_date: Date.parse("Jan 31 2022"))
       @user_timesheets = double("Timesheets", order: [@timesheet_1, @timesheet_2])
       @current_user = double("user", timesheets: @user_timesheets)
+      stub_signed_in_user(@current_user)
       allow(controller).to receive(:current_user).and_return(@current_user)
     end
 

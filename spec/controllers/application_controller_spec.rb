@@ -4,18 +4,18 @@ require "rails_helper"
 
 RSpec.describe ApplicationController, type: :controller do
   controller do
-    def test
+    def test_not_found
       raise(ActiveRecord::RecordNotFound)
     end
   end
 
-  context "when a record is not found" do
-    before do
-      routes.draw { get "test" => "anonymous#test" }
-    end
+  before do
+    routes.draw { get "test_not_found" => "anonymous#test_not_found" }
+  end
 
+  context "When a record is not found" do
     it "renders a 404 page" do
-      get :test
+      get :test_not_found
 
       expect(response).to render_template("shared/errors/404")
       expect(response).to have_http_status(:not_found)

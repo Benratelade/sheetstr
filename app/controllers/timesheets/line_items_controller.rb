@@ -27,7 +27,6 @@ module Timesheets
       LineItemRepository.update!(
         line_item: @line_item,
         attributes: line_item_params,
-        timezone_identifier: current_user.user_configuration.timezone_identifier,
       )
 
       flash[:notice] = "Line item was updated"

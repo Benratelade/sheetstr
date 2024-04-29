@@ -6,12 +6,26 @@ RSpec.describe LineItemFactory do
   describe ".create!" do
     it "creates a Line Item with the provided attributes and times built from the start_date" do
       timesheet = double("timesheet", id: "timesheet-id")
+
+      expect(Utils::DateTimeBuilder).to(
+        receive(:build_from_date_and_time).with(
+          date: "the start date",
+          time: "the start time",
+        ),
+      ).and_return("start date time")
+      expect(Utils::DateTimeBuilder).to(
+        receive(:build_from_date_and_time).with(
+          date: "the start date",
+          time: "the end time",
+        ),
+      ).and_return("end date time")
+
       expect(LineItem).to receive(:create!).with(
         {
           "timesheet_id" => "timesheet-id",
           "description" => "description",
-          "start_time" => DateTime.iso8601("2022-01-25T08:30:00Z"),
-          "end_time" => DateTime.iso8601("2022-01-25T12:50:00Z"),
+          "start_time" => "start date time",
+          "end_time" => "end date time",
           "hourly_rate" => "hourly rate",
         },
       )
@@ -20,9 +34,9 @@ RSpec.describe LineItemFactory do
         timesheet: timesheet,
         attributes: {
           "description" => "description",
-          "start_date" => "2022-01-25",
-          "start_time" => "08:30",
-          "end_time" => "12:50",
+          "start_date" => "the start date",
+          "start_time" => "the start time",
+          "end_time" => "the end time",
           "hourly_rate" => "hourly rate",
         },
       )

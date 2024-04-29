@@ -5,7 +5,7 @@ require "rails_helper"
 describe "An existing user creates a timesheet from the index page", type: :feature do
   before do
     @otolose = create(:user)
-    create(:user_configuration, timezone_identifier: "UTC", user: @otolose)
+    create(:user_configuration, timezone_identifier: "Sydney", user: @otolose)
     Timecop.freeze(Date.parse("Jan 30 2022"))
   end
 
@@ -99,6 +99,24 @@ describe "An existing user creates a timesheet from the index page", type: :feat
           "Total hours worked (decimal)" => ["4.0"],
           "Duration (in hours)" => ["4 hours 0 minutes"],
           "Total revenue" => ["$108.0"],
+        },
+      )
+    end
+
+    And "the daily breakdown shows the new line item" do
+      wait_for do
+        focus_on(Support::PageFragments::Timesheet).daily_breakdown
+      end.to eq(
+        {
+          "Tuesday" => [
+            {
+              "description" => "On-site shooting",
+              "date" => "Tuesday, 25 January 2022",
+              "hourly rate" => "27.00",
+              "subtotal" => "108.00",
+              "total decimal hours" => "4.00",
+            },
+          ],
         },
       )
     end

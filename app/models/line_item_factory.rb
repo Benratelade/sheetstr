@@ -8,8 +8,14 @@ module LineItemFactory
       attributes.merge(
         {
           "timesheet_id" => timesheet.id,
-          "start_time" => DateTime.parse("#{start_date} #{attributes['start_time']}"),
-          "end_time" => DateTime.parse("#{start_date} #{attributes['end_time']}"),
+          "start_time" => Utils::DateTimeBuilder.build_from_date_and_time(
+            date: start_date,
+            time: attributes["start_time"],
+          ),
+          "end_time" => Utils::DateTimeBuilder.build_from_date_and_time(
+            date: start_date,
+            time: attributes["end_time"],
+          ),
         },
       ),
     )

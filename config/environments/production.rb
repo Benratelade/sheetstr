@@ -69,6 +69,16 @@ Rails.application.configure do
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
   config.action_mailer.raise_delivery_errors = true
   config.action_mailer.default_url_options = { host: "https://sheetstr.fly.dev" }
+
+  config.action_mailer.smtp_settings = {
+    address: "smtp.sendgrid.net",
+    port: 587,
+    enable_starttls_auto: true,
+    user_name: ENV.fetch("SENDGRID_USERNAME"),
+    password: ENV.fetch("SENDGRID_APIKEY"),
+    domain: "sheetstr.fly.dev",
+    authentication: :plain,
+  }
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
   # the I18n.default_locale when a translation cannot be found).
   config.i18n.fallbacks = true

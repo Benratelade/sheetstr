@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  devise_for :users, :timesheets
+  devise_for :users
 
   root to: "pages#home"
   resources :timesheets, only: %i[index new create show destroy] do

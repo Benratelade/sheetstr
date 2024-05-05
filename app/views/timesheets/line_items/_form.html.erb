@@ -1,8 +1,6 @@
 <%= form_with(model: [timesheet, line_item]) do |form| %>
   <%= form.label :start_date %>
   <%= form.select :start_date, options_for_select(line_item.available_dates) %>
-  <%= form.label :weekday %>
-  <%= form.select :weekday, options_for_select(LineItem.weekdays) %>
   <%= form.label :description %>
   <%= form.text_field :description %>
   <%= form.label :start_time, "Start time" %>

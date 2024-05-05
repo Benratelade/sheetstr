@@ -6,16 +6,6 @@ class LineItem < ApplicationRecord
   monetize :hourly_rate_cents
   monetize :subtotal_cents
 
-  enum weekday: {
-    monday: "monday",
-    tuesday: "tuesday",
-    wednesday: "wednesday",
-    thursday: "thursday",
-    friday: "friday",
-    saturday: "saturday",
-    sunday: "sunday",
-  }
-
   def total_decimal_hours
     return 0 if start_time.blank? || end_time.blank?
 

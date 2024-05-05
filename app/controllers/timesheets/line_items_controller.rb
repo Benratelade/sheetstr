@@ -40,7 +40,6 @@ module Timesheets
     def line_item_params
       params.require(:line_item).permit(
         :timesheet_id,
-        :weekday,
         :description,
         :start_date,
         :start_time,

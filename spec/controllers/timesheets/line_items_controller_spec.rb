@@ -62,7 +62,6 @@ RSpec.describe Timesheets::LineItemsController, type: :controller do
       post :create, params: {
         timesheet_id: "timesheet-id",
         line_item: {
-          weekday: "some day",
           description: "some description",
           start_time: "a start time",
           end_time: "an end time",
@@ -103,7 +102,6 @@ RSpec.describe Timesheets::LineItemsController, type: :controller do
       post :create, params: {
         timesheet_id: "timesheet-id",
         line_item: {
-          weekday: "some day",
           description: "some description",
           start_time: "a start time",
           end_time: "an end time",
@@ -121,7 +119,6 @@ RSpec.describe Timesheets::LineItemsController, type: :controller do
         post :create, params: {
           timesheet_id: "timesheet-id",
           line_item: {
-            weekday: "some day",
             description: "some description",
             start_time: "a start time",
             end_time: "an end time",
@@ -205,7 +202,6 @@ RSpec.describe Timesheets::LineItemsController, type: :controller do
       expect(LineItemRepository).to receive(:update!).with(
         line_item: @line_item,
         attributes: {
-          "weekday" => "weekday",
           "description" => "description",
           "start_date" => "a start date",
           "start_time" => "start time",
@@ -218,7 +214,6 @@ RSpec.describe Timesheets::LineItemsController, type: :controller do
         id: "line-item-id",
         timesheet_id: "timesheet-id",
         line_item: {
-          weekday: "weekday",
           description: "description",
           start_time: "start time",
           start_date: "a start date",

@@ -38,7 +38,6 @@ describe "An existing user views a timesheet from the index page", type: :featur
     create(
       :line_item,
       timesheet: @timesheet_1,
-      weekday: "monday",
       description: "office hours",
       hourly_rate: 24,
       start_time: Time.iso8601("2022-01-24T08:00:00Z"),
@@ -48,7 +47,6 @@ describe "An existing user views a timesheet from the index page", type: :featur
     create(
       :line_item,
       timesheet: @timesheet_1,
-      weekday: "monday",
       description: "shooting",
       hourly_rate: 30,
       start_time: Time.iso8601("2022-01-24T12:30:00Z"),
@@ -58,7 +56,6 @@ describe "An existing user views a timesheet from the index page", type: :featur
     create(
       :line_item,
       timesheet: @timesheet_1,
-      weekday: "tuesday",
       description: "shooting",
       hourly_rate: 30,
       start_time: Time.iso8601("2022-01-25T08:00:00Z"),
@@ -68,7 +65,6 @@ describe "An existing user views a timesheet from the index page", type: :featur
     create(
       :line_item,
       timesheet: @timesheet_1,
-      weekday: "thursday",
       description: "office hours",
       hourly_rate: 24,
       start_time: Time.iso8601("2022-01-27T08:00:00Z"),

@@ -19,7 +19,6 @@ RSpec.describe LineItems::LineItemSummaryComponent, type: :component do
       hourly_rate: 24,
       total_decimal_hours: "total decimal hours",
       subtotal: "subtotal",
-      weekday: "monday",
       timesheet_id: "timesheet-id",
       start_time: "start time",
     )

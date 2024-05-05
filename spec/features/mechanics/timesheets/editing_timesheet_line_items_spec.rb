@@ -17,7 +17,6 @@ describe "Editing a timesheet's line items", type: :feature do
     @line_item_1 = create(
       :line_item,
       timesheet: @timesheet,
-      weekday: "monday",
       description: "office hours",
       hourly_rate: 24,
       start_time: Time.iso8601("2022-01-31T08:00:00+10:00"),
@@ -27,7 +26,6 @@ describe "Editing a timesheet's line items", type: :feature do
     create(
       :line_item,
       timesheet: @timesheet,
-      weekday: "tuesday",
       description: "office hours",
       hourly_rate: 24,
       start_time: Time.iso8601("2022-02-01T08:00:00+10:00"),

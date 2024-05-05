@@ -74,7 +74,7 @@ describe "An existing user creates a timesheet from the index page", type: :feat
 
     Then "a form for a new item is displayed" do
       wait_for { focus_on(Support::PageFragments::Form).form.labels }.to eq(
-        ["Start date", "Weekday", "Description", "Start time", "End time", "Hourly rate"],
+        ["Start date", "Description", "Start time", "End time", "Hourly rate"],
       )
     end
 

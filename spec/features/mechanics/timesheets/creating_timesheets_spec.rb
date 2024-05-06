@@ -96,25 +96,26 @@ describe "An existing user creates a timesheet from the index page", type: :feat
         focus_on(Support::PageFragments::Timesheet).summary
       end.to eq(
         {
-          "Total hours worked (decimal)" => ["4.0"],
-          "Duration (in hours)" => ["4 hours 0 minutes"],
-          "Total revenue" => ["$108.0"],
+          "Total hours worked (decimal)" => "4.0",
+          "Duration (in hours)" => "4 hours 0 minutes",
+          "Total revenue" => "$108.0",
         },
       )
     end
 
     And "the daily breakdown shows the new line item" do
       wait_for do
-        focus_on(Support::PageFragments::Timesheet).daily_breakdown
+        focus_on(Support::PageFragments::Timesheet).daily_breakdown_summary
       end.to eq(
         {
           "Tuesday" => [
             {
-              "description" => "On-site shooting",
-              "date" => "Tuesday, 25 January 2022",
-              "hourly rate" => "27.00",
-              "subtotal" => "108.00",
-              "total decimal hours" => "4.00",
+              "Description" => "On-site shooting",
+              "Date" => "Tuesday, 25 January 2022",
+              "Hourly Rate" => "27.00",
+              "Subtotal" => "108.00",
+              "Duration (decimal)" => "4.00",
+              "Duration (hours)" => "4 hours 0 minutes",
             },
           ],
         },

@@ -1,17 +1,18 @@
 <li class="list-group-item line-item d-flex justify-content-between align-items-start">
   <div class="line-item-info">
-    <h4>Description:  <span class="description"><%= @item.description %></span></h3>
-    <div>Date: 
-      <span class="date">
-        <%= Utils::DateTimeFormatter.format_date_in_timezone(
+    <%= render(Utilities::DescriptionListComponent.new(
+      {
+        "Description" => @item.description,
+        "Hourly Rate" => @item.hourly_rate,
+        "Duration (hours)" => "#{@item.hours_breakdown[:hours]} hours #{@item.hours_breakdown[:minutes]} minutes",
+        "Duration (decimal)" => number_with_precision(@item.total_decimal_hours, precision: 2),
+        "Subtotal" => @item.subtotal,
+        "Date" => Utils::DateTimeFormatter.format_date_in_timezone(
           date: @item.start_time, 
           timezone_identifier: @timezone_identifier,
-        )%>
-      </span>
-    </div>
-    <div>Duration: <span class="total-decimal-hours"><%= number_with_precision(@item.total_decimal_hours, precision: 2) %></span></div>
-    <div>Hourly Rate:  <span class="hourly-rate"><%= @item.hourly_rate %></span></div>
-    <div>Subtotal: <span class="subtotal"><%= @item.subtotal %></span></div>
+        ),
+      }
+    )) %>
   </div>
   <%= render(
   Utilities::Buttons::ButtonComponent.new(

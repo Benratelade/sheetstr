@@ -72,9 +72,9 @@ describe "A new user signs up to sheetstr and creates their first timesheet", ty
         focus_on(Support::PageFragments::Timesheet).summary
       end.to eq(
         {
-          "Total hours worked (decimal)" => ["9.0"],
-          "Duration (in hours)" => ["9 hours 0 minutes"],
-          "Total revenue" => ["$225.0"],
+          "Total hours worked (decimal)" => "9.0",
+          "Duration (in hours)" => "9 hours 0 minutes",
+          "Total revenue" => "$225.0",
         },
       )
     end

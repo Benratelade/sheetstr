@@ -11,8 +11,14 @@ module Support
         data = {}
         terms = @list.find_all("dt")
         terms.each do |term|
-          data[term.text] = @list.find_all("[for='#{term['name']}']").map(&:text)
+          descriptions = @list.find_all("[for='#{term['name']}']")
+          data[term.text] = if descriptions.length == 1
+                              descriptions.first.text
+                            else
+                              descriptions.map(&:text)
+                            end
         end
+
         data
       end
     end

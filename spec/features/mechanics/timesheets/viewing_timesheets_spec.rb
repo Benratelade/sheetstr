@@ -115,49 +115,53 @@ describe "An existing user views a timesheet from the index page", type: :featur
 
       wait_for { focus_on(Support::PageFragments::Timesheet).summary }.to eq(
         {
-          "Total hours worked (decimal)" => ["23.5"],
-          "Duration (in hours)" => ["23 hours 30 minutes"],
-          "Total revenue" => ["$639.0"],
+          "Total hours worked (decimal)" => "23.5",
+          "Duration (in hours)" => "23 hours 30 minutes",
+          "Total revenue" => "$639.0",
         },
       )
     end
 
     And "a summary of each day's work is displayed" do
       wait_for do
-        focus_on(Support::PageFragments::Timesheet).daily_breakdown
+        focus_on(Support::PageFragments::Timesheet).daily_breakdown_summary
       end.to eq(
         {
           "Monday" => [
             {
-              "description" => "office hours",
-              "date" => "Monday, 24 January 2022",
-              "hourly rate" => "24.00",
-              "subtotal" => "108.00",
-              "total decimal hours" => "4.50",
+              "Description" => "office hours",
+              "Date" => "Monday, 24 January 2022",
+              "Hourly Rate" => "24.00",
+              "Subtotal" => "108.00",
+              "Duration (hours)" => "4 hours 30 minutes",
+              "Duration (decimal)" => "4.50",
             }, {
-              "description" => "shooting",
-              "date" => "Monday, 24 January 2022",
-              "hourly rate" => "30.00",
-              "subtotal" => "180.00",
-              "total decimal hours" => "6.00",
+              "Description" => "shooting",
+              "Date" => "Monday, 24 January 2022",
+              "Hourly Rate" => "30.00",
+              "Subtotal" => "180.00",
+              "Duration (hours)" => "6 hours 0 minutes",
+              "Duration (decimal)" => "6.00",
             },
           ],
           "Tuesday" => [
             {
-              "description" => "shooting",
-              "date" => "Tuesday, 25 January 2022",
-              "hourly rate" => "30.00",
-              "subtotal" => "195.00",
-              "total decimal hours" => "6.50",
+              "Description" => "shooting",
+              "Date" => "Tuesday, 25 January 2022",
+              "Hourly Rate" => "30.00",
+              "Subtotal" => "195.00",
+              "Duration (hours)" => "6 hours 30 minutes",
+              "Duration (decimal)" => "6.50",
             },
           ],
           "Thursday" => [
             {
-              "description" => "office hours",
-              "date" => "Thursday, 27 January 2022",
-              "hourly rate" => "24.00",
-              "subtotal" => "156.00",
-              "total decimal hours" => "6.50",
+              "Description" => "office hours",
+              "Date" => "Thursday, 27 January 2022",
+              "Hourly Rate" => "24.00",
+              "Subtotal" => "156.00",
+              "Duration (hours)" => "6 hours 30 minutes",
+              "Duration (decimal)" => "6.50",
             },
           ],
         },

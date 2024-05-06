@@ -43,34 +43,36 @@ describe "Editing a timesheet's line items", type: :feature do
     Then "she sees the summary of the timesheet" do
       wait_for { focus_on(Support::PageFragments::Timesheet).summary }.to eq(
         {
-          "Total hours worked (decimal)" => ["9.0"],
-          "Duration (in hours)" => ["9 hours 0 minutes"],
-          "Total revenue" => ["$216.0"],
+          "Total hours worked (decimal)" => "9.0",
+          "Duration (in hours)" => "9 hours 0 minutes",
+          "Total revenue" => "$216.0",
         },
       )
     end
 
     And "a summary of each day's work is displayed" do
       wait_for do
-        focus_on(Support::PageFragments::Timesheet).daily_breakdown
+        focus_on(Support::PageFragments::Timesheet).daily_breakdown_summary
       end.to eq(
         {
           "Monday" => [
             {
-              "description" => "office hours",
-              "date" => "Monday, 31 January 2022",
-              "hourly rate" => "24.00",
-              "subtotal" => "108.00",
-              "total decimal hours" => "4.50",
+              "Description" => "office hours",
+              "Date" => "Monday, 31 January 2022",
+              "Hourly Rate" => "24.00",
+              "Subtotal" => "108.00",
+              "Duration (decimal)" => "4.50",
+              "Duration (hours)" => "4 hours 30 minutes",
             },
           ],
           "Tuesday" => [
             {
-              "description" => "office hours",
-              "date" => "Tuesday, 01 February 2022",
-              "hourly rate" => "24.00",
-              "subtotal" => "108.00",
-              "total decimal hours" => "4.50",
+              "Description" => "office hours",
+              "Date" => "Tuesday, 01 February 2022",
+              "Hourly Rate" => "24.00",
+              "Subtotal" => "108.00",
+              "Duration (decimal)" => "4.50",
+              "Duration (hours)" => "4 hours 30 minutes",
             },
           ],
         },
@@ -97,32 +99,34 @@ describe "Editing a timesheet's line items", type: :feature do
     And "the summary of the timesheet is updated" do
       wait_for { focus_on(Support::PageFragments::Timesheet).summary }.to eq(
         {
-          "Total hours worked (decimal)" => ["12.5"],
-          "Duration (in hours)" => ["12 hours 30 minutes"],
-          "Total revenue" => ["$324.0"],
+          "Total hours worked (decimal)" => "12.5",
+          "Duration (in hours)" => "12 hours 30 minutes",
+          "Total revenue" => "$324.0",
         },
       )
     end
 
     And "the summary for each day also reflects the changes" do
       wait_for do
-        focus_on(Support::PageFragments::Timesheet).daily_breakdown
+        focus_on(Support::PageFragments::Timesheet).daily_breakdown_summary
       end.to eq(
         {
           "Tuesday" => [
             {
-              "description" => "On-site shooting",
-              "date" => "Tuesday, 01 February 2022",
-              "hourly rate" => "27.00",
-              "subtotal" => "216.00",
-              "total decimal hours" => "8.00",
+              "Description" => "On-site shooting",
+              "Date" => "Tuesday, 01 February 2022",
+              "Hourly Rate" => "27.00",
+              "Subtotal" => "216.00",
+              "Duration (decimal)" => "8.00",
+              "Duration (hours)" => "8 hours 0 minutes",
             },
             {
-              "description" => "office hours",
-              "date" => "Tuesday, 01 February 2022",
-              "hourly rate" => "24.00",
-              "subtotal" => "108.00",
-              "total decimal hours" => "4.50",
+              "Description" => "office hours",
+              "Date" => "Tuesday, 01 February 2022",
+              "Hourly Rate" => "24.00",
+              "Subtotal" => "108.00",
+              "Duration (decimal)" => "4.50",
+              "Duration (hours)" => "4 hours 30 minutes",
             },
           ],
         },
@@ -141,9 +145,9 @@ describe "Editing a timesheet's line items", type: :feature do
       Then "she sees the summary of the timesheet" do
         wait_for { focus_on(Support::PageFragments::Timesheet).summary }.to eq(
           {
-            "Total hours worked (decimal)" => ["9.0"],
-            "Duration (in hours)" => ["9 hours 0 minutes"],
-            "Total revenue" => ["$216.0"],
+            "Total hours worked (decimal)" => "9.0",
+            "Duration (in hours)" => "9 hours 0 minutes",
+            "Total revenue" => "$216.0",
           },
         )
       end
@@ -175,9 +179,9 @@ describe "Editing a timesheet's line items", type: :feature do
       Then "she sees the summary of the timesheet" do
         wait_for { focus_on(Support::PageFragments::Timesheet).summary }.to eq(
           {
-            "Total hours worked (decimal)" => ["9.0"],
-            "Duration (in hours)" => ["9 hours 0 minutes"],
-            "Total revenue" => ["$216.0"],
+            "Total hours worked (decimal)" => "9.0",
+            "Duration (in hours)" => "9 hours 0 minutes",
+            "Total revenue" => "$216.0",
           },
         )
       end

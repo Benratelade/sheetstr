@@ -72,9 +72,9 @@ describe "An existing user logs in to sheetstr and creates a timesheet", type: :
         wait_for { focus_on(Support::PageFragments::Timesheet).summary }.to(
           eq(
             {
-              "Total hours worked (decimal)" => ["0"],
-              "Duration (in hours)" => ["0 hours 0 minutes"],
-              "Total revenue" => ["$0.0"],
+              "Total hours worked (decimal)" => "0",
+              "Duration (in hours)" => "0 hours 0 minutes",
+              "Total revenue" => "$0.0",
             },
           ),
         )
@@ -103,9 +103,9 @@ describe "An existing user logs in to sheetstr and creates a timesheet", type: :
         wait_for { focus_on(Support::PageFragments::Timesheet).summary }.to(
           eq(
             {
-              "Total hours worked (decimal)" => ["4.33"],
-              "Duration (in hours)" => ["4 hours 20 minutes"],
-              "Total revenue" => ["$117.0"],
+              "Total hours worked (decimal)" => "4.33",
+              "Duration (in hours)" => "4 hours 20 minutes",
+              "Total revenue" => "$117.0",
             },
           ),
         )
@@ -113,16 +113,17 @@ describe "An existing user logs in to sheetstr and creates a timesheet", type: :
 
       And "there is a breakdown showing the new line item" do
         wait_for do
-          focus_on(Support::PageFragments::Timesheet).daily_breakdown
+          focus_on(Support::PageFragments::Timesheet).daily_breakdown_summary
         end.to eq(
           {
             "Tuesday" => [
               {
-                "description" => "On-site shooting",
-                "date" => "Tuesday, 25 January 2022",
-                "hourly rate" => "27.00",
-                "subtotal" => "117.00",
-                "total decimal hours" => "4.33",
+                "Description" => "On-site shooting",
+                "Date" => "Tuesday, 25 January 2022",
+                "Hourly Rate" => "27.00",
+                "Subtotal" => "117.00",
+                "Duration (decimal)" => "4.33",
+                "Duration (hours)" => "4 hours 20 minutes",
               },
             ],
           },

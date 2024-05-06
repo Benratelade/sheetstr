@@ -19,13 +19,18 @@ module Support
         Support::PageFragments::DescriptionList.new(page.find("#summary-section dl")).summary
       end
 
-      def daily_breakdown
-        breakdown_data = {}
-        daily_breakdown_section = page.find("#daily-breakdown")
-        daily_breakdown_section.find_all(".weekday-summary").each do |weekday_summary|
-          build_weekday_summary(breakdown_data, weekday_summary)
+      def daily_breakdown_summary
+        summary = {}
+        weekday_summaries = page.find_all(".weekday-summary")
+        weekday_summaries.each do |weekday_summary|
+          weekday = weekday_summary.find(".weekday").text
+          summary[weekday] ||= []
+          weekday_summary.find_all("dl").each do |item_summary|
+            summary[weekday] << Support::PageFragments::DescriptionList.new(item_summary).summary
+          end
         end
-        breakdown_data
+
+        summary
       end
 
       def items_summary
